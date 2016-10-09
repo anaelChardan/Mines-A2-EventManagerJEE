@@ -32,7 +32,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://www.mydomain.com:1234/mymanager</url>
+                    <url>/</url>
                 </configuration>
             </plugin>
         </plugins>
