@@ -1,40 +1,35 @@
 package fr.mines.event_manager.event;
 
-import fr.mines.event_manager.general.Handler;
+import fr.mines.event_manager.general.HttpWords;
 import fr.mines.event_manager.general.Servlet;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
+import java.util.regex.Pattern;
 
-/**
- * Created by nanou on 09/10/2016.
- */
 public class EventServlet extends Servlet {
-
     @Override
-    protected Handler getHandler() {
-        return new EventHandler();
+    protected Map<String, Pattern> initGetRoutes() {
+        return new HashMap<String, Pattern>()
+        {{
+            put("listAll", Pattern.compile("/"));
+            put("listOne", Pattern.compile("/(?<id>\\d+)"));
+        }};
     }
 
-    @Override
-    protected List<String> initGetRoutes() {
-        return Arrays.asList("list", "new", "edit", "show");
+    protected void listAll(String path, HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+
+        out.println("Je suis bien dans le findAll ");
     }
 
-    @Override
-    protected List<String> initPostRoutes() {
-        return null;
+    protected void listOne(String path, HttpServletResponse response) throws IOException {
+        Map<String, String> parameters = this.extractParameters(HttpWords.GET, path, "listOne", "id");
+        PrintWriter out = response.getWriter();
+        out.println("Je suis dans le listOne -> id =" + parameters.get("id"));
     }
-
-    @Override
-    protected List<String> initPutRoutes() {
-        return null;
-    }
-
-    @Override
-    protected List<String> initDeleteRoutes() {
-        return null;
-    }
-
-
 }

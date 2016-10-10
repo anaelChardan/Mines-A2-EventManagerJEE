@@ -1,8 +1,12 @@
 package fr.mines.event_manager.user;
 
-import fr.mines.event_manager.general.Handler;
+import fr.mines.event_manager.general.HttpWords;
 import fr.mines.event_manager.general.Servlet;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,31 +14,8 @@ import java.util.List;
  * Created by nanou on 09/10/2016.
  */
 public class UserServlet extends Servlet {
-
     @Override
-    protected Handler getHandler() {
-        return new UserHandler();
+    protected void process(HttpWords method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
-
-    @Override
-    protected List<String> initGetRoutes() {
-        return Arrays.asList("list", "new", "edit", "show");
-    }
-
-    @Override
-    protected List<String> initPostRoutes() {
-        return null;
-    }
-
-    @Override
-    protected List<String> initPutRoutes() {
-        return null;
-    }
-
-    @Override
-    protected List<String> initDeleteRoutes() {
-        return null;
-    }
-
-
 }
