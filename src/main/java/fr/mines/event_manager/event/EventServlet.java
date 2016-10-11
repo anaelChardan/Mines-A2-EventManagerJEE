@@ -1,35 +1,31 @@
 package fr.mines.event_manager.event;
 
-import fr.mines.event_manager.general.HttpWords;
-import fr.mines.event_manager.general.Servlet;
+import fr.mines.event_manager.front.BaseServlet;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class EventServlet extends Servlet {
+public class EventServlet extends BaseServlet {
     @Override
     protected Map<String, Pattern> initGetRoutes() {
         return new HashMap<String, Pattern>()
         {{
-            put("listAll", Pattern.compile("/"));
-            put("listOne", Pattern.compile("/(?<id>\\d+)"));
+            put("index", Pattern.compile("/"));
+            put("showOne", Pattern.compile("/(?<id>\\d+)/(?<name>\\w+)"));
         }};
     }
 
-    protected void listAll(String path, HttpServletResponse response) throws IOException {
+    protected void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
-
-        out.println("Je suis bien dans le findAll ");
+        out.println("I am in the listAll ");
     }
 
-    protected void listOne(String path, HttpServletResponse response) throws IOException {
-        Map<String, String> parameters = this.extractParameters(HttpWords.GET, path, "listOne", "id");
+    protected void showOne( HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException {
         PrintWriter out = response.getWriter();
-        out.println("Je suis dans le listOne -> id =" + parameters.get("id"));
+        out.println("I am in the listOne -> id =" + parameters.get("id") + " mot " + parameters.get("name"));
     }
 }

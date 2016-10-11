@@ -1,21 +1,20 @@
 package fr.mines.event_manager.user;
 
-import fr.mines.event_manager.general.HttpWords;
-import fr.mines.event_manager.general.Servlet;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import fr.chardan.jee.servlet.router.Servlet;
+import fr.mines.event_manager.front.BaseServlet;
 
-/**
- * Created by nanou on 09/10/2016.
- */
-public class UserServlet extends Servlet {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+public class UserServlet extends BaseServlet {
     @Override
-    protected void process(HttpWords method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected Map<String, Pattern> initGetRoutes() {
+        return new HashMap<String, Pattern>()
+        {{
+            put("login", Pattern.compile("/"));
+            put("listOne", Pattern.compile("/(?<id>\\d+)/(?<name>\\w+)"));
+        }};
     }
 }

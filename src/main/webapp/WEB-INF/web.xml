@@ -19,4 +19,12 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/user/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>FrontServlet</servlet-name>
+        <servlet-class>fr.mines.event_manager.front.FrontServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 </web-app>
