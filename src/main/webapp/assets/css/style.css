@@ -2,5 +2,9 @@
       padding: 5rem 20rem;
 }
 .titre-login{
-	margin-top: 10%;
+	margin-top: 5%;
+    color:white;
+}
+.footer-banner{
+    background-color:#2C3E50;
 }
