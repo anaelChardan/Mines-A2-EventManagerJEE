@@ -1,6 +1,7 @@
 package fr.mines.event_manager.event;
 
-import fr.mines.event_manager.front.BaseServlet;
+import fr.chardan.jee.servlet.router.PatternHelper;
+import fr.mines.event_manager.global.BaseServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +15,8 @@ public class EventServlet extends BaseServlet {
     protected Map<String, Pattern> initGetRoutes() {
         return new HashMap<String, Pattern>()
         {{
-            put("index", Pattern.compile("/"));
-            put("showOne", Pattern.compile("/(?<id>\\d+)/(?<name>\\w+)"));
+            put("index", PatternHelper.createPattern("/"));
+            put("showOne", Pattern.compile("/(?<id>\\d+)"));
         }};
     }
 
@@ -26,6 +27,6 @@ public class EventServlet extends BaseServlet {
 
     protected void showOne( HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException {
         PrintWriter out = response.getWriter();
-        out.println("I am in the listOne -> id =" + parameters.get("id") + " mot " + parameters.get("name"));
+        out.println("I am in the listOne -> id =" + parameters.get("id"));
     }
 }
