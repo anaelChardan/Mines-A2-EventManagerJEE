@@ -23,6 +23,6 @@ public class AppServlet extends BaseServlet {
     }
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        getServletContext().getRequestDispatcher("/jsp/test.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
     }
 }
