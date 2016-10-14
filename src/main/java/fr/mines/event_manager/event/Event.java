@@ -2,9 +2,6 @@ package fr.mines.event_manager.event;
 
 import java.util.Date;
 
-/**
- * Created by nanou on 11/10/2016.
- */
 public class Event {
     protected Integer id;
 
