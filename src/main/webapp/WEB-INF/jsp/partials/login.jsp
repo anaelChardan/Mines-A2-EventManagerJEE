@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 
-<div class="palette-turquoise container-fluid">
+<div class="container-fluid palette-turquoise">
     <div class="row titre-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
         <h3 class="text-center">Event Manager<br>Authentification</h3>
     </div>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <footer>
-    <div class="palette-midnight-blue container-fluid">
+    <div class="container-fluid palette-midnight-blue">
         <div class="row">
             <div class="col-xs-7">
                 <h3 class="footer-title">A propos</h3>

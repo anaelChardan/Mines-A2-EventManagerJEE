@@ -9,11 +9,11 @@
 </head>
 <body>
     <div>
-         <%@include file="partials/nav.jsp" %>
+        <%@include file="partials/nav.jsp" %>
         <jsp:include page="/WEB-INF/jsp/partials/${jspPage}" flush="true"/>
         <%--<%@include file="partials/login.jsp" %>--%>
+        <%@include file="partials/footer.jsp" %>
     </div>
 
 </body>
-<%@include file="partials/footer.jsp" %>
 </html>
