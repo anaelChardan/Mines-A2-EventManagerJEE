@@ -1,4 +1,4 @@
-package fr.mines.event_manager.user;
+package fr.mines.event_manager.user.servlet;
 
 
 import fr.chardan.jee.servlet.router.Servlet;

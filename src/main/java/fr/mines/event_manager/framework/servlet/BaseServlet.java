@@ -1,4 +1,4 @@
-package fr.mines.event_manager.global;
+package fr.mines.event_manager.framework.servlet;
 
 import fr.chardan.jee.servlet.router.Servlet;
 

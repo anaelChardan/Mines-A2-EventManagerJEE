@@ -5,7 +5,7 @@
          version="3.1">
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>fr.mines.event_manager.home.HomeServlet</servlet-class>
+        <servlet-class>fr.mines.event_manager.home.servlet.HomeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -13,7 +13,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>AppServlet</servlet-name>
-        <servlet-class>fr.mines.event_manager.app.AppServlet</servlet-class>
+        <servlet-class>fr.mines.event_manager.app.servlet.AppServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AppServlet</servlet-name>
@@ -21,7 +21,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>EventServlet</servlet-name>
-        <servlet-class>fr.mines.event_manager.event.EventServlet</servlet-class>
+        <servlet-class>fr.mines.event_manager.event.servlet.EventServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EventServlet</servlet-name>
@@ -29,7 +29,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>fr.mines.event_manager.user.UserServlet</servlet-class>
+        <servlet-class>fr.mines.event_manager.user.servlet.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
