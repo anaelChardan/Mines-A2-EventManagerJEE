@@ -1,7 +1,7 @@
-package fr.mines.event_manager.event;
+package fr.mines.event_manager.event.servlet;
 
 import fr.chardan.jee.servlet.router.PatternHelper;
-import fr.mines.event_manager.global.BaseServlet;
+import fr.mines.event_manager.framework.servlet.BaseServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

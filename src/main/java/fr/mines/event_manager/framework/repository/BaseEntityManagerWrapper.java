@@ -1,4 +1,4 @@
-package fr.mines.event_manager.global.repository;
+package fr.mines.event_manager.framework.repository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

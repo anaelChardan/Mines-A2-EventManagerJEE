@@ -1,4 +1,4 @@
-package fr.mines.event_manager.global.security;
+package fr.mines.event_manager.framework.security;
 
 public class SecurityHandler extends SecurityManager {
 }

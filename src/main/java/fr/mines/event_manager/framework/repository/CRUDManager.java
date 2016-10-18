@@ -1,12 +1,10 @@
-package fr.mines.event_manager.global.repository;
+package fr.mines.event_manager.framework.repository;
 
-import fr.mines.event_manager.global.entity.AbstractEntity;
+import fr.mines.event_manager.framework.entity.AbstractEntity;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +27,22 @@ public abstract class CRUDManager<T extends AbstractEntity> {
         }
     }
 
-    protected Class getClassType() throws ClassNotFoundException {
-        return ((Class) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0]);
+    protected Class<T> getClassType() throws ClassNotFoundException {
+        return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+    }
+
+    protected String getTableName()
+    {
+        try {
+            Field tableNameField = this.classType.getDeclaredField("tableName");
+            tableNameField.setAccessible(true);
+            return this.tableName = (String) tableNameField.get(null);
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public boolean updateDatabase(Action action, Optional<T> object)
