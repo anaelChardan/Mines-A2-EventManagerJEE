@@ -3,7 +3,7 @@
 
 <div class="container-fluid palette-turquoise">
     <div class="row titre-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-        <h3 class="text-center">Event Manager<br>Authentification</h3>
+        <h3 class="text-center">Authentification</h3>
     </div>
 
     <div class="row">
@@ -28,9 +28,15 @@
                     </label>
                 </div>
 
-                <a class="btn btn-primary btn-lg btn-block" href="#">Connexion</a>
-                <a class="btn btn-secondary btn-lg btn-block" href="#">S'inscrire</a>
-                <a class="login-link" href="#">Mot de passe perdu ?</a>
+                <a class="btn btn-info btn-lg btn-block" href="#">Connexion</a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="login-link" href="#">S'inscrire</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="login-link" href="#">Mot de passe perdu ?</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

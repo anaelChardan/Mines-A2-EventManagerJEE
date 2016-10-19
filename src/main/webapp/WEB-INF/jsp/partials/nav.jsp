@@ -13,7 +13,7 @@
                     <!-- <li><a href="#">Nouvel événement</a></li> -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Se connecter</a><span class="fui-exit"/></li>
+                    <li><a href="#">Se connecter   <span class="fui-exit"/></a></li>
                 </ul>
             </div>
         </nav>
