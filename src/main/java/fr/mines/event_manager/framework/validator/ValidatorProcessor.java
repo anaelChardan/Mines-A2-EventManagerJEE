@@ -1,21 +1,23 @@
 package fr.mines.event_manager.framework.validator;
 
+import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.validator.EventValidator;
 import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.validator.UserValidator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ValidatorProcessor {
     private static ValidatorProcessor instance = null;
 
-    List<AbstractValidator> validators = new ArrayList<>();
+    Map<Class, AbstractValidator> validators = new HashMap<>();
 
     private ValidatorProcessor()
     {
-        validators.add(new EventValidator());
-        validators.add(new UserValidator());
+        validators.put(Event.class, new EventValidator());
+        validators.put(User.class, new UserValidator());
     }
 
     public static ValidatorProcessor getInstance()
@@ -30,13 +32,7 @@ public class ValidatorProcessor {
 
     public boolean isValid(AbstractEntity object)
     {
-        for (AbstractValidator validator: validators)
-        {
-            if (validator.supports(object))
-            {
-                validator.isValid(validator.toWantedType(object));
-            }
-        }
-        return false;
+        AbstractValidator validator = validators.get(object.getClass());
+        return validator.isValid(validator.toWantedType(object));
     }
 }

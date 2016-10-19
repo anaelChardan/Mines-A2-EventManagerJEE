@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = Event.tableName)
+@Table(name = Event.getTableName())
 public class Event extends AbstractEntity {
     final static String tableName = "event";
 
@@ -116,5 +116,10 @@ public class Event extends AbstractEntity {
 
     public void setPublished(Boolean published) {
         this.published = published;
+    }
+
+    public final static String getTableName()
+    {
+        return "Event";
     }
 }
