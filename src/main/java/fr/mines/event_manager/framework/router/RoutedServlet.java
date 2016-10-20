@@ -13,17 +13,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class RoutedServlet extends HttpServlet {
-    protected Map<fr.chardan.jee.servlet.router.HttpWords, Map<String, Pattern>> patterns = null;
+    protected Map<HttpWords, Map<String, Pattern>> patterns = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        this.patterns = new HashMap<fr.chardan.jee.servlet.router.HttpWords, Map<String, Pattern>>() {{
-            put(fr.chardan.jee.servlet.router.HttpWords.GET, initGetRoutes());
-            put(fr.chardan.jee.servlet.router.HttpWords.POST, initPostRoutes());
-            put(fr.chardan.jee.servlet.router.HttpWords.PUT, initPutRoutes());
-            put(fr.chardan.jee.servlet.router.HttpWords.DELETE, initDeleteRoutes());
+        this.patterns = new HashMap<HttpWords, Map<String, Pattern>>() {{
+            put(HttpWords.GET, initGetRoutes());
+            put(HttpWords.POST, initPostRoutes());
+            put(HttpWords.PUT, initPutRoutes());
+            put(HttpWords.DELETE, initDeleteRoutes());
         }};
     }
 
