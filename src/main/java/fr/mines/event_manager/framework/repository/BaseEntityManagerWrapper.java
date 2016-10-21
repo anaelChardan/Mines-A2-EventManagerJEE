@@ -1,6 +1,5 @@
 package fr.mines.event_manager.framework.repository;
 
-import fr.mines.event_manager.app.servlet.repository.TankRepository;
 import fr.mines.event_manager.event.entity.Address;
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.user.entity.User;
@@ -118,8 +117,5 @@ public class BaseEntityManagerWrapper {
         this.entityManager.getTransaction().begin();
         events.forEach(e -> this.entityManager.persist(e));
         this.entityManager.getTransaction().commit();
-
-        List<Event> eventList = TankRepository.getInstance().getEventRepository().findAll();
-        System.out.println("YOYO");
     }
 }

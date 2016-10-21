@@ -1,6 +1,5 @@
 package fr.mines.event_manager.app.servlet;
 
-import fr.mines.event_manager.framework.fixtures.Populator;
 import fr.mines.event_manager.framework.security.LoginAuthenticator;
 import fr.mines.event_manager.event.repository.EventRepository;
 import fr.mines.event_manager.framework.servlet.BaseServlet;
