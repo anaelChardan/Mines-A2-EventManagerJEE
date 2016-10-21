@@ -40,7 +40,7 @@ public class Populator {
                 .setEmail("anael.chardan@gmail.com")
                 .setFirstName("anael")
                 .setLastName("chardan")
-                .setUsername("anaelChardan")
+                .setPassword("anaelChardan")
                 ;
 
         users.add(anael);
@@ -49,7 +49,7 @@ public class Populator {
                 .setEmail("damien.renaud@gmail.com")
                 .setFirstName("damien")
                 .setLastName("renaud")
-                .setUsername("damienRenaud")
+                .setPassword("damienRenaud")
                 ;
 
         users.add(damien);
@@ -58,7 +58,7 @@ public class Populator {
                 .setEmail("flora.pelletier@gmail.com")
                 .setFirstName("flora")
                 .setLastName("pelletier")
-                .setUsername("floraPelletier")
+                .setPassword("floraPelletier")
         ;
 
         users.add(flora);

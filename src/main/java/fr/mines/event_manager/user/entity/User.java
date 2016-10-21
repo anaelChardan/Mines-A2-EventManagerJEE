@@ -14,8 +14,6 @@ public class User extends AbstractEntity {
     @Column(name = "id")
     protected Integer id;
 
-    @Column(name = "username")
-    protected String username;
 
     @Column(name = "first_name")
     protected String firstName;
