@@ -33,7 +33,7 @@ public class Event extends AbstractEntity {
     @Column(name = "max_tickets", nullable = false)
     protected Integer maxTickets;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "author_id", nullable = false)
     protected User author;
 
@@ -47,7 +47,7 @@ public class Event extends AbstractEntity {
     @Column(name = "is_published")
     protected Boolean published = false;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "event_user",
         joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
