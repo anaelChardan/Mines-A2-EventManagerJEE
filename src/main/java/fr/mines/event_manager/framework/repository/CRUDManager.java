@@ -78,6 +78,41 @@ public abstract class CRUDManager<T extends AbstractEntity> {
         return getEntityManager().createQuery(((CriteriaQuery<T>) entry.getValue()).select(entry.getKey())).getResultList();
     }
 
+    public List<T> getBy(Field field)
+    {
+        AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
+
+        return getEntityManager()
+                .createQuery(
+                    ((CriteriaQuery<T>) entry.getValue())
+                    .select(entry.getKey())
+                    .where(
+                        cb.equal(
+                            entry.getKey().get(field.getLabel()),
+                            entry.getValue()
+                        ))
+                )
+                .getResultList();
+    }
+
+    public List<T> getBy(Field... fields)
+    {
+        AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
+
+        (((CriteriaQuery<T>) entry.getValue())).select(entry.getKey());
+
+        for(Field field : fields)
+        {
+            (((CriteriaQuery<T>) entry.getValue())).where(
+                cb.equal(
+                    entry.getKey().get(field.getLabel()),
+                    entry.getValue()
+                ));
+        }
+
+        return getEntityManager().createQuery((((CriteriaQuery<T>) entry.getValue()))).getResultList();
+    }
+
     public T update(T object, boolean withTransactionSelfManaged) {
         this.updateDatabase(Action.UPDATE, Optional.of(object), withTransactionSelfManaged);
 
