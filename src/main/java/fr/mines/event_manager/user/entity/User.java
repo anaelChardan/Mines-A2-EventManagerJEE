@@ -17,9 +17,6 @@ public class User extends AbstractEntity {
     @Column(name = "username")
     protected String username;
 
-    @Column(name = "password")
-    protected String password;
-
     @Column(name = "first_name")
     protected String firstName;
 
@@ -29,6 +26,9 @@ public class User extends AbstractEntity {
     @Column(name = "email")
     protected String email;
 
+    @Column(name = "password")
+    protected String password;
+
     @Override
     public Integer getId() {
         return this.id;
@@ -36,15 +36,6 @@ public class User extends AbstractEntity {
 
     public static String getTableName() {
         return tableName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public User setUsername(String username) {
-        this.username = username;
-        return this;
     }
 
     public String getFirstName() {
@@ -71,6 +62,15 @@ public class User extends AbstractEntity {
 
     public User setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
         return this;
     }
 }
