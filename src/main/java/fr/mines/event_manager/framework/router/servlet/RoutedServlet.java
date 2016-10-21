@@ -1,4 +1,6 @@
-package fr.mines.event_manager.framework.router;
+package fr.mines.event_manager.framework.router.servlet;
+
+import fr.mines.event_manager.framework.router.http.HttpWords;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

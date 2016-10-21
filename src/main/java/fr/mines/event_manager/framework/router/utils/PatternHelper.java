@@ -1,4 +1,4 @@
-package fr.mines.event_manager.framework.router;
+package fr.mines.event_manager.framework.router.utils;
 
 import java.util.regex.Pattern;
 

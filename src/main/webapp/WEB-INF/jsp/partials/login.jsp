@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="app" uri="application" %>
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 
 <div class="container-fluid palette-turquoise">
@@ -12,7 +13,7 @@
 
             <div class="login-form">
 
-                <form method="post" action="/eventmanager/app/loginpost">
+                <form method="post" action="<app:PathTag endpoint="/app/loginpost"/>">
                     <div class="form-group">
                         <input type="text" name="email" class="form-control login-field" value=""
                                placeholder="Adresse mail"

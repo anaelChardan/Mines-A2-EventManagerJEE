@@ -1,6 +1,6 @@
 package fr.mines.event_manager.framework.servlet;
 
-import fr.mines.event_manager.framework.router.Servlet;
+import fr.mines.event_manager.framework.router.servlet.Servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
