@@ -12,79 +12,101 @@ import java.util.Optional;
 public abstract class CRUDManager<T extends AbstractEntity> {
     enum Action { CREATE, READ, UPDATE, DELETE }
 
-    EntityManager entityManager = BaseEntityManagerWrapper.getInstance().getEntityManager();
-
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaBuilder cb = null;
 
     private Class classType;
 
     public CRUDManager() {
         try {
             this.classType = this.getClassType();
+            this.cb        = this.getEntityManager().getCriteriaBuilder();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    protected EntityManager getEntityManager()
+    {
+        return BaseEntityManagerWrapper.getInstance().getEntityManager();
     }
 
     protected Class<T> getClassType() throws ClassNotFoundException {
         return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
-    public boolean updateDatabase(Action action, Optional<T> object)
+    public boolean updateDatabase(Action action, Optional<T> object, boolean withCommit)
     {
         if (!object.isPresent())
         {
             return false;
         }
 
-        entityManager.getTransaction().begin();
+        getEntityManager().getTransaction().begin();
 
         switch (action)
         {
             case CREATE:
-                entityManager.merge(object.get());
+                getEntityManager().merge(object.get());
                 break;
             case UPDATE:
-                entityManager.merge(object.get());
+                getEntityManager().merge(object.get());
                 break;
             case DELETE:
-                entityManager.remove(object.get());
+                getEntityManager().remove(object.get());
                 break;
         }
 
-        entityManager.getTransaction().commit();
+        if (withCommit)
+        {
+            getEntityManager().getTransaction().commit();
+        }
 
         return true;
     }
 
     public Optional<T> find(int id)
     {
-        return Optional.ofNullable((T) entityManager.find(classType, id));
+        return Optional.ofNullable((T) getEntityManager().find(classType, id));
     }
 
     public List<T> findAll()
     {
         AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
-        return entityManager.createQuery(((CriteriaQuery<T>)entry.getValue()).select(entry.getKey())).getResultList();
+        return getEntityManager().createQuery(((CriteriaQuery<T>)entry.getValue()).select(entry.getKey())).getResultList();
     }
 
-    public T update(T object)
+    public T update(T object, boolean withCommit)
     {
-        this.updateDatabase(Action.UPDATE, Optional.of(object));
+        this.updateDatabase(Action.UPDATE, Optional.of(object), withCommit);
 
         return object;
     }
 
-    public T create(T object)
+    public T create(T object, boolean withCommit)
     {
-        this.updateDatabase(Action.CREATE, Optional.of(object));
+        this.updateDatabase(Action.CREATE, Optional.of(object), withCommit);
 
         return object;
     }
 
-    public boolean delete(int id)
+    public List<T> create(List<T> objects, boolean withCommit)
     {
-        return this.updateDatabase(Action.DELETE, find(id));
+        for (T object : objects)
+        {
+            this.create(object, false);
+        }
+
+        if (withCommit)
+        {
+            getEntityManager().getTransaction().commit();
+        }
+
+        return objects;
+    }
+
+    public boolean delete(int id, boolean withCommit)
+    {
+        return this.updateDatabase(Action.DELETE, find(id), withCommit);
     }
 
     public AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> getBaseQuery(Action action)

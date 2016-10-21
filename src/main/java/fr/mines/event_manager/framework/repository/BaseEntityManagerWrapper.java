@@ -1,5 +1,7 @@
 package fr.mines.event_manager.framework.repository;
 
+import fr.mines.event_manager.framework.fixtures.Populator;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.EntityManager;

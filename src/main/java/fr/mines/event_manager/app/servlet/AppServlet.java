@@ -1,5 +1,6 @@
 package fr.mines.event_manager.app.servlet;
 
+import fr.mines.event_manager.framework.fixtures.Populator;
 import fr.mines.event_manager.framework.servlet.BaseServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class AppServlet extends BaseServlet {
     }
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Populator.getInstance().populate();
         this.render("login.jsp", request, response);
 
     }

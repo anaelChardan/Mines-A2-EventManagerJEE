@@ -33,6 +33,10 @@ public class Event extends AbstractEntity {
     @Column(name = "max_tickets", nullable = false)
     protected Integer maxTickets;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    protected User author;
+
     @Embedded
     @Column(nullable = false)
     protected Address address;
@@ -54,67 +58,97 @@ public class Event extends AbstractEntity {
         return id;
     }
 
+    public static String getTableName() {
+        return tableName;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Event setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Event setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public Event setStartDate(Date startDate) {
         this.startDate = startDate;
+        return this;
     }
 
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public Event setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
+        return this;
     }
 
     public Integer getMaxTickets() {
         return maxTickets;
     }
 
-    public void setMaxTickets(Integer maxTickets) {
+    public Event setMaxTickets(Integer maxTickets) {
         this.maxTickets = maxTickets;
+        return this;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public Event setAuthor(User author) {
+        this.author = author;
+        return this;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Event setAddress(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Event setPrice(Double price) {
+        this.price = price;
+        return this;
     }
 
     public Boolean getPublished() {
         return published;
     }
 
-    public void setPublished(Boolean published) {
+    public Event setPublished(Boolean published) {
         this.published = published;
+        return this;
+    }
+
+    public List<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public Event setSubscribers(List<User> subscribers) {
+        this.subscribers = subscribers;
+        return this;
     }
 }
