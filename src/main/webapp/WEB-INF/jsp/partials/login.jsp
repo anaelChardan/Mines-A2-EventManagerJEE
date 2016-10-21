@@ -13,7 +13,7 @@
                 ${errorMessage}
                 <form method="post" action="/eventmanager/app/loginpost">
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control login-field" value="" placeholder="Nom d'utilisateur"
+                        <input type="text" name="email" class="form-control login-field" value="" placeholder="Adresse mail"
                                id="login-name"/>
                         <label class="login-field-icon fui-user" for="login-name"></label>
                     </div>

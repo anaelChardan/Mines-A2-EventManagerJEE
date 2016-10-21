@@ -39,9 +39,11 @@ public class AppServlet extends BaseServlet {
         System.out.println("TADA");
         // On récupère les attributs
 
-        String username = request.getParameter("username");
+        String username = request.getParameter("email");
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
+
+
 
 
         HashMap<String, String> mockUsers = new HashMap();

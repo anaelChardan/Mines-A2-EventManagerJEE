@@ -17,6 +17,9 @@ public class User extends AbstractEntity {
     @Column(name = "username")
     protected String username;
 
+    @Column(name = "password")
+    protected String password;
+
     @Column(name = "first_name")
     protected String firstName;
 
