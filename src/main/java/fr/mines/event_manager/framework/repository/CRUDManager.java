@@ -22,12 +22,17 @@ public abstract class CRUDManager<T extends AbstractEntity> extends DatabaseMana
     }
 
     public List<T> create(List<T> objects, boolean withTransactionSelfManaged) {
+        if (withTransactionSelfManaged)
+        {
+            begin();
+        }
+
         for (T object : objects) {
             this.create(object, false);
         }
 
         if (withTransactionSelfManaged) {
-            getEntityManager().getTransaction().commit();
+            commit();
         }
 
         return objects;
