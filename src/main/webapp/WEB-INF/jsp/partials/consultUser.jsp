@@ -7,14 +7,12 @@
 
             <div class="row col-md-10">
                 <dl class="dl-horizontal col-md-9">
-                    <dt>Nom d'utilisateur : </dt>
-                    <dd>${pageContext.session.getAttribute("id")}</dd>
                     <dt>Nom : </dt>
-                    <dd>Dujardin</dd>
+                    <dd>${lastName}</dd>
                     <dt>Prénom : </dt>
-                    <dd>Jean-Paul</dd>
+                    <dd>${firstName}</dd>
                     <dt>Email : </dt>
-                    <dd>jp-dujardin@gmail.com</dd>
+                    <dd>${email}</dd>
                 </dl>
             </div>
             <div class="row col-md-12">
