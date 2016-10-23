@@ -1,7 +1,6 @@
 package fr.mines.event_manager.app.servlet;
 
-import fr.mines.event_manager.framework.security.LoginAuthenticator;
-import fr.mines.event_manager.event.repository.EventRepository;
+import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.framework.servlet.BaseServlet;
 import fr.mines.event_manager.user.entity.User;
 
@@ -38,11 +37,8 @@ public class AppServlet extends BaseServlet {
     }
 
     protected void loginPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Optional<User> user = LoginAuthenticator.checkConnexion(request);
-        if (user.isPresent()) {
-            HttpSession session = request.getSession();
-            session.setAttribute("id", user.get().getId());
-            this.render("home.jsp", request, response);
+        if (UserProvider.connect(request)) {
+           this.render("home.jsp", request, response);
             return;
         }
 
