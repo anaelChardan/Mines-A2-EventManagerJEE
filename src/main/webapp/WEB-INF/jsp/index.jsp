@@ -23,7 +23,6 @@
         </div>
     </c:if>
     <jsp:include page="/WEB-INF/jsp/partials/${jspPage}" flush="true"/>
-
 </div>
 <%@include file="partials/footer.jsp" %>
 

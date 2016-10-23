@@ -2,8 +2,7 @@
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="app" uri="application" %>
 
-
-<div class="containre-fluid">
+<div class="container-fluid">
     <nav class="navbar-inverse navbar-embossed" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Event Manager</a>
