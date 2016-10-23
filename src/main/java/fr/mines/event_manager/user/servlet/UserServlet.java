@@ -21,10 +21,9 @@ import java.util.regex.Pattern;
 public class UserServlet extends BaseServlet {
     @Override
     protected Map<String, Pattern> initGetRoutes() {
-        return new HashMap<String, Pattern>()
-        {{
+        return new HashMap<String, Pattern>() {{
             put("subscribe", Pattern.compile("/subscribe/(?<name>\\w+)"));
-            put("consult", Pattern.compile("/consult"));
+            put("profile", Pattern.compile("/consult"));
         }};
     }
 
@@ -32,20 +31,26 @@ public class UserServlet extends BaseServlet {
         response.getWriter().println("Hello " + parameters.get("name"));
     }
 
-    protected void consult (HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException, ServletException {
+    protected void profile(HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
-        if(session==null){
+        if (null == session) {
             System.out.println("ici");
             this.render("login.jsp", request, response);
             return;
         }
-        Optional<User> user = TankRepository.getInstance().getUserRepository().find((Integer)session.getAttribute("id"));
-        if(user.isPresent()){
-            User usr = user.get();
-            request.setAttribute("firstName",usr.getFirstName());
-            request.setAttribute("lastName",usr.getLastName());
-            request.setAttribute("email",usr.getEmail());
+
+        Optional<User> user = TankRepository.getInstance().getUserRepository().find((Integer) session.getAttribute("id"));
+
+        if (!user.isPresent())
+        {
+            //FAIRE UNE 500 -> lutilisateur en session n'existe pas
+            return;
         }
-        this.render("consultUser", request, response);
+
+        User usr = user.get();
+        request.setAttribute("firstName", usr.getFirstName());
+        request.setAttribute("lastName", usr.getLastName());
+        request.setAttribute("email", usr.getEmail());
+        this.render("user/consultUser.jsp", request, response);
     }
 }

@@ -37,6 +37,9 @@ public abstract class Servlet extends RoutedServlet {
             return;
         }
 
+        //TODO Faire un objet ROUTE qui contient -> un nom de methode / une enum avec les differentes sortes de protections (NONE / CONNECTED / PROPRIETARY)  / un pattern
+
+        // ICI VERIFIER SI CEST UNE ROUTE PROTEGEE
         this.introspectMethod(entry.get().getKey(), request, response, entry.get().getValue());
     }
 }

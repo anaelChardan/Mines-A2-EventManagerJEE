@@ -20,7 +20,6 @@
         </div>
     </c:if>
     <jsp:include page="/WEB-INF/jsp/partials/${jspPage}" flush="true"/>
-    <%--<%@include file="partials/login.jsp" %>--%>
     <%@include file="partials/footer.jsp" %>
 </div>
 
