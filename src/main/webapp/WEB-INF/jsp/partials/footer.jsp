@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<footer>
+<footer style="position: absolute; bottom:0;left:0;right:0">
     <div class="container-fluid palette-midnight-blue">
         <div class="row">
             <div class="col-xs-7">

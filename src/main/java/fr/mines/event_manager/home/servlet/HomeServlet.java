@@ -2,6 +2,7 @@ package fr.mines.event_manager.home.servlet;
 
 import fr.mines.event_manager.framework.servlet.BaseServlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ public class HomeServlet extends BaseServlet {
         }};
     }
 
-    protected void home(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.getWriter().println("home");
+    protected void home(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        this.render("login.jsp", request, response);
     }
 }

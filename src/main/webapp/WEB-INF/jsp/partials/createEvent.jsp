@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label for="prix" class="col-md-3 control-label">Prix : </label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="15.00"/>
+                            <input type="text" class="form-control" placeholder="15.00" id="prix"/>
                         </div>
                     </div>
                 </div>
