@@ -9,6 +9,7 @@ import fr.mines.event_manager.core.servlet.BaseServlet;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.user.entity.User;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -91,5 +92,37 @@ public class EventServlet extends BaseServlet {
         Event event = new Event();
 
         this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
+    }
+
+    protected void eventForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (null == session) {
+            System.out.println("ici");
+            this.render("login.jsp", request, response);
+            return;
+        }
+
+        this.render("/event/createEvent.jsp",request,response);
+    }
+
+    protected void newEvent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (null == session) {
+            System.out.println("ici");
+            this.render("login.jsp", request, response);
+            return;
+        }
+
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String start_date = request.getParameter("start_date");
+        String end_date = request.getParameter("end_date");
+        System.out.println(start_date);
+        int maxTickets = Integer.parseInt(request.getParameter("max_tickets"));
+        Double price = Double.parseDouble(request.getParameter("price"));
+
+        Event event = new Event();
+
+        this.render("/event/createEvent.jsp",request,response);
     }
 }
