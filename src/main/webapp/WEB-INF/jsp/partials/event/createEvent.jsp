@@ -1,3 +1,4 @@
+<%@ taglib prefix="app" uri="application" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 <div class="row col-md-8 col-md-offset-2" style="margin-bottom:30px">
 
@@ -6,7 +7,7 @@
     </div>
 
     <div class="row">
-        <form class="form-horizontal col-md-8 col-md-offset-3" method="post" action="/event/newEvent">
+        <form class="form-horizontal col-md-8 col-md-offset-3" method="post" action="<app:PathTag endpoint="/event/new"/>">
             <div class="row">
                 <div class="form-group">
                     <label for="titre" class="col-md-3 control-label">Titre de l'évènement : </label>
@@ -67,8 +68,8 @@
             </div>
             <div class="form-group form-inline">
                 <button class="pull-right btn btn-info" style="margin-right:5px">Annuler</button>
-                <button type="submit" class="pull-right btn btn-info" style="margin-right:5px">Créer et publier</button>
-                <button type="submit" class="pull-right btn btn-info" style="margin-right:5px">Créer</button>
+                <button type="submit" value="create-and-publish" name="action" class="pull-right btn btn-info" style="margin-right:5px">Créer et publier</button>
+                <button type="submit" value="create" name="action" class="pull-right btn btn-info" style="margin-right:5px">Créer</button>
             </div>
         </form>
     </div>

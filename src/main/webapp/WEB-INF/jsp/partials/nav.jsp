@@ -11,7 +11,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="#">Les événements</a></li>
                 <li><a href="<add:PathTag endpoint="/user/profile"/>">Mon profil</a></li>
-                <li><a href="<add:PathTag endpoint="/event/eventForm"/>">Nouvel événement</a></li>
+                <li><a href="<add:PathTag endpoint="/event/new"/>">Nouvel événement</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Se connecter <span class="fui-exit"/></a></li>
