@@ -1,4 +1,7 @@
- <div class="container-fluid" style="background-color:#e9e9e9">
+<%@ taglib prefix="add" uri="application" %>
+<%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
+
+<div class="container-fluid" style="background-color:#e9e9e9">
         <div class="row col-md-8 col-md-offset-2" style="border-radius:6px;background-color:#c4c4c4;margin-bottom:30px">
 
             <div class="row col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3" style="margin-bottom:50px">
@@ -8,11 +11,11 @@
             <div class="row col-md-10">
                 <dl class="dl-horizontal col-md-9">
                     <dt>Nom : </dt>
-                    <dd>${lastName}</dd>
+                    <dd>${user.lastName}</dd>
                     <dt>Prénom : </dt>
-                    <dd>${firstName}</dd>
+                    <dd>${user.firstName}</dd>
                     <dt>Email : </dt>
-                    <dd>${email}</dd>
+                    <dd>${user.email}</dd>
                 </dl>
             </div>
             <div class="row col-md-12">
@@ -35,7 +38,7 @@
                         <td>Un évènement exemple à venir</td>
                         <td>21/11/2016 18:00</td>
                         <td>22/11/2016 18:00</td>
-                        <td><a href="#">Link</a></td>
+                        <td><a href="<add:PathTag endpoint="/event/1"/>">Link</a></td>
                     </tr>
                     <tr>
                         <td>Evenement 2</td>

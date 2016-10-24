@@ -1,7 +1,10 @@
 package fr.mines.event_manager.home.servlet;
 
+import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.router.utils.UtilException;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +19,12 @@ import java.util.regex.Pattern;
 public class HomeServlet extends BaseServlet {
     @Override
     protected Set<Route> initGetRoutes() {
-        return new HashSet<Route>()
-        {{
-            add(new Route("home", Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED));
-        }};
+        Set<Route> routes = new HashSet<>();
+        routes.add(Paths.getHome(UtilException.rethrowConsumer(this::home)));
+        return routes;
     }
 
-    protected void home(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        this.render("login.jsp", request, response);
+    protected void home(WrappedServletAction action) throws IOException, ServletException {
+        this.render("login.jsp", action.getRequest(), action.getResponse());
     }
 }

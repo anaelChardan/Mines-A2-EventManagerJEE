@@ -1,8 +1,12 @@
 package fr.mines.event_manager.event.servlet;
 
+import fr.mines.event_manager.app.repository.TankRepository;
+import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.router.utils.UtilException;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,62 +22,73 @@ import java.util.regex.Pattern;
 public class EventServlet extends BaseServlet {
     @Override
     protected Set<Route> initGetRoutes() {
-        return new HashSet<Route>()
-        {{
-            add(new Route("index", Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED));
-            add(new Route("showOne", Pattern.compile("/(?<id>\\d+)"), Route.PROTECTION_LEVEL.CONNECTED));
-            add(new Route("eventForm", Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED));
-        }};
+        Set<Route> routes = new HashSet<>();
+
+        routes.add(Paths.getIndexEvent(UtilException.rethrowConsumer(this::index)));
+        routes.add(Paths.getOneEvent(UtilException.rethrowConsumer(this::showOne)));
+        routes.add(Paths.getCreateEvent(UtilException.rethrowConsumer(this::newEvent)));
+
+        return routes;
     }
 
     @Override
     protected Set<Route> initPostRoutes() {
-        return new HashSet<Route>()
-        {{
-            add(new Route("newEvent", Pattern.compile("/newEvent"), Route.PROTECTION_LEVEL.CONNECTED));
-        }};
+        Set<Route> routes = new HashSet<>();
+
+        routes.add(Paths.postCreateEvent(UtilException.rethrowConsumer(this::eventForm)));
+
+        return routes;
     }
 
     //
-    protected void index(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter out = response.getWriter();
+    protected void index(WrappedServletAction action) throws IOException {
+        PrintWriter out = action.getResponse().getWriter();
         out.println("I am in the listAll ");
     }
 
-    protected void showOne(HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException {
-        PrintWriter out = response.getWriter();
-        out.println("I am in the listOne -> id =" + parameters.get("id"));
-    }
+    protected void showOne(WrappedServletAction action) throws IOException {
+        PrintWriter out = action.getResponse().getWriter();
+        out.println("I am in the listOne -> id =" + action.getParameters().get("id"));
 
-    protected void eventForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (null == session) {
-            System.out.println("ici");
-            this.render("login.jsp", request, response);
+        Optional<Event> event = TankRepository.getInstance().getEventRepository().find(Integer.parseInt(action.getParameters().get("id")));
+        if (event.isPresent())
+        {
+            out.println("I am in the listOne -> id =" + event.get().getName());
             return;
         }
 
-        this.render("/event/createEvent.jsp",request,response);
+            out.println("Yen a pas");
     }
 
-    protected void newEvent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    protected void eventForm(WrappedServletAction action) throws ServletException, IOException {
+        HttpSession session = action.getRequest().getSession(false);
         if (null == session) {
             System.out.println("ici");
-            this.render("login.jsp", request, response);
+            this.render("login.jsp", action.getRequest(), action.getResponse());
             return;
         }
 
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String start_date = request.getParameter("start_date");
-        String end_date = request.getParameter("end_date");
+        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
+    }
+
+    protected void newEvent(WrappedServletAction action) throws ServletException, IOException {
+        HttpSession session = action.getRequest().getSession(false);
+        if (null == session) {
+            System.out.println("ici");
+            this.render("login.jsp", action.getRequest(), action.getResponse());
+            return;
+        }
+
+        String name = action.getRequest().getParameter("name");
+        String description = action.getRequest().getParameter("description");
+        String start_date = action.getRequest().getParameter("start_date");
+        String end_date = action.getRequest().getParameter("end_date");
         System.out.println(start_date);
-        int maxTickets = Integer.parseInt(request.getParameter("max_tickets"));
-        Double price = Double.parseDouble(request.getParameter("price"));
+        int maxTickets = Integer.parseInt(action.getRequest().getParameter("max_tickets"));
+        Double price = Double.parseDouble(action.getRequest().getParameter("price"));
 
         Event event = new Event();
 
-        this.render("/event/createEvent.jsp",request,response);
+        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
     }
 }

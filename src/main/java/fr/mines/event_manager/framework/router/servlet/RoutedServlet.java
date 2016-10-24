@@ -64,7 +64,7 @@ public abstract class RoutedServlet extends HttpServlet {
                 .stream()
                 .filter(e -> (e.getPattern().matcher(path).matches()))
                 .map(e -> {
-                    ComputedRoute computedRoute = new ComputedRoute(e.getMethod(), e.getProtectionLevel());
+                    ComputedRoute computedRoute = new ComputedRoute(e.getProtectionLevel(), e.getConsumer());
                     Pattern p = e.getPattern();
                     Matcher m = p.matcher(path);
                     m.matches();
@@ -73,35 +73,5 @@ public abstract class RoutedServlet extends HttpServlet {
                     return computedRoute;
                 })
                 .findFirst();
-    }
-
-    protected void introspectMethod(ComputedRoute computedRoute, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        Class<?>[] argsClasses = {HttpServletRequest.class, HttpServletResponse.class, Map.class};
-        Object[] args = {request, response, computedRoute};
-
-        if (!proceedToIntrospect(computedRoute.getMethodName(), argsClasses, computedRoute.getParameters())) {
-
-            Class<?>[] argsClasses1 = {HttpServletRequest.class, HttpServletResponse.class};
-            Object[] args1 = {request, response};
-
-            if (!proceedToIntrospect(computedRoute.getMethodName(), argsClasses1, args1)) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            }
-        }
-    }
-
-    private boolean proceedToIntrospect(String methodName, Class<?>[] argsClasses, Object... args) {
-        boolean success = true;
-
-        try {
-            Method method = this.getClass().getDeclaredMethod(methodName, argsClasses);
-            method.setAccessible(true);
-            method.invoke(this, args);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            success = false;
-        }
-
-        return success;
     }
 }

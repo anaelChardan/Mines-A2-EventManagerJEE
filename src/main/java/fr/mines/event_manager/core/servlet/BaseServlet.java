@@ -1,14 +1,13 @@
 package fr.mines.event_manager.core.servlet;
 
 import fr.mines.event_manager.app.repository.TankRepository;
+import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.repository.Field;
 import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
 import fr.mines.event_manager.framework.router.servlet.Servlet;
-import fr.mines.event_manager.framework.security.SecurityHandler;
 import fr.mines.event_manager.framework.security.UserProvider;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +21,11 @@ public class BaseServlet extends Servlet {
     }
 
     @Override
-    protected void redirectConnectedProtectionRoute(HttpWords method, HttpServletRequest request, HttpServletResponse response, ComputedRoute route) {
-
+    protected void redirectConnectedProtectionRoute(HttpWords method, HttpServletRequest request, HttpServletResponse response, ComputedRoute route) throws IOException {
+//        ComputedRoute homeRoute = new ComputedRoute(Paths.getHome.getMethod(), route.getProtectionLevel());
+//        homeRoute.add("alertMessage", "Vous devez être connecté pour accéder à l'application");
+////        response.sendRedirect();
+//        this.introspectMethod(homeRoute, request, response);
     }
 
     @Override

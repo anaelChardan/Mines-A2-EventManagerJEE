@@ -2,8 +2,12 @@ package fr.mines.event_manager.user.servlet;
 
 
 import fr.mines.event_manager.app.repository.TankRepository;
+import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.router.utils.UtilException;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;
@@ -19,31 +23,16 @@ import java.util.regex.Pattern;
 public class UserServlet extends BaseServlet {
     @Override
     protected Set<Route> initGetRoutes() {
-        return new HashSet<Route>() {{
-            add(new Route("profile", Pattern.compile("/profile"), Route.PROTECTION_LEVEL.CONNECTED));
-        }};
+        Set<Route> routes = new HashSet<>();
+
+        routes.add(Paths.getProfile(UtilException.rethrowConsumer(this::profile)));
+
+        return routes;
     }
 
-    protected void profile(HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException, ServletException {
-        HttpSession session = request.getSession(false);
-        if (null == session) {
-            System.out.println("ici");
-            this.render("login.jsp", request, response);
-            return;
-        }
-
-        Optional<User> user = TankRepository.getInstance().getUserRepository().find((Integer) session.getAttribute("id"));
-
-        if (!user.isPresent())
-        {
-            //FAIRE UNE 500 -> lutilisateur en session n'existe pas
-            return;
-        }
-
-        User usr = user.get();
-        request.setAttribute("firstName", usr.getFirstName());
-        request.setAttribute("lastName", usr.getLastName());
-        request.setAttribute("email", usr.getEmail());
-        this.render("user/consultUser.jsp", request, response);
+    protected void profile(WrappedServletAction action) throws IOException, ServletException {
+//        System.out.println("coucou");
+        action.getRequest().setAttribute("user", UserProvider.getCurrentUser(action.getRequest()));
+        this.render("user/consultUser.jsp", action.getRequest(), action.getResponse());
     }
 }
