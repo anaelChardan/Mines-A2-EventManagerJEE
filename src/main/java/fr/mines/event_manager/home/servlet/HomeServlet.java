@@ -1,23 +1,24 @@
 package fr.mines.event_manager.home.servlet;
 
-import fr.mines.event_manager.framework.servlet.BaseServlet;
+import fr.mines.event_manager.framework.router.http.Route;
+import fr.mines.event_manager.core.servlet.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @WebServlet(name = "HomeServlet", urlPatterns = {"/"})
 public class HomeServlet extends BaseServlet {
     @Override
-    protected Map<String, Pattern> initGetRoutes() {
-        return new HashMap<String, Pattern>()
+    protected Set<Route> initGetRoutes() {
+        return new HashSet<Route>()
         {{
-            put("home", Pattern.compile("/"));
+            add(new Route("home", Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED));
         }};
     }
 

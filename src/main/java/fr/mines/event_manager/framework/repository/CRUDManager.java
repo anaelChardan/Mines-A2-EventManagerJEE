@@ -15,26 +15,16 @@ public abstract class CRUDManager<T extends AbstractEntity> extends DatabaseMana
      * CREATE
      *****************/
 
-    public T create(T object, boolean withTransactionSelfManaged) {
-        this.updateDatabase(Action.CREATE, Optional.of(object), withTransactionSelfManaged);
+    public T create(T object) {
+        this.create(Optional.of(object));
 
         return object;
     }
 
-    public List<T> create(List<T> objects, boolean withTransactionSelfManaged) {
-        if (withTransactionSelfManaged)
-        {
-            begin();
-        }
-
+    public List<T> create(List<T> objects) {
         for (T object : objects) {
-            this.create(object, false);
+            this.create(object);
         }
-
-        if (withTransactionSelfManaged) {
-            commit();
-        }
-
         return objects;
     }
 
@@ -67,8 +57,8 @@ public abstract class CRUDManager<T extends AbstractEntity> extends DatabaseMana
      * UPDATE
      *****************/
 
-    public T update(T object, boolean withTransactionSelfManaged) {
-        this.updateDatabase(Action.UPDATE, Optional.of(object), withTransactionSelfManaged);
+    public T update(T object) {
+        this.update(Optional.of(object));
 
         return object;
     }
@@ -77,7 +67,7 @@ public abstract class CRUDManager<T extends AbstractEntity> extends DatabaseMana
      * DELETE
      *****************/
 
-    public boolean delete(int id, boolean withTransactionSelfManaged) {
-        return this.updateDatabase(Action.DELETE, find(id), withTransactionSelfManaged);
+    public boolean delete(int id) {
+        return this.remove(find(id));
     }
 }

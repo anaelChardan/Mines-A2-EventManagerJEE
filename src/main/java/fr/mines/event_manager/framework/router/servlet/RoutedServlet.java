@@ -1,6 +1,8 @@
 package fr.mines.event_manager.framework.router.servlet;
 
+import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
+import fr.mines.event_manager.framework.router.http.Route;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,13 +17,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class RoutedServlet extends HttpServlet {
-    protected Map<HttpWords, Map<String, Pattern>> patterns = null;
+    protected Map<HttpWords, Set<Route>> patterns = null;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
-        this.patterns = new HashMap<HttpWords, Map<String, Pattern>>() {{
+        this.patterns = new HashMap<HttpWords, Set<Route>>() {{
             put(HttpWords.GET, initGetRoutes());
             put(HttpWords.POST, initPostRoutes());
             put(HttpWords.PUT, initPutRoutes());
@@ -29,72 +31,61 @@ public abstract class RoutedServlet extends HttpServlet {
         }};
     }
 
-    protected Map<String, Pattern> initGetRoutes() {
-        return Collections.emptyMap();
+    protected Set<Route> initGetRoutes() {
+        return Collections.emptySet();
     }
 
-    protected Map<String, Pattern> initPostRoutes() {
-        return Collections.emptyMap();
+    protected Set<Route> initPostRoutes() {
+        return Collections.emptySet();
     }
 
-    protected Map<String, Pattern> initPutRoutes() {
-        return Collections.emptyMap();
+    protected Set<Route>initPutRoutes() {
+        return Collections.emptySet();
     }
 
-    protected Map<String, Pattern> initDeleteRoutes() {
-        return Collections.emptyMap();
+    protected Set<Route> initDeleteRoutes() {
+        return Collections.emptySet();
     }
 
     /**
      * Method to call from pattern
      *
+     * Route, (parametersName, parameterValue)
      * @param method
      * @param request
      * @return The method
      */
-    protected Optional<AbstractMap.SimpleEntry<String, Map<String, String>>> getMethodToCallWithParameters(HttpWords method, String request) {
+    protected Optional<ComputedRoute> getMethodToCallWithParameters(HttpWords method, String request) {
 
         String path = (request != null) ? request : "/";
 
         return patterns
                 .get(method)
-                .entrySet()
                 .stream()
-                .filter(e -> (e.getValue().matcher(path).matches()))
+                .filter(e -> (e.getPattern().matcher(path).matches()))
                 .map(e -> {
-                    Pattern p = e.getValue();
+                    ComputedRoute computedRoute = new ComputedRoute(e.getMethod(), e.getProtectionLevel());
+                    Pattern p = e.getPattern();
                     Matcher m = p.matcher(path);
                     m.matches();
-                    Map<String, String> parameters = new HashMap<>();
-                    this.getNamedGroups(p.pattern()).forEach(groupName -> parameters.put(groupName, m.group(groupName)));
+                    e.getNamedGroups().forEach(groupName -> computedRoute.add(groupName, m.group(groupName)));
 
-                    return new AbstractMap.SimpleEntry<>(e.getKey(), parameters);
+                    return computedRoute;
                 })
                 .findFirst();
     }
 
-    protected Set<String> getNamedGroups(String regex) {
-        Set<String> namedGroups = new TreeSet<>();
-        Matcher m = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>").matcher(regex);
-
-        while (m.find()) {
-            namedGroups.add(m.group(1));
-        }
-
-        return namedGroups;
-    }
-
-    protected void introspectMethod(String methodName, HttpServletRequest request, HttpServletResponse response, Map<String, String> parameters) throws IOException {
+    protected void introspectMethod(ComputedRoute computedRoute, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Class<?>[] argsClasses = {HttpServletRequest.class, HttpServletResponse.class, Map.class};
-        Object[] args = {request, response, parameters};
+        Object[] args = {request, response, computedRoute};
 
-        if (!proceedToIntrospect(methodName, argsClasses, args)) {
+        if (!proceedToIntrospect(computedRoute.getMethodName(), argsClasses, computedRoute.getParameters())) {
 
             Class<?>[] argsClasses1 = {HttpServletRequest.class, HttpServletResponse.class};
             Object[] args1 = {request, response};
 
-            if (!proceedToIntrospect(methodName, argsClasses1, args1)) {
+            if (!proceedToIntrospect(computedRoute.getMethodName(), argsClasses1, args1)) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         }

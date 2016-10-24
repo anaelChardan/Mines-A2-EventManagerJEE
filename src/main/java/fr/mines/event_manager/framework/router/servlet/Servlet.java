@@ -1,6 +1,8 @@
 package fr.mines.event_manager.framework.router.servlet;
 
+import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
+import fr.mines.event_manager.framework.router.http.Route;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ public abstract class Servlet extends RoutedServlet {
 
     protected void process(HttpWords method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-        Optional<AbstractMap.SimpleEntry<String, Map<String, String>>> entry = this.getMethodToCallWithParameters(method, path);
+        Optional<ComputedRoute> entry = this.getMethodToCallWithParameters(method, path);
 
         if (!entry.isPresent()) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -37,9 +39,23 @@ public abstract class Servlet extends RoutedServlet {
             return;
         }
 
-        //TODO Faire un objet ROUTE qui contient -> un nom de methode / une enum avec les differentes sortes de protections (NONE / CONNECTED / PROPRIETARY)  / un pattern
+        ComputedRoute computedRoute = entry.get();
 
-        // ICI VERIFIER SI CEST UNE ROUTE PROTEGEE
-        this.introspectMethod(entry.get().getKey(), request, response, entry.get().getValue());
+        switch (computedRoute.getProtectionLevel())
+        {
+            case NONE:
+                this.introspectMethod(computedRoute, request, response);
+                break;
+            case CONNECTED:
+                this.redirectConnectedProtectionRoute(method, request, response, computedRoute);
+                break;
+            case PROPRIETARY:
+                this.redirectProprietaryProtectionRoute(method, request, response, computedRoute);
+                break;
+        }
     }
+
+    protected abstract void redirectConnectedProtectionRoute(HttpWords method,HttpServletRequest request, HttpServletResponse response, ComputedRoute route);
+
+    protected abstract void redirectProprietaryProtectionRoute(HttpWords method,HttpServletRequest request, HttpServletResponse response, ComputedRoute route);
 }

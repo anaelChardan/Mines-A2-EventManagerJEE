@@ -24,7 +24,7 @@ public class BaseEntityManagerWrapper {
         this.entityManager = factory.createEntityManager();
     }
 
-    public static BaseEntityManagerWrapper getInstance()
+    public static synchronized BaseEntityManagerWrapper getInstance()
     {
         if (null == instance)
         {

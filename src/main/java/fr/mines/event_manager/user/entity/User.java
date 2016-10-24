@@ -1,12 +1,13 @@
 package fr.mines.event_manager.user.entity;
 
 import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.framework.entity.AbstractUser;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = User.tableName)
-public class User extends AbstractEntity {
+public class User extends AbstractUser {
     final static String tableName = "user";
 
     @Id
