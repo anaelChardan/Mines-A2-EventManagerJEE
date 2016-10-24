@@ -8,7 +8,7 @@
         <h3 class="text-center">Authentification</h3>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 8%">
         <div class="col-md-6 col-md-offset-3">
 
             <div class="login-form">
