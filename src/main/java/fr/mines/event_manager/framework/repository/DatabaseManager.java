@@ -10,6 +10,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public abstract class DatabaseManager<T extends AbstractEntity> {
     enum Action {CREATE, READ, UPDATE, DELETE}
@@ -35,32 +36,38 @@ public abstract class DatabaseManager<T extends AbstractEntity> {
         return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
-    public boolean updateDatabase(Action action, Optional<T> object, boolean withTransactionSelfManaged) {
-        if (!object.isPresent()) {
-            return false;
+    public void performRequest(Consumer<EntityManager> request)
+    {
+        begin();
+        request.accept(this.getEntityManager());
+        commit();
+    }
+
+    public boolean create(Optional<T> object)
+    {
+        return this.update(object);
+    }
+
+    public boolean update(Optional<T> object)
+    {
+        if (object.isPresent())
+        {
+            this.performRequest(em -> em.merge(object.get()));
+            return true;
         }
 
-        if (withTransactionSelfManaged) {
-            begin();
+        return false;
+    }
+
+    public boolean remove(Optional<T> object)
+    {
+        if (object.isPresent())
+        {
+            this.performRequest(em -> em.remove(object.get()));
+            return true;
         }
 
-        switch (action) {
-            case CREATE:
-                getEntityManager().merge(object.get());
-                break;
-            case UPDATE:
-                getEntityManager().merge(object.get());
-                break;
-            case DELETE:
-                getEntityManager().remove(object.get());
-                break;
-        }
-
-        if (withTransactionSelfManaged) {
-            commit();
-        }
-
-        return true;
+        return false;
     }
 
     public void begin() {

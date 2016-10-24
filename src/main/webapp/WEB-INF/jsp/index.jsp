@@ -6,11 +6,14 @@
     <link href="${pageContext.request.contextPath}/assets/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/flat-ui.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
+    <meta charset="utf-8">
     <title>Event Manager</title>
 </head>
 <body>
-<div class="palette-turquoise">
-    <%@include file="partials/nav.jsp" %>
+
+<%@include file="partials/nav.jsp" %>
+<div class="container-fluid">
+
     <c:if test="${not empty errorMessage}">
         <div class="container-fluid">
             <div class="alert alert-danger">
@@ -20,8 +23,13 @@
         </div>
     </c:if>
     <jsp:include page="/WEB-INF/jsp/partials/${jspPage}" flush="true"/>
-    <%@include file="partials/footer.jsp" %>
-</div>
 
+</div>
+<%@include file="partials/footer.jsp" %>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/flat-ui.min.js"></script>
 </body>
 </html>

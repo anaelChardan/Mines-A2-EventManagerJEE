@@ -1,12 +1,15 @@
 package fr.mines.event_manager.framework.security;
 
 import fr.mines.event_manager.app.repository.TankRepository;
+import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.repository.Field;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class UserProvider {
     private static final String CURRENT_USER_ID = "CURRENT_USER_ID";
@@ -26,7 +29,7 @@ public class UserProvider {
         return request.getSession(false);
     }
 
-    protected static void bindUser(HttpServletRequest request, User user)
+    protected static void bindUser(HttpServletRequest request, AbstractUser user)
     {
         getSession(request, true).setAttribute(CURRENT_USER_ID, user.getId());
     }
@@ -43,11 +46,8 @@ public class UserProvider {
                 ).get() : null;
     }
 
-    public static boolean connect(HttpServletRequest request){
-        Optional<User> user = TankRepository.getInstance().getUserRepository().findSingleBy(
-            new Field<String>("email", request.getParameter("email"), Field.Filter.EQUAL),
-            new Field<String>("password", request.getParameter("password"), Field.Filter.EQUAL)
-        );
+    public static boolean connect(HttpServletRequest request, Supplier<Optional<AbstractUser>> getUser){
+        Optional<AbstractUser> user = getUser.get();
 
         if (!user.isPresent())
         {

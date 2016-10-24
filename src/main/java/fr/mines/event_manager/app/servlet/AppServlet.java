@@ -1,33 +1,30 @@
 package fr.mines.event_manager.app.servlet;
 
+import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.security.UserProvider;
-import fr.mines.event_manager.framework.servlet.BaseServlet;
-import fr.mines.event_manager.user.entity.User;
+import fr.mines.event_manager.core.servlet.BaseServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @WebServlet(name = "AppServlet", urlPatterns = {"/app/*"})
 public class AppServlet extends BaseServlet {
     @Override
-    protected Map<String, Pattern> initGetRoutes() {
-        return new HashMap<String, Pattern>() {{
-            put("login", Pattern.compile("/login"));
+    protected Set<Route> initGetRoutes() {
+        return new HashSet<Route>() {{
+            add(new Route("login", Pattern.compile("/login"), Route.PROTECTION_LEVEL.NONE ));
         }};
     }
 
     @Override
-    protected Map<String, Pattern> initPostRoutes() {
-        return new HashMap<String, Pattern>() {{
-            put("loginPost", Pattern.compile("/loginpost"));
+    protected Set<Route> initPostRoutes() {
+        return new HashSet<Route>() {{
+            add(new Route("loginPost", Pattern.compile("/loginpost"), Route.PROTECTION_LEVEL.NONE));
         }};
     }
 
@@ -37,7 +34,7 @@ public class AppServlet extends BaseServlet {
     }
 
     protected void loginPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (UserProvider.connect(request)) {
+        if (this.connect(request)) {
            this.render("home.jsp", request, response);
             return;
         }
