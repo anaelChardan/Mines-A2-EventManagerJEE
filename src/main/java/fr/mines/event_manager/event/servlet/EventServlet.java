@@ -48,38 +48,39 @@ public class EventServlet extends BaseServlet {
         out.println("I am in the listOne -> id =" + action.getParameters().get("id"));
 
         Optional<Event> event = TankRepository.getInstance().getEventRepository().find(Integer.parseInt(action.getParameters().get("id")));
-        if (event.isPresent())
-        {
+        if (event.isPresent()) {
             out.println("I am in the listOne -> id =" + event.get().getName());
             return;
         }
 
-            out.println("Yen a pas");
+        out.println("Yen a pas");
     }
 
     protected void newEventForm(WrappedServletAction action) throws ServletException, IOException {
         HttpSession session = action.getRequest().getSession(false);
         if (null == session) {
-            System.out.println("ici");
             this.render("login.jsp", action.getRequest(), action.getResponse());
             return;
         }
-        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
+        this.render("/event/create.jsp", action.getRequest(), action.getResponse());
     }
 
     protected void eventPost(WrappedServletAction action) throws ServletException, IOException {
         HttpSession session = action.getRequest().getSession(false);
         if (null == session) {
-            System.out.println("ici");
             this.render("login.jsp", action.getRequest(), action.getResponse());
             return;
         }
 
         Event event = EventManager.getInstance().create(action.getRequest());
-        ValidatorProcessor.getInstance().isValid(event);
-
-
-        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
+        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
+        action.getRequest().setAttribute("errorMessage", errors);
+        if (!errors.isEmpty()) {
+            action.getRequest().setAttribute("event",event);
+            this.render("/event/create.jsp", action.getRequest(), action.getResponse());
+            return;
+        }
+        this.redirect(action.getResponse(), "/event/" + EventManager.getInstance().persist(event).getId());
     }
 
 }

@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label for="titre" class="col-md-3 control-label">Titre de l'évènement : </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="titre" name="titre">
+                        <input type="text" value="${event.name}" class="form-control" id="titre" name="titre">
                     </div>
                 </div>
             </div>
@@ -34,9 +34,41 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="lieu" class="col-md-3 control-label">Lieu : </label>
+                    <label for="address1" class="col-md-3 control-label">Addresse principale : </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="lieu" name="address">
+                        <input type="text" class="form-control" id="address1" name="address1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="address2" class="col-md-3 control-label">Complément d'adresse : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="address2" name="address2">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="zip_code" class="col-md-3 control-label">Code postal : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="zip_code" name="zip_code">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="city" class="col-md-3 control-label">Ville : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="city" name="city">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="country" class="col-md-3 control-label">Pays : </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="country" name="country">
                     </div>
                 </div>
             </div>

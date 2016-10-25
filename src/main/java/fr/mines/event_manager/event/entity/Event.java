@@ -1,6 +1,6 @@
 package fr.mines.event_manager.event.entity;
 
-import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.persistence.*;
@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = Event.tableName)
-public class Event extends AbstractEntity {
+public class Event extends AbstractSelfManagedEntity {
     final static String tableName = "event";
 
     @Id

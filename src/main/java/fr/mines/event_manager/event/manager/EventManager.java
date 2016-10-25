@@ -1,5 +1,6 @@
 package fr.mines.event_manager.event.manager;
 
+import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.event.entity.Address;
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.framework.manager.BaseEntityManager;
@@ -36,15 +37,8 @@ public class EventManager implements BaseEntityManager<Event> {
 
     @Override
     public Event create(HttpServletRequest request) {
-
-        String action = request.getParameter("action");
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        int maxTickets = Integer.parseInt(request.getParameter("max_tickets"));
-        Double price = Double.parseDouble(request.getParameter("price"));
-
         // Gestion des dates
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date startDate = null;
         Date endDate = null;
         try {
@@ -54,31 +48,21 @@ public class EventManager implements BaseEntityManager<Event> {
             e.printStackTrace();
         }
 
-        // Gestion de l'adresse
-        String address1 = request.getParameter("address1");
-        String address2 = request.getParameter("address2");
-        String zipCode = request.getParameter("zip_code");
-        String city = request.getParameter("city");
-        String country = request.getParameter("country");
-        Address address = (new Address())
-                .setAddress1(address1)
-                .setAddress2(address2)
-                .setZipCode(zipCode)
-                .setCity(city)
-                .setCountry(country);
-
-        Event event = (new Event())
-                .setAddress(address)
+        return (new Event())
+                .setAddress(AddressManager.getInstance().create(request))
                 .setAuthor(UserProvider.getCurrentUser(request))
-                .setDescription(description)
-                .setMaxTickets(maxTickets)
-                .setName(name)
-                .setPrice(price)
+                .setDescription(request.getParameter("description"))
+                .setMaxTickets(Integer.parseInt(request.getParameter("max_tickets")))
+                .setName(request.getParameter("titre"))
+                .setPrice(Double.parseDouble(request.getParameter("price")))
                 .setStartDate(startDate)
                 .setEndDate(endDate)
-                .setPublished("create-and-publish".equals(action));
+                .setPublished("create-and-publish".equals(request.getParameter("action")));
+    }
 
-        return event;
+    @Override
+    public Event persist(Event object) {
+        return TankRepository.getInstance().getEventRepository().create(object);
     }
 
 

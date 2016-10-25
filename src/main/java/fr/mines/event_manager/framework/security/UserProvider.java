@@ -40,7 +40,7 @@ public class UserProvider {
                 TankRepository.getInstance().getUserRepository().findSingleBy(
                     new Field<Integer>(
                         "id",
-                        Integer.parseInt((String)getSession(request, false).getAttribute(CURRENT_USER_ID)),
+                            (Integer)getSession(request, false).getAttribute(CURRENT_USER_ID),
                         Field.Filter.EQUAL
                     )
                 ).get() : null;

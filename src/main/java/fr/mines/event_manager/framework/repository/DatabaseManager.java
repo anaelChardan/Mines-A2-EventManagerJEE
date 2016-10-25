@@ -1,6 +1,6 @@
 package fr.mines.event_manager.framework.repository;
 
-import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public abstract class DatabaseManager<T extends AbstractEntity> {
+public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
     protected enum Action {CREATE, READ, UPDATE, DELETE}
 
     protected CriteriaBuilder cb = null;
@@ -36,22 +36,24 @@ public abstract class DatabaseManager<T extends AbstractEntity> {
         return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
-    public void performRequest(Consumer<EntityManager> request)
-    {
+    public void performRequest(Consumer<EntityManager> request) {
         begin();
         request.accept(this.getEntityManager());
         commit();
     }
 
-    public boolean create(Optional<T> object)
-    {
-        return this.update(object);
+    public T create(T object) {
+
+        this.performRequest(entityManager -> {
+            entityManager.persist(object);
+            entityManager.flush();
+        });
+
+        return object;
     }
 
-    public boolean update(Optional<T> object)
-    {
-        if (object.isPresent())
-        {
+    public boolean update(Optional<T> object) {
+        if (object.isPresent()) {
             this.performRequest(em -> em.merge(object.get()));
             return true;
         }
@@ -59,10 +61,8 @@ public abstract class DatabaseManager<T extends AbstractEntity> {
         return false;
     }
 
-    public boolean remove(Optional<T> object)
-    {
-        if (object.isPresent())
-        {
+    public boolean remove(Optional<T> object) {
+        if (object.isPresent()) {
             this.performRequest(em -> em.remove(object.get()));
             return true;
         }
@@ -108,13 +108,12 @@ public abstract class DatabaseManager<T extends AbstractEntity> {
 
         List<Predicate> predicates = new ArrayList<>();
         for (Field field : fields) {
-            switch (field.getFilter())
-            {
+            switch (field.getFilter()) {
                 case EQUAL:
                     predicates.add(cb.equal(entry.getKey().get(field.getLabel()), field.getValue()));
                     break;
                 case LIKE:
-                    predicates.add(cb.like(entry.getKey().get(field.getLabel()), (String)field.getValue()));
+                    predicates.add(cb.like(entry.getKey().get(field.getLabel()), (String) field.getValue()));
                     break;
             }
         }

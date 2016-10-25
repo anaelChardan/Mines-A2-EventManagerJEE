@@ -1,6 +1,5 @@
 package fr.mines.event_manager.user.entity;
 
-import fr.mines.event_manager.framework.entity.AbstractEntity;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 
 import javax.persistence.*;

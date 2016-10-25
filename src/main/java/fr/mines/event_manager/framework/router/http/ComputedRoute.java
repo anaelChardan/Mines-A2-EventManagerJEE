@@ -1,7 +1,10 @@
 package fr.mines.event_manager.framework.router.http;
 
+import fr.mines.event_manager.framework.router.utils.ServletConsumer;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -11,9 +14,9 @@ public class ComputedRoute {
 
     protected Route.PROTECTION_LEVEL protectionLevel;
 
-    protected Consumer<WrappedServletAction> consumedMethod;
+    protected ServletConsumer<WrappedServletAction> consumedMethod;
 
-    public ComputedRoute(Route.PROTECTION_LEVEL protectionLevel, Consumer<WrappedServletAction> consumedMethod) {
+    public ComputedRoute(Route.PROTECTION_LEVEL protectionLevel, ServletConsumer<WrappedServletAction> consumedMethod) {
         this.protectionLevel = protectionLevel;
         this.consumedMethod = consumedMethod;
     }
@@ -42,8 +45,7 @@ public class ComputedRoute {
         return protectionLevel != Route.PROTECTION_LEVEL.NONE;
     }
 
-    public void consume(WrappedServletAction action)
-    {
+    public void consume(WrappedServletAction action) throws ServletException, IOException {
         this.consumedMethod.accept(action);
     }
 }
