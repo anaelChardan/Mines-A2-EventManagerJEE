@@ -4,8 +4,7 @@ import fr.mines.event_manager.framework.entity.AbstractEntity;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = Event.tableName)
@@ -52,7 +51,7 @@ public class Event extends AbstractEntity {
         joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    protected List<User> subscribers;
+    protected Set<User> subscribers = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -143,12 +142,15 @@ public class Event extends AbstractEntity {
         return this;
     }
 
-    public List<User> getSubscribers() {
+    public Set<User> getSubscribers() {
         return subscribers;
     }
 
-    public Event setSubscribers(List<User> subscribers) {
-        this.subscribers = subscribers;
+    public Event addSubscribers(User user)
+    {
+        System.out.println("coucou");
+        this.subscribers.add(user);
+
         return this;
     }
 }

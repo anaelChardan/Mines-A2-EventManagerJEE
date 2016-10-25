@@ -1,5 +1,6 @@
 package fr.mines.event_manager.framework.router.http;
 
+import fr.mines.event_manager.framework.router.utils.ServletConsumer;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
 import java.util.Set;
@@ -15,9 +16,9 @@ public class Route {
 
     protected PROTECTION_LEVEL protectionLevel;
 
-    protected Consumer<WrappedServletAction> consumedMethod;
+    protected ServletConsumer<WrappedServletAction> consumedMethod;
 
-    public Route(Pattern pattern, PROTECTION_LEVEL protectionLevel, Consumer<WrappedServletAction> consumedMethod) {
+    public Route(Pattern pattern, PROTECTION_LEVEL protectionLevel, ServletConsumer<WrappedServletAction> consumedMethod) {
         this.pattern = pattern;
         this.protectionLevel = protectionLevel;
         this.consumedMethod = consumedMethod;
@@ -31,7 +32,7 @@ public class Route {
         return protectionLevel;
     }
 
-    public Consumer<WrappedServletAction> getConsumer()
+    public ServletConsumer<WrappedServletAction> getConsumer()
     {
         return this.consumedMethod;
     }

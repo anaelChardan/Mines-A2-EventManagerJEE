@@ -13,9 +13,9 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class DatabaseManager<T extends AbstractEntity> {
-    enum Action {CREATE, READ, UPDATE, DELETE}
+    protected enum Action {CREATE, READ, UPDATE, DELETE}
 
-    CriteriaBuilder cb = null;
+    protected CriteriaBuilder cb = null;
 
     protected Class classType;
 

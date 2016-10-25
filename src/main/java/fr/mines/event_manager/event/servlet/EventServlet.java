@@ -3,10 +3,11 @@ package fr.mines.event_manager.event.servlet;
 import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.framework.repository.Field;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
-import fr.mines.event_manager.framework.router.utils.UtilException;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +25,9 @@ public class EventServlet extends BaseServlet {
     protected Set<Route> initGetRoutes() {
         Set<Route> routes = new HashSet<>();
 
-        routes.add(Paths.getIndexEvent(UtilException.rethrowConsumer(this::index)));
-        routes.add(Paths.getOneEvent(UtilException.rethrowConsumer(this::showOne)));
-        routes.add(Paths.getCreateEvent(UtilException.rethrowConsumer(this::newEvent)));
+        routes.add(Paths.getIndexEvent(this::index));
+        routes.add(Paths.getOneEvent(this::showOne));
+        routes.add(Paths.getCreateEvent(this::newEvent));
 
         return routes;
     }
@@ -35,7 +36,7 @@ public class EventServlet extends BaseServlet {
     protected Set<Route> initPostRoutes() {
         Set<Route> routes = new HashSet<>();
 
-        routes.add(Paths.postCreateEvent(UtilException.rethrowConsumer(this::eventForm)));
+        routes.add(Paths.postCreateEvent(this::eventForm));
 
         return routes;
     }
@@ -43,7 +44,7 @@ public class EventServlet extends BaseServlet {
     //
     protected void index(WrappedServletAction action) throws IOException {
         PrintWriter out = action.getResponse().getWriter();
-        out.println("I am in the listAll ");
+        System.out.println("coucou maggle");
     }
 
     protected void showOne(WrappedServletAction action) throws IOException {

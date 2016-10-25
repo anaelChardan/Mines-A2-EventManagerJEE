@@ -101,6 +101,7 @@ public class BaseEntityManagerWrapper {
             .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
             .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
             .setMaxTickets(100)
+            .addSubscribers(anael)
        );
 
         events.add((new Event())
@@ -112,6 +113,8 @@ public class BaseEntityManagerWrapper {
                 .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .setMaxTickets(100)
+                .addSubscribers(damien)
+                .addSubscribers(anael)
         );
 
         this.entityManager.getTransaction().begin();
