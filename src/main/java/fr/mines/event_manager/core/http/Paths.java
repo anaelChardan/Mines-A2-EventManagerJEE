@@ -42,8 +42,7 @@ public class Paths {
     public static final Route postLogin (ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/loginpost"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
     }
-
     public static final Route postCreateEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
-        return new Route(Pattern.compile("/newEvent"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+        return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 }

@@ -1,7 +1,7 @@
 package fr.mines.event_manager.framework.repository;
 
-import fr.mines.event_manager.framework.entity.AbstractEntity;
 import fr.mines.event_manager.framework.repository.utils.Field;
+import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
@@ -9,17 +9,12 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class CRUDManager<T extends AbstractEntity> extends DatabaseManager<T> {
+public abstract class CRUDManager<T extends AbstractSelfManagedEntity> extends DatabaseManager<T> {
 
     /*****************
      * CREATE
      *****************/
 
-    public T create(T object) {
-        this.create(Optional.of(object));
-
-        return object;
-    }
 
     public List<T> create(List<T> objects) {
         for (T object : objects) {

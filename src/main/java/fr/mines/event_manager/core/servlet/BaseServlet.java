@@ -39,4 +39,8 @@ public class BaseServlet extends Servlet {
             ).map(AbstractUser.class::cast)
         );
     }
+
+    protected void redirect(HttpServletResponse response, String endPoint) throws IOException {
+        response.sendRedirect(this.getServletContext().getContextPath() + endPoint);
+    }
 }

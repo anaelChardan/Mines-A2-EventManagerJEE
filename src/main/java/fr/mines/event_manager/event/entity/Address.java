@@ -1,12 +1,14 @@
 package fr.mines.event_manager.event.entity;
 
+import fr.mines.event_manager.framework.entity.AbstractEntity;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable @Access(AccessType.FIELD)
-public class Address {
+public class Address extends AbstractEntity{
     @Column(name = "address1", nullable = false)
     protected String address1;
 

@@ -33,7 +33,8 @@ public class AppServlet extends BaseServlet {
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-           this.render("home.jsp", action.getRequest(), action.getResponse());
+//            action.getResponse().sendRedirect("/eventmanager/");
+            this.render("home.jsp", action.getRequest(), action.getResponse());
             return;
         }
 

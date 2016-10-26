@@ -6,6 +6,8 @@ import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.event.manager.EventManager;
+import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +24,7 @@ public class EventServlet extends BaseServlet {
 
         routes.add(Paths.getIndexEvent(this::index));
         routes.add(Paths.getOneEvent(this::showOne));
-        routes.add(Paths.getCreateEvent(this::newEvent));
+        routes.add(Paths.getCreateEvent(this::newEventForm));
 
         return routes;
     }
@@ -30,9 +32,7 @@ public class EventServlet extends BaseServlet {
     @Override
     protected Set<Route> initPostRoutes() {
         Set<Route> routes = new HashSet<>();
-
-        routes.add(Paths.postCreateEvent(this::eventForm));
-
+        routes.add(Paths.postCreateEvent(this::eventPost));
         return routes;
     }
 
@@ -47,44 +47,39 @@ public class EventServlet extends BaseServlet {
         out.println("I am in the listOne -> id =" + action.getParameters().get("id"));
 
         Optional<Event> event = TankRepository.getInstance().getEventRepository().find(Integer.parseInt(action.getParameters().get("id")));
-        if (event.isPresent())
-        {
+        if (event.isPresent()) {
             out.println("I am in the listOne -> id =" + event.get().getName());
             return;
         }
 
-            out.println("Yen a pas");
+        out.println("Yen a pas");
     }
 
-    protected void eventForm(WrappedServletAction action) throws ServletException, IOException {
+    protected void newEventForm(WrappedServletAction action) throws ServletException, IOException {
         HttpSession session = action.getRequest().getSession(false);
         if (null == session) {
-            System.out.println("ici");
+            this.render("login.jsp", action.getRequest(), action.getResponse());
+            return;
+        }
+        this.render("/event/create.jsp", action.getRequest(), action.getResponse());
+    }
+
+    protected void eventPost(WrappedServletAction action) throws ServletException, IOException {
+        HttpSession session = action.getRequest().getSession(false);
+        if (null == session) {
             this.render("login.jsp", action.getRequest(), action.getResponse());
             return;
         }
 
-        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
-    }
-
-    protected void newEvent(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            System.out.println("ici");
-            this.render("login.jsp", action.getRequest(), action.getResponse());
+        Event event = EventManager.getInstance().create(action.getRequest());
+        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
+        action.getRequest().setAttribute("errorMessage", errors);
+        if (!errors.isEmpty()) {
+            action.getRequest().setAttribute("event",event);
+            this.render("/event/create.jsp", action.getRequest(), action.getResponse());
             return;
         }
-
-        String name = action.getRequest().getParameter("name");
-        String description = action.getRequest().getParameter("description");
-        String start_date = action.getRequest().getParameter("start_date");
-        String end_date = action.getRequest().getParameter("end_date");
-        System.out.println(start_date);
-        int maxTickets = Integer.parseInt(action.getRequest().getParameter("max_tickets"));
-        Double price = Double.parseDouble(action.getRequest().getParameter("price"));
-
-        Event event = new Event();
-
-        this.render("/event/createEvent.jsp",action.getRequest(),action.getResponse());
+        this.redirect(action.getResponse(), "/event/" + EventManager.getInstance().persist(event).getId());
     }
+
 }

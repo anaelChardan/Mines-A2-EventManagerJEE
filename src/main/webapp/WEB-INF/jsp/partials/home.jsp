@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<div class="row col-md-10 col-md-offset-1" style="margin-bottom: 30px;margin-top:30px;">
+<div class="row col-md-10 col-md-offset-1" style="margin-bottom: 8%;margin-top:30px;">
 
     <div class="row">
         <div class="col-md-8">
