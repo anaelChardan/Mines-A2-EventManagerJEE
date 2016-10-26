@@ -18,7 +18,6 @@ public class Paths {
         return new Route(Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
-
     public static final Route getIndexEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
@@ -31,17 +30,21 @@ public class Paths {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
+    public static Route postSubscribeToEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/?<id>\\d+"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+    }
+
     public static final Route getProfile(ServletConsumer<WrappedServletAction> ServletConsumer)
     {
         return new Route(Pattern.compile("/profile"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
-
     /**************
      * POST ROUTES
      **************/
     public static final Route postLogin (ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/loginpost"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
     }
+
     public static final Route postCreateEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
