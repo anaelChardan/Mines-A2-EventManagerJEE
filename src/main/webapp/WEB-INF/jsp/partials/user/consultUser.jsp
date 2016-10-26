@@ -1,4 +1,5 @@
 <%@ taglib prefix="add" uri="application" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <div class="container-fluid" style="background-color:#e9e9e9">
@@ -26,59 +27,39 @@
                     <thead>
                     <tr>
                         <th class="col-md-2 text-left">Titre</th>
-                        <th class="col-md-6 text-left">Description</th>
+                        <th class="col-md-5 text-left">Description</th>
+                        <th class="col-md-2 text-left">Lieu</th>
                         <th class="col-md-2 text-left">Date début</th>
                         <th class="col-md-2 text-left">Date fin</th>
                         <th class="col-md-2 text-left">Détail</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Evenement 1</td>
-                        <td>Un évènement exemple à venir</td>
-                        <td>21/11/2016 18:00</td>
-                        <td>22/11/2016 18:00</td>
-                        <td><a href="<add:PathTag endpoint="/event/1"/>">Link</a></td>
-                    </tr>
-                    <tr>
-                        <td>Evenement 2</td>
-                        <td>Un évènement exemple à venir</td>
-                        <td>01/12/2016 18:00</td>
-                        <td>01/12/2016 20:00</td>
-                        <td><a href="#">Link</a></td>
-                    </tr>
+                   <c:forEach items="${futureEventSubscribed}" var="event" >
+                       <add:event-line event="${event}"/>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
             <div class="row col-md-12">
                 <table class="table">
                     <caption>
-                        <h4 class="text-left">Mes participations passée</h4>
+                        <h4 class="text-left">Mes participations passées</h4>
                     </caption>
                     <thead>
                     <tr>
                         <th class="col-md-2 text-left">Titre</th>
-                        <th class="col-md-6 text-left">Description</th>
+                        <th class="col-md-5 text-left">Description</th>
+                        <th class="col-md-2 text-left">Lieu</th>
                         <th class="col-md-2 text-left">Date début</th>
                         <th class="col-md-2 text-left">Date fin</th>
                         <th class="col-md-2 text-left">Détail</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Evenement 1</td>
-                        <td>Un évènement exemple passé</td>
-                        <td>01/10/2016 18:00</td>
-                        <td>01/10/2016 22:00</td>
-                        <td><a href="#">Link</a></td>
-                    </tr>
-                    <tr>
-                        <td>Evenement 2</td>
-                        <td>Un évènement exemple passé</td>
-                        <td>20/10/2016 18:00</td>
-                        <td>21/10/2016 20:00</td>
-                        <td><a href="#">Link</a></td>
-                    </tr>
+                    <c:forEach items="${pastEventSubscribed}" var="event" >
+                        <part:event-line event="${event}"/>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

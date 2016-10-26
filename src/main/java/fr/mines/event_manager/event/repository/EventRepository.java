@@ -24,6 +24,34 @@ public class EventRepository extends CRUDManager<Event> {
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
+    public List<Event> getSubscribedEventsByUserSortedByDateBeforeNow(User user)
+    {
+        AbstractMap.SimpleEntry<Root<Event>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
+
+        Root<Event> root = entry.getKey();
+        Predicate subscribers = this.getPredicateIsMember(root, "subscribers", user);
+        Predicate date = cb.lessThan(root.get("endDate"), new Date());
+
+        CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
+        criteriaQuery.where(subscribers,date);
+        criteriaQuery.orderBy(cb.asc(root.get("startDate")));
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
+    }
+
+    public List<Event> getSubscribedEventsByUserSortedByDateAfterNow(User user)
+    {
+        AbstractMap.SimpleEntry<Root<Event>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
+
+        Root<Event> root = entry.getKey();
+        Predicate subscribers = this.getPredicateIsMember(root, "subscribers", user);
+        Predicate date = cb.greaterThan(root.get("endDate"), new Date());
+
+        CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
+        criteriaQuery.where(subscribers,date);
+        criteriaQuery.orderBy(cb.asc(root.get("startDate")));
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
+    }
+
     public List<Event> getEventsCreatedByUserSortedByDate(User user)
     {
         AbstractMap.SimpleEntry<Root<Event>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
