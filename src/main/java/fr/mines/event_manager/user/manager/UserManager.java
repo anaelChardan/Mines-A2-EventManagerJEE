@@ -1,18 +1,11 @@
 package fr.mines.event_manager.user.manager;
 
+
 import fr.mines.event_manager.app.repository.TankRepository;
-import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.event.manager.AddressManager;
-import fr.mines.event_manager.event.repository.EventRepository;
 import fr.mines.event_manager.framework.manager.BaseEntityManager;
-import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.repository.UserRepository;
-
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -21,14 +14,16 @@ import java.util.Optional;
 public class UserManager implements BaseEntityManager<User> {
 
     private static UserManager instance = null;
-    private UserRepository repository = new UserRepository();
+    private UserRepository repository = TankRepository.getInstance().getUserRepository();
 
     private UserManager() {
     }
 
     public static UserManager getInstance() {
-        if (null == instance)
+
+        if (null == instance) {
             instance = new UserManager();
+        }
         return instance;
     }
 
@@ -48,18 +43,15 @@ public class UserManager implements BaseEntityManager<User> {
         return repository.create(object);
     }
 
-    public User update(User object)
-    {
+    public User update(User object) {
         return repository.update(object);
     }
 
-    public Optional<User> find(int id)
-    {
+    public Optional<User> find(int id) {
         return repository.find(id);
     }
 
-    public UserRepository getRepository()
-    {
+    public UserRepository getRepository() {
         return this.repository;
     }
 
