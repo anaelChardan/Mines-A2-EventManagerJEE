@@ -6,6 +6,12 @@ import fr.mines.event_manager.event.manager.AddressManager;
 import fr.mines.event_manager.event.repository.EventRepository;
 import fr.mines.event_manager.framework.manager.BaseEntityManager;
 import fr.mines.event_manager.framework.security.UserProvider;
+
+import fr.mines.event_manager.app.repository.TankRepository;
+import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.event.manager.EventManager;
+import fr.mines.event_manager.event.repository.EventRepository;
+import fr.mines.event_manager.framework.manager.BaseEntityManager;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.repository.UserRepository;
 
@@ -27,8 +33,10 @@ public class UserManager implements BaseEntityManager<User> {
     }
 
     public static UserManager getInstance() {
-        if (null == instance)
+        if (null == instance) {
             instance = new UserManager();
+        }
+
         return instance;
     }
 

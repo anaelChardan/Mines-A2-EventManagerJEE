@@ -10,6 +10,7 @@ import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.framework.utils.Alert;
 import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
+import fr.mines.event_manager.user.manager.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,8 +74,10 @@ public class EventServlet extends BaseServlet {
         }
 
         Event event = eventOptional.get();
+        List<User> listUsers = UserManager.getInstance().getRepository().getUsersByEnventSubscribed(event);
         action.getRequest().setAttribute("event", event);
         action.getRequest().setAttribute("isSubscribable", event.isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
+        action.getRequest().setAttribute("listUsers", listUsers);
 
         this.render("/event/full.jsp", action);
     }
