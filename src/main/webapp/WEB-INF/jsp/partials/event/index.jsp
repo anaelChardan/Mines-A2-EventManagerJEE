@@ -1,0 +1,1 @@
+<%--HERE YOU HAVE VARIABLES - Events you authored, Events you subscribed, Event you haven't subscribed (See method EventServlet:index) --%>
