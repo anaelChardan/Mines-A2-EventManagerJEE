@@ -99,6 +99,6 @@ public class EventManager implements BaseEntityManager<Event> {
             return;
         }
 
-        event.addSubscribers(currentUser);
+        repository.update(event.addSubscribers(currentUser));
     }
 }

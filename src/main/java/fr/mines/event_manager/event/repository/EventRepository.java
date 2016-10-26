@@ -51,18 +51,6 @@ public class EventRepository extends CRUDManager<Event> {
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
-    public void addUserToEvent(Integer userId, Integer eventId)
-    {
-        Optional<Event> event = this.findSingleBy(new Field<Integer>("id", eventId, Field.Filter.EQUAL));
-        Optional<User>  user  = TankRepository.getInstance().getUserRepository().findSingleBy(new Field<Integer>("id", userId, Field.Filter.EQUAL));
-
-        if (event.isPresent() && user.isPresent())
-        {
-            event.get().addSubscribers(user.get());
-            update(event);
-        }
-    }
-
     protected Predicate getPredicateIsMember(Root<Event> root, String fieldName, Object concerned)
     {
         return cb.isMember(concerned, root.get(fieldName));

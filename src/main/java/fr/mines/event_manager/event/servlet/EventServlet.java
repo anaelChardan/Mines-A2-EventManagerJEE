@@ -37,6 +37,7 @@ public class EventServlet extends BaseServlet {
     @Override
     protected Set<Route> initPostRoutes() {
         Set<Route> routes = new HashSet<>();
+
         routes.add(Paths.postCreateEvent(this::eventPost));
         routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
 
@@ -57,9 +58,10 @@ public class EventServlet extends BaseServlet {
         this.render("/event/index.jsp", action);
     }
 
-    protected void subscribeToEvent(WrappedServletAction action)
-    {
-        manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), Integer.parseInt(action.getParameters().get("id")));
+    protected void subscribeToEvent(WrappedServletAction action) throws IOException {
+        Integer id = Integer.parseInt(action.getParameters().get("id"));
+        manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
+        this.redirect(action.getResponse(), "/event/"+id);
     }
 
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
