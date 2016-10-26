@@ -13,7 +13,7 @@ public class Event extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = IdLabel)
     protected Integer id;
 
     @Column(name = "name", nullable = false)

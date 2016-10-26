@@ -1,4 +1,4 @@
-package fr.mines.event_manager.framework.repository;
+package fr.mines.event_manager.framework.repository.utils;
 
 public class Field<T> {
     public enum Filter { EQUAL, LIKE }

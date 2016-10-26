@@ -2,13 +2,12 @@ package fr.mines.event_manager.framework.security;
 
 import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.framework.entity.AbstractUser;
-import fr.mines.event_manager.framework.repository.Field;
+import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class UserProvider {

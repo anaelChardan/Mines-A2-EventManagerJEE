@@ -1,6 +1,7 @@
 package fr.mines.event_manager.framework.repository;
 
 import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.framework.repository.utils.Field;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

@@ -1,9 +1,8 @@
 package fr.mines.event_manager.core.servlet;
 
 import fr.mines.event_manager.app.repository.TankRepository;
-import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.entity.AbstractUser;
-import fr.mines.event_manager.framework.repository.Field;
+import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
 import fr.mines.event_manager.framework.router.servlet.Servlet;
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 public class BaseServlet extends Servlet {
     protected void render(String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
