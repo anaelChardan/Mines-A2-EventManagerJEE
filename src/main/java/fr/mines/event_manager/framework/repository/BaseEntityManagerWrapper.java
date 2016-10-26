@@ -68,7 +68,7 @@ public class BaseEntityManagerWrapper {
                 .setEmail("flora.pelletier@gmail.com")
                 .setFirstName("flora")
                 .setLastName("pelletier")
-                .setPassword("floraPelletier")
+                .setPassword("flora")
                 ;
 
         List<Event> events = new ArrayList<>();
@@ -113,7 +113,7 @@ public class BaseEntityManagerWrapper {
                 .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
                 .setMaxTickets(100)
-                .addSubscribers(damien)
+                .addSubscribers(flora)
                 .addSubscribers(anael)
         );
 

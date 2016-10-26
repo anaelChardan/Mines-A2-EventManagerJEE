@@ -1,10 +1,13 @@
 package fr.mines.event_manager.user.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
+import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.event.manager.EventManager;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +26,13 @@ public class UserServlet extends BaseServlet {
     }
 
     protected void profile(WrappedServletAction action) throws IOException, ServletException {
-        action.getRequest().setAttribute("user", UserProvider.getCurrentUser(action.getRequest()));
+        User usr = UserProvider.getCurrentUser(action.getRequest());
+        List<Event> listPastEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateBeforeNow(usr);
+        List<Event> listFutureEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateAfterNow(usr);
+        action.getRequest().setAttribute("user", usr);
+        action.getRequest().setAttribute("pastEventSubscribed", listPastEvent);
+        action.getRequest().setAttribute("futureEventSubscribed", listFutureEvent);
         this.render("user/consultUser.jsp", action);
+
     }
 }
