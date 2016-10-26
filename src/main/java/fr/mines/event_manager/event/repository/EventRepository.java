@@ -36,7 +36,7 @@ public class EventRepository extends CRUDManager<Event> {
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
-    public List<Event> getEventsNorAuthoredNorSubscribedSortedByDate(User user)
+    public List<Event> getEventsSubscribableSortedByDate(User user)
     {
         AbstractMap.SimpleEntry<Root<Event>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
 

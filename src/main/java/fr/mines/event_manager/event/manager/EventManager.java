@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Created by Damien on 24/10/2016.
@@ -65,5 +66,9 @@ public class EventManager implements BaseEntityManager<Event> {
         return TankRepository.getInstance().getEventRepository().create(object);
     }
 
+    public Optional<Event> find(int id)
+    {
+        return TankRepository.getInstance().getEventRepository().find(id);
+    }
 
 }

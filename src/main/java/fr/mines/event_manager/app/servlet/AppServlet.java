@@ -27,19 +27,19 @@ public class AppServlet extends BaseServlet {
     }
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
-        this.render("login.jsp", action.getRequest(), action.getResponse());
+        this.render("login.jsp", action);
 
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
 //            action.getResponse().sendRedirect("/eventmanager/");
-            this.render("home.jsp", action.getRequest(), action.getResponse());
+            this.render("home.jsp", action);
             return;
         }
 
         String errorMessage = "L'adresse mail et/ou le mot de passe ne sont pas valides";
         action.getRequest().setAttribute("errorMessage", errorMessage);
-        this.render("login.jsp", action.getRequest(), action.getResponse());
+        this.render("login.jsp", action);
     }
 }

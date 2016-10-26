@@ -1,6 +1,5 @@
 <%@ taglib prefix="add" uri="application" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="app" uri="application" %>
 
 <div class="container-fluid">
     <nav class="navbar-inverse navbar-embossed" role="navigation">
@@ -10,11 +9,29 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="#">Les événements</a></li>
-                <li><a href="<add:PathTag endpoint="/user/profile"/>">Mon profil</a></li>
                 <li><a href="<add:PathTag endpoint="/event/new"/>">Nouvel événement</a></li>
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Se connecter <span class="fui-exit"/></a></li>
+                <c:choose>
+                    <c:when test="${not IS_LOGGED}">
+                        <li><a href="#">Se connecter <span class="fui-exit"/></a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    ${CURRENT_USER.firstName} ${CURRENT_USER.lastName}
+                                <b class="caret"></b>
+                            </a>
+                            <span class="dropdown-arrow"></span>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<add:PathTag endpoint="/logout"/>">COUCOU</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </nav>

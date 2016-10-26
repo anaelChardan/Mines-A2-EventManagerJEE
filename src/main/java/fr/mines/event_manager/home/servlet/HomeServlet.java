@@ -21,6 +21,6 @@ public class HomeServlet extends BaseServlet {
     }
 
     protected void home(WrappedServletAction action) throws IOException, ServletException {
-        this.render("login.jsp", action.getRequest(), action.getResponse());
+        this.render("login.jsp", action);
     }
 }

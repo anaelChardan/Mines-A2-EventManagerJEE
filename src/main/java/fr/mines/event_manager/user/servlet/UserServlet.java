@@ -24,6 +24,6 @@ public class UserServlet extends BaseServlet {
 
     protected void profile(WrappedServletAction action) throws IOException, ServletException {
         action.getRequest().setAttribute("user", UserProvider.getCurrentUser(action.getRequest()));
-        this.render("user/consultUser.jsp", action.getRequest(), action.getResponse());
+        this.render("user/consultUser.jsp", action);
     }
 }

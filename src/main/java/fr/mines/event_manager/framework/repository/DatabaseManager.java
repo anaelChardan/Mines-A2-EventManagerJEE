@@ -1,5 +1,6 @@
 package fr.mines.event_manager.framework.repository;
 
+import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 

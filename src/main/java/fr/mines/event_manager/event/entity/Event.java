@@ -13,7 +13,7 @@ public class Event extends AbstractSelfManagedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = IdLabel)
+    @Column(name = "id")
     protected Integer id;
 
     @Column(name = "name", nullable = false)
@@ -152,5 +152,20 @@ public class Event extends AbstractSelfManagedEntity {
         this.subscribers.add(user);
 
         return this;
+    }
+
+    public boolean isAuthor(User user)
+    {
+        return Objects.equals(getAuthor().getId(), user.getId());
+    }
+
+    public boolean isASubscriber(User user)
+    {
+        return this.subscribers.stream().filter(e -> e.getId().equals(user.getId())).count() > 0;
+    }
+
+    public boolean isSubscribable(User user)
+    {
+        return !isAuthor(user) && !isASubscriber(user);
     }
 }

@@ -6,6 +6,7 @@ import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
 import fr.mines.event_manager.framework.router.servlet.Servlet;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.framework.security.UserProvider;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class BaseServlet extends Servlet {
-    protected void render(String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("jspPage", jspPage);
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+    protected void render(String jspPage, WrappedServletAction action) throws ServletException, IOException {
+        action.getRequest().setAttribute("jspPage", jspPage);
+        action.getRequest().setAttribute("IS_LOGGED", UserProvider.isConnected(action.getRequest()));
+        action.getRequest().setAttribute("CURRENT_USER", UserProvider.getCurrentUser(action.getRequest()));
+
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(action.getRequest(), action.getResponse());
     }
 
     @Override
