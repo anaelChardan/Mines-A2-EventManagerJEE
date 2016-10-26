@@ -74,7 +74,7 @@ public class EventServlet extends BaseServlet {
 
         Event event = EventManager.getInstance().create(action.getRequest());
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
-        action.getRequest().setAttribute("errorMessage", errors);
+        action.getRequest().setAttribute("errorMessages", errors);
         if (!errors.isEmpty()) {
             action.getRequest().setAttribute("event", event);
             this.render("/event/create.jsp", action);

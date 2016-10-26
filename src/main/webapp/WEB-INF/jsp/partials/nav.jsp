@@ -1,7 +1,7 @@
 <%@ taglib prefix="add" uri="application" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding:0">
     <nav class="navbar-inverse navbar-embossed" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Event Manager</a>
@@ -27,6 +27,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="<add:PathTag endpoint="/logout"/>">COUCOU</a>
+                                    <a href="#">COUCOU</a>
                                 </li>
                             </ul>
                         </li>
@@ -36,4 +37,7 @@
         </div>
     </nav>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/flat-ui.min.js"></script>
 

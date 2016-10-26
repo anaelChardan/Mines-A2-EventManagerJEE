@@ -14,11 +14,15 @@
 <%@include file="partials/nav.jsp" %>
 <div class="container-fluid">
 
-    <c:if test="${not empty errorMessage}">
-        <div class="container-fluid">
+    <c:if test="${not empty errorMessages}">
+        <div class="container-fluid" style="margin-top:10px">
             <div class="alert alert-danger">
-                    ${errorMessage}
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <lu>
+                    <c:forEach items="${errorMessages}" var="errorMessage">
+                        <li>${errorMessage.value}</li>
+                    </c:forEach>
+                </lu>
             </div>
         </div>
     </c:if>

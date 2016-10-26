@@ -23,13 +23,11 @@ public class EventManager implements BaseEntityManager<Event> {
 
     private static EventManager instance = null;
 
-    private EventManager()
-    {}
+    private EventManager() {
+    }
 
-    public static EventManager getInstance()
-    {
-        if (null == instance)
-        {
+    public static EventManager getInstance() {
+        if (null == instance) {
             instance = new EventManager();
         }
 
@@ -43,19 +41,21 @@ public class EventManager implements BaseEntityManager<Event> {
         Date startDate = null;
         Date endDate = null;
         try {
-            startDate = sdf.parse(request.getParameter("start_date"));
-            endDate = sdf.parse(request.getParameter("end_date"));
+            startDate = request.getParameter("start_date").isEmpty() ? null : sdf.parse(request.getParameter("start_date"));
+            endDate = request.getParameter("end_date").isEmpty() ? null : sdf.parse(request.getParameter("end_date"));
         } catch (ParseException e) {
-            e.printStackTrace();
         }
+
+        Integer maxTickets = request.getParameter("max_tickets").isEmpty() ? null : Integer.parseInt(request.getParameter("max_tickets"));
+        Double price = request.getParameter("price").isEmpty() ? null : Double.parseDouble(request.getParameter("price"));
 
         return (new Event())
                 .setAddress(AddressManager.getInstance().create(request))
                 .setAuthor(UserProvider.getCurrentUser(request))
                 .setDescription(request.getParameter("description"))
-                .setMaxTickets(Integer.parseInt(request.getParameter("max_tickets")))
+                .setMaxTickets(maxTickets)
                 .setName(request.getParameter("titre"))
-                .setPrice(Double.parseDouble(request.getParameter("price")))
+                .setPrice(price)
                 .setStartDate(startDate)
                 .setEndDate(endDate)
                 .setPublished("create-and-publish".equals(request.getParameter("action")));
@@ -66,8 +66,7 @@ public class EventManager implements BaseEntityManager<Event> {
         return TankRepository.getInstance().getEventRepository().create(object);
     }
 
-    public Optional<Event> find(int id)
-    {
+    public Optional<Event> find(int id) {
         return TankRepository.getInstance().getEventRepository().find(id);
     }
 

@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label for="zip_code" class="col-md-3 control-label">Code postal : </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="zip_code" name="zip_code">
+                        <input type="number" minlength="2" class="form-control" id="zip_code" name="zip_code">
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label for="prix" class="col-md-3 control-label">Prix : </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" placeholder="15.00" id="prix" name="price"/>
+                        <input type="number" min="0" class="form-control" placeholder="15.00" id="prix" name="price"/>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                 <div class="form-group">
                     <label for="nbPlaces" class="col-md-3 control-label">Nombre de places : </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="nbPlaces" name="max_tickets">
+                        <input type="number" min="0" class="form-control" id="nbPlaces" name="max_tickets">
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                     <label for="description" class="col-md-3 control-label">Description : </label>
                     <div class="row">
                         <div class="col-md-6">
-                            <textarea type="textarea" class="form-control" id="description" name="description"></textarea>
+                            <textarea type="textarea" maxlength="200" class="form-control" id="description" name="description"></textarea>
                         </div>
                     </div>
                 </div>

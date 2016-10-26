@@ -13,43 +13,42 @@ import java.util.function.Supplier;
 public class UserProvider {
     private static final String CURRENT_USER_ID = "CURRENT_USER_ID";
 
-    public static boolean isConnected(HttpServletRequest request)
-    {
+    public static boolean isConnected(HttpServletRequest request) {
         return getCurrentUser(request) != null;
     }
 
-    protected static HttpSession getSession(HttpServletRequest request, boolean tryWithArg)
-    {
-        if (tryWithArg)
-        {
+    protected static HttpSession getSession(HttpServletRequest request, boolean tryWithArg) {
+        if (tryWithArg) {
             return request.getSession(false) == null ? request.getSession() : request.getSession(false);
         }
 
         return request.getSession(false);
     }
 
-    protected static void bindUser(HttpServletRequest request, AbstractUser user)
-    {
+    protected static void bindUser(HttpServletRequest request, AbstractUser user) {
         getSession(request, true).setAttribute(CURRENT_USER_ID, user.getId());
     }
 
-    public static User getCurrentUser(HttpServletRequest request)
-    {
-        return getSession(request, false) != null ?
-                TankRepository.getInstance().getUserRepository().findSingleBy(
-                    new Field<Integer>(
+    public static User getCurrentUser(HttpServletRequest request) {
+        if (getSession(request, false) == null) {
+            return null;
+        }
+        if (getSession(request, false).getAttribute(CURRENT_USER_ID) == null) {
+            return null;
+        }
+        return TankRepository.getInstance().getUserRepository().findSingleBy(
+                new Field<Integer>(
                         "id",
-                            (Integer)getSession(request, false).getAttribute(CURRENT_USER_ID),
+                        (Integer) getSession(request, false).getAttribute(CURRENT_USER_ID),
                         Field.Filter.EQUAL
-                    )
-                ).get() : null;
+                )
+        ).get();
     }
 
-    public static boolean connect(HttpServletRequest request, Supplier<Optional<AbstractUser>> getUser){
+    public static boolean connect(HttpServletRequest request, Supplier<Optional<AbstractUser>> getUser) {
         Optional<AbstractUser> user = getUser.get();
 
-        if (!user.isPresent())
-        {
+        if (!user.isPresent()) {
             return false;
         }
 
@@ -58,8 +57,7 @@ public class UserProvider {
         return true;
     }
 
-    public static void trashSession(HttpServletRequest request)
-    {
+    public static void trashSession(HttpServletRequest request) {
         if (getSession(request, false) != null) {
             getSession(request, false).invalidate();
         }

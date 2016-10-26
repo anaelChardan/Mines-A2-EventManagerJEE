@@ -33,13 +33,15 @@ public class AppServlet extends BaseServlet {
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
+            System.out.println("Il se connecte bien");
 //            action.getResponse().sendRedirect("/eventmanager/");
             this.render("home.jsp", action);
             return;
         }
-
+        System.out.println("Mauvais identifiants");
         String errorMessage = "L'adresse mail et/ou le mot de passe ne sont pas valides";
-        action.getRequest().setAttribute("errorMessage", errorMessage);
+        action.getRequest().setAttribute("errorMessages", Collections.singletonMap("",errorMessage));
+//        this.redirect(action.getResponse(),"/app/login");
         this.render("login.jsp", action);
     }
 }
