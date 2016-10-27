@@ -42,7 +42,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${listUsers}" var="user" >
+                <c:forEach items="${event.subscribers}" var="user" >
                     <tr>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
@@ -51,6 +51,22 @@
                 </c:forEach>
                 </tbody>
             </table>
+
+            <form class="col-md-12" method="post" action="<app:PathTag endpoint="/event/action"/>">
+                <div class="form-group form-inline">
+                    <c:if test="${event.author == userConnected}">
+                        <button type="submit" value="cancel" name="action" class="pull-right btn btn-danger" style="margin-right:20px">Annuler l'évènement</button>
+                    </c:if>
+                    <c:if test="${(not event.published) && (event.author == userConnected)}">
+                        <button type="submit" value="publish" name="action" class="pull-right btn btn-info" style="margin-right:20px">Publier</button>
+                        <button type="submit" value="modify" name="action" class="pull-right btn btn-info" style="margin-right:20px">Modifier</button>
+                    </c:if>
+                    <c:if test="${event.published}">
+                        <button type="submit" value="subscribe" class="pull-right btn btn-info" style="margin-right:20px">S'inscrire</button>
+                    </c:if>
+                </div>
+            </form>
+
         </div>
 
     </div>

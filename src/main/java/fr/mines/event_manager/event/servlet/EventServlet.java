@@ -10,13 +10,11 @@ import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.framework.utils.Alert;
 import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
-import fr.mines.event_manager.user.manager.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 @WebServlet(name = "EventServlet", urlPatterns = {"/event/*"})
@@ -41,6 +39,7 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.postCreateEvent(this::eventPost));
         routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
         routes.add(Paths.postEditEvent(this::editPost));
+        routes.add(Paths.postActionEvent(this::actionEvent));
 
         return routes;
     }
@@ -73,11 +72,12 @@ public class EventServlet extends BaseServlet {
             return;
         }
 
+        User usr = UserProvider.getCurrentUser(action.getRequest());
+
         Event event = eventOptional.get();
-        List<User> listUsers = UserManager.getInstance().getRepository().getUsersByEnventSubscribed(event);
         action.getRequest().setAttribute("event", event);
         action.getRequest().setAttribute("isSubscribable", event.isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
-        action.getRequest().setAttribute("listUsers", listUsers);
+        action.getRequest().setAttribute("userConnected", usr);
 
         this.render("/event/full.jsp", action);
     }
@@ -116,4 +116,27 @@ public class EventServlet extends BaseServlet {
         this.redirect(action, "/event/" + manager.update(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été édité"));
     }
 
+   protected void actionEvent(WrappedServletAction action) throws ServletException, IOException {
+        HttpSession session = action.getRequest().getSession(false);
+        if (null == session) {
+            this.render("login.jsp", action);
+            return;
+        }
+
+        String act = action.getRequest().getParameter("action");
+        if(act.equals("cancel")){
+            manager.getRepository().delete(Integer.parseInt(action.getParameters().get("id")));
+            this.render("/event/index.jsp", action);
+        }
+        if(act.equals("subscribe")){
+
+        }
+        if(act.equals("publish")){
+
+        }
+        if(act.equals("modify")){
+
+        }
+
+    }
 }
