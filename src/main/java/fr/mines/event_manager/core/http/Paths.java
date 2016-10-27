@@ -65,4 +65,7 @@ public class Paths {
     public static final Route postEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/edit"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
+    public static final Route postActionEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/action"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+    }
 }
