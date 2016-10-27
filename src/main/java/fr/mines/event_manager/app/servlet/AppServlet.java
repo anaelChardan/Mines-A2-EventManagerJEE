@@ -37,7 +37,7 @@ public class AppServlet extends BaseServlet {
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/home" : action.getRequest().getParameter("from");
+            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/" : action.getRequest().getParameter("from");
             this.redirect(action.getResponse(),path);
             return;
         }

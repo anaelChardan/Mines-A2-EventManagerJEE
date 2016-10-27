@@ -5,8 +5,57 @@
 
     <div class="row">
         <div class="col-md-8">
+            <h4>Mes prochains événements</h4>
+            <table class="table col-md-8 palette-silver" style="border-radius:6px">
+                <thead>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Ville</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Détail</th>
+                </thead>
+                <c:forEach items="${eventsSubscribed}" var="event">
+                    <tr>
+                        <td>${event.name}</td>
+                        <td>${event.description}</td>
+                        <td>${event.address.city}</td>
+                        <td>${event.startDate}</td>
+                        <td>${event.endDate}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
             <h4>Les événements à venir</h4>
-            <p>TEST</p>
+            <table class="table col-md-8 palette-silver" style="border-radius:6px">
+                <thead>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Ville</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Détail</th>
+                </thead>
+                <c:forEach items="${eventsNotPassed}" var="event">
+                    <tr>
+                        <td>${event.name}</td>
+                        <td>${event.description}</td>
+                        <td>${event.address.city}</td>
+                        <td>${event.startDate}</td>
+                        <td>${event.endDate}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
     </div>
 
@@ -23,11 +72,11 @@
                 <th>Date de fin</th>
                 <th>Détail</th>
                 </thead>
-                <c:forEach items="${eventPassed}" var="event">
+                <c:forEach items="${eventsPassed}" var="event">
                 <tr>
                     <td>${event.name}</td>
                     <td>${event.description}</td>
-                    <td>${event.price}</td>
+                    <td>${event.address.city}</td>
                     <td>${event.startDate}</td>
                     <td>${event.endDate}</td>
                     <td>

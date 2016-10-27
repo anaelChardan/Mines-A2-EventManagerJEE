@@ -11,6 +11,7 @@ import javax.persistence.criteria.CommonAbstractCriteria;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -86,9 +87,14 @@ public class EventRepository extends CRUDManager<Event> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date dayDate = new Date();
         String now = sdf.format(dayDate);
-        String queryStr = "SELECT e FROM Event e WHERE e.startDate > :now order by e.startDate";
+        try {
+            dayDate = sdf.parse(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String queryStr = "SELECT e FROM Event e WHERE e.startDate > :dayDate order by e.startDate";
         Query query = getEntityManager().createQuery(queryStr);
-        query.setParameter("now",now);
+        query.setParameter("dayDate",dayDate);
         List<Event> eventsPassed = query.getResultList();
         return eventsPassed;
     }
@@ -98,9 +104,14 @@ public class EventRepository extends CRUDManager<Event> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date dayDate = new Date();
         String now = sdf.format(dayDate);
-        String queryStr = "SELECT e FROM Event e WHERE e.endDate <= :now order by e.startDate";
+        try {
+            dayDate = sdf.parse(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String queryStr = "SELECT e FROM Event e WHERE e.endDate <= :dayDate order by e.startDate";
         Query query = getEntityManager().createQuery(queryStr);
-        query.setParameter("now",now);
+        query.setParameter("dayDate",dayDate);
         List<Event> eventsNotPassed = query.getResultList();
         return eventsNotPassed;
     }

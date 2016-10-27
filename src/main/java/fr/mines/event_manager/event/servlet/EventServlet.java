@@ -50,9 +50,9 @@ public class EventServlet extends BaseServlet {
 
         action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
         action.getRequest().setAttribute("eventsNotPassed",eventsNotPassed);
-        action.getRequest().setAttribute("eventPassed",eventsPassed);
+        action.getRequest().setAttribute("eventsPassed",eventsPassed);
 
-        this.render("/event/index.jsp", action);
+        this.render("/event/home.jsp", action);
     }
 
     protected void subscribeToEvent(WrappedServletAction action) throws IOException {
