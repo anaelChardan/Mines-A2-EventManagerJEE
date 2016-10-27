@@ -27,24 +27,22 @@ public class AppServlet extends BaseServlet {
     }
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
+        String path = action.getRequest().getParameter("path");
+        action.getRequest().setAttribute("PathFrom",path);
+        if (null != path && !("/".equals(path)))
+            action.getRequest().setAttribute("errorMessages", Collections.singletonMap("","Vous devez être connecté pour accèder à la page demandée"));
         this.render("login.jsp", action);
 
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-            System.out.println("Il se connecte bien");
-//            action.getResponse().sendRedirect("/eventmanager/event/");
-//            this.render("/event/home.jsp", action);
-//            this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/partials/event/home.jsp").forward(action.getRequest(),action.getResponse());
-            //this.getServletContext().getNamedDispatcher("EventServlet").forward(action.getRequest(),action.getResponse());
-            this.redirect(action.getResponse(),"/event/home");
+            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/home" : action.getRequest().getParameter("from");
+            this.redirect(action.getResponse(),path);
             return;
         }
-        System.out.println("Mauvais identifiants");
         String errorMessage = "L'adresse mail et/ou le mot de passe ne sont pas valides";
         action.getRequest().setAttribute("errorMessages", Collections.singletonMap("",errorMessage));
-//        this.redirect(action.getResponse(),"/app/login");
         this.render("login.jsp", action);
     }
 }

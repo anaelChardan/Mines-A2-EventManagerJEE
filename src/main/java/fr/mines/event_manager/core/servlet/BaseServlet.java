@@ -4,7 +4,6 @@ import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.router.http.ComputedRoute;
-import fr.mines.event_manager.framework.router.http.HttpWords;
 import fr.mines.event_manager.framework.router.servlet.Servlet;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.framework.security.UserProvider;
@@ -23,15 +22,19 @@ public class BaseServlet extends Servlet {
     }
 
     @Override
-    protected void redirectConnectedProtectionRoute(HttpWords method, HttpServletRequest request, HttpServletResponse response, ComputedRoute route) throws IOException {
-//        ComputedRoute homeRoute = new ComputedRoute(Paths.getHome.getMethod(), route.getProtectionLevel());
-//        homeRoute.add("alertMessage", "Vous devez être connecté pour accéder à l'application");
-////        response.sendRedirect();
-//        this.introspectMethod(homeRoute, request, response);
+    protected void redirectConnectedProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException {
+        if (UserProvider.isConnected(action.getRequest())){
+            route.consume(action);
+            return;
+        }
+        String servletPath = action.getRequest().getServletPath();
+        String pathInfo = action.getRequest().getPathInfo();
+        String path = null == pathInfo ? servletPath : servletPath+pathInfo;
+        this.redirect(action.getResponse(),"/app/login?path="+path);
     }
 
     @Override
-    protected void redirectProprietaryProtectionRoute(HttpWords method, HttpServletRequest request, HttpServletResponse response, ComputedRoute route) {
+    protected void redirectProprietaryProtectionRoute(WrappedServletAction action, ComputedRoute route) {
 
     }
 

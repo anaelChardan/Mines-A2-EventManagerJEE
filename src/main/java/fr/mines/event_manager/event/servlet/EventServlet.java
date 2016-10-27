@@ -28,8 +28,6 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.getIndexEvent(this::index));
         routes.add(Paths.getOneEvent(this::showOne));
         routes.add(Paths.getCreateEvent(this::newEventForm));
-        routes.add(Paths.getHome(this::home));
-
         return routes;
     }
 
@@ -43,32 +41,16 @@ public class EventServlet extends BaseServlet {
         return routes;
     }
 
-    protected void home(WrappedServletAction action) throws ServletException, IOException {
-        System.out.println("ici");
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
-        List<Event> eventsNotPassed = manager.getRepository().getEventsNotPassed();
-        List<Event> eventsPassed = manager.getRepository().getEventsPassed();
-
-        action.getRequest().setAttribute("eventsNotPassed",eventsNotPassed);
-        action.getRequest().setAttribute("eventPassed",eventsPassed);
-
-        this.render("/event/home.jsp",action);
-    }
-
     protected void index(WrappedServletAction action) throws IOException, ServletException {
         User currentUser = UserProvider.getCurrentUser(action.getRequest());
 
-        List<Event> eventsSubscribable = manager.getRepository().getEventsSubscribableSortedByDate(currentUser);
         List<Event> eventsSubscribed = manager.getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
-        List<Event> authoredEvent = manager.getRepository().getEventsCreatedByUserSortedByDate(currentUser);
+        List<Event> eventsNotPassed = manager.getRepository().getEventsNotPassed();
+        List<Event> eventsPassed = manager.getRepository().getEventsPassed();
 
-        action.getRequest().setAttribute("eventsSubscribable", eventsSubscribable);
         action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
-        action.getRequest().setAttribute("authoredEvents", authoredEvent);
+        action.getRequest().setAttribute("eventsNotPassed",eventsNotPassed);
+        action.getRequest().setAttribute("eventPassed",eventsPassed);
 
         this.render("/event/index.jsp", action);
     }
@@ -95,21 +77,10 @@ public class EventServlet extends BaseServlet {
     }
 
     protected void newEventForm(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
         this.render("/event/create.jsp", action);
     }
 
     protected void eventPost(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
-
         Event event = manager.create(action.getRequest());
 
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
