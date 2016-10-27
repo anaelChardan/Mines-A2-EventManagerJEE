@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <div class="row col-md-10 col-md-offset-1" style="margin-bottom: 8%;margin-top:30px;">
@@ -17,37 +18,23 @@
                 <thead>
                 <th>Titre</th>
                 <th>Description</th>
+                <th>Ville</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>Détail</th>
                 </thead>
+                <c:forEach items="${eventPassed}" var="event">
                 <tr>
-                    <td>Cours JEE</td>
-                    <td>Ceci est un cours JEE</td>
-                    <td>20/12/2016 18:00</td>
-                    <td>20/12/2016 20:00</td>
+                    <td>${event.name}</td>
+                    <td>${event.description}</td>
+                    <td>${event.price}</td>
+                    <td>${event.startDate}</td>
+                    <td>${event.endDate}</td>
                     <td>
                         <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>Cours Haskell</td>
-                    <td>Ceci est un cours Haskell</td>
-                    <td>22/12/2016 18:00</td>
-                    <td>22/12/2016 20:00</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cours C++</td>
-                    <td>Ceci est un cours C++</td>
-                    <td>02/01/2017 18:00</td>
-                    <td>03/01/2017 20:00</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
-                    </td>
-                </tr>
+                </c:forEach>
             </table>
         </div>
     </div>

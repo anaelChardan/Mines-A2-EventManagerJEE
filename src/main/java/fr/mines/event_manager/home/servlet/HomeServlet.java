@@ -21,6 +21,7 @@ public class HomeServlet extends BaseServlet {
     }
 
     protected void home(WrappedServletAction action) throws IOException, ServletException {
-        this.redirect(action.getResponse(),"/event/");
+        System.out.println("ici");
+        this.redirect(action.getResponse(),"/app/login");
     }
 }

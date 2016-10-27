@@ -34,8 +34,11 @@ public class AppServlet extends BaseServlet {
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
             System.out.println("Il se connecte bien");
-//            action.getResponse().sendRedirect("/eventmanager/");
-            this.render("home.jsp", action);
+//            action.getResponse().sendRedirect("/eventmanager/event/");
+//            this.render("/event/home.jsp", action);
+//            this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/partials/event/home.jsp").forward(action.getRequest(),action.getResponse());
+            //this.getServletContext().getNamedDispatcher("EventServlet").forward(action.getRequest(),action.getResponse());
+            this.redirect(action.getResponse(),"/event/home");
             return;
         }
         System.out.println("Mauvais identifiants");
