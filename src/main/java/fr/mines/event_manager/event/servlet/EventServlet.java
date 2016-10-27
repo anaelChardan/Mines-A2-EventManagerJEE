@@ -125,15 +125,21 @@ public class EventServlet extends BaseServlet {
         }
 
         String act = action.getRequest().getParameter("action");
-        if(act.equals("cancel")){
-            manager.getRepository().delete(Integer.parseInt(action.getParameters().get("id")));
+        Integer eventId = Integer.parseInt(action.getParameters().get("id"));
+        Event event = manager.find(eventId).get();
+
+       if(act.equals("cancel")){
+            manager.getRepository().delete(eventId);
             this.render("/event/index.jsp", action);
         }
         if(act.equals("subscribe")){
-
+            manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()),eventId);
+            this.render("/event/full.jsp", action);
         }
         if(act.equals("publish")){
-
+            event.setPublished(true);
+            manager.update(event);
+            this.render("/event/full.jsp", action);
         }
         if(act.equals("modify")){
 
