@@ -12,5 +12,5 @@
     <td>${event.address.city}</td>
     <td>${event.startDate}</td>
     <td>${event.endDate}</td>
-    <td><a href="<add:PathTag endpoint="/event/"/>${event.id}">Link</a></td>
+    <td><a href="<add:PathTag endpoint="/event/"/>${event.id}">Détail</a></td>
 </tr>

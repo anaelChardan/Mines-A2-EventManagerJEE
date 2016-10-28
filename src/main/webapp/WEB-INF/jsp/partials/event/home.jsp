@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="add" uri="application" %>
 
 <div class="row col-md-10 col-md-offset-1" style="margin-bottom: 8%;margin-top:30px;">
 
@@ -16,16 +17,7 @@
                 <th>Détail</th>
                 </thead>
                 <c:forEach items="${eventsSubscribed}" var="event">
-                    <tr>
-                        <td>${event.name}</td>
-                        <td>${event.description}</td>
-                        <td>${event.address.city}</td>
-                        <td>${event.startDate}</td>
-                        <td>${event.endDate}</td>
-                        <td>
-                            <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
-                        </td>
-                    </tr>
+                    <add:event-line event="${event}"/>
                 </c:forEach>
             </table>
         </div>
@@ -44,16 +36,7 @@
                 <th>Détail</th>
                 </thead>
                 <c:forEach items="${eventsNotPassed}" var="event">
-                    <tr>
-                        <td>${event.name}</td>
-                        <td>${event.description}</td>
-                        <td>${event.address.city}</td>
-                        <td>${event.startDate}</td>
-                        <td>${event.endDate}</td>
-                        <td>
-                            <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
-                        </td>
-                    </tr>
+                    <add:event-line event="${event}"/>
                 </c:forEach>
             </table>
         </div>
@@ -73,16 +56,7 @@
                 <th>Détail</th>
                 </thead>
                 <c:forEach items="${eventsPassed}" var="event">
-                <tr>
-                    <td>${event.name}</td>
-                    <td>${event.description}</td>
-                    <td>${event.address.city}</td>
-                    <td>${event.startDate}</td>
-                    <td>${event.endDate}</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-block btn-large">Détail</a>
-                    </td>
-                </tr>
+                    <add:event-line event="${event}"/>
                 </c:forEach>
             </table>
         </div>
