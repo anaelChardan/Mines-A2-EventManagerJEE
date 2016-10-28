@@ -41,7 +41,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="login-link" href="#">S'inscrire</a>
+                        <a class="login-link" href="<app:PathTag endpoint="/app/subscribe"/>">S'inscrire</a>
                     </div>
                     <div class="col-md-6">
                         <a class="login-link" href="#">Mot de passe perdu ?</a>

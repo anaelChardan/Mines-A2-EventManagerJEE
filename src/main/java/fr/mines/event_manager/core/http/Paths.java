@@ -14,6 +14,10 @@ public class Paths {
     {
         return new Route(Pattern.compile("/login"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
     }
+    public static final Route getSubscribe(ServletConsumer<WrappedServletAction> ServletConsumer)
+    {
+        return new Route(Pattern.compile("/subscribe"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
+    }
     public static final Route getHome(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }

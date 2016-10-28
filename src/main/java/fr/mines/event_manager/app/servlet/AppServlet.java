@@ -4,6 +4,9 @@ import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.validator.ValidatorProcessor;
+import fr.mines.event_manager.user.entity.User;
+import fr.mines.event_manager.user.manager.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +15,13 @@ import java.util.*;
 
 @WebServlet(name = "AppServlet", urlPatterns = {"/app/*"})
 public class AppServlet extends BaseServlet {
+    UserManager manager = UserManager.getInstance();
+
     @Override
     protected Set<Route> initGetRoutes() {
         Set<Route> routes = new HashSet<>();
         routes.add(Paths.getLogin(this::login));
+        routes.add(Paths.getSubscribe(this::subscribe));
         return routes;
     }
 
@@ -32,7 +38,22 @@ public class AppServlet extends BaseServlet {
         if (null != path && !("/".equals(path)))
             action.getRequest().setAttribute("errorMessages", Collections.singletonMap("","Vous devez être connecté pour accèder à la page demandée"));
         this.render("login.jsp", action);
+    }
 
+    public void subscribe(WrappedServletAction action) throws ServletException, IOException {
+        this.render("subscribe.jsp", action);
+    }
+
+    public void subscribePost(WrappedServletAction action) throws ServletException, IOException {
+        User user = manager.create(action.getRequest());
+        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(user);
+        action.getRequest().setAttribute("errorMessages", errors);
+        if (!errors.isEmpty()) {
+            action.getRequest().setAttribute("user", user);
+            this.render("/app/subscribe.jsp", action);
+            return;
+        }
+        this.redirect(action.getResponse(), "/app/login");
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {

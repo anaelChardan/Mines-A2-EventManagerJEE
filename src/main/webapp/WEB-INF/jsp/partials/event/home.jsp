@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-8">
             <h4>Mes prochains événements</h4>
-            <table class="table col-md-8 palette-silver" style="border-radius:6px">
+            <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
                 <thead>
                 <th>Titre</th>
                 <th>Description</th>

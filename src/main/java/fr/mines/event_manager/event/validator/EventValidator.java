@@ -12,8 +12,6 @@ import java.util.Optional;
 public class EventValidator extends AbstractValidator<Event> {
     @Override
     public Map<String, String> isValid(Event entity) {
-        System.out.println("COOUCOU JE SUIS DANS LEVENT VALIDATOR");
-
         HashMap<String,String> errMap = new HashMap<>();
 
         if (null == entity.getName() || entity.getName().isEmpty())
