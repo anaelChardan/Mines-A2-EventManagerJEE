@@ -27,21 +27,22 @@ public class AppServlet extends BaseServlet {
     }
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
+        String path = action.getRequest().getParameter("path");
+        action.getRequest().setAttribute("PathFrom",path);
+        if (null != path && !("/".equals(path)))
+            action.getRequest().setAttribute("errorMessages", Collections.singletonMap("","Vous devez être connecté pour accèder à la page demandée"));
         this.render("login.jsp", action);
 
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-            System.out.println("Il se connecte bien");
-//            action.getResponse().sendRedirect("/eventmanager/");
-            this.render("home.jsp", action);
+            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/" : action.getRequest().getParameter("from");
+            this.redirect(action.getResponse(),path);
             return;
         }
-        System.out.println("Mauvais identifiants");
         String errorMessage = "L'adresse mail et/ou le mot de passe ne sont pas valides";
         action.getRequest().setAttribute("errorMessages", Collections.singletonMap("",errorMessage));
-//        this.redirect(action.getResponse(),"/app/login");
         this.render("login.jsp", action);
     }
 }

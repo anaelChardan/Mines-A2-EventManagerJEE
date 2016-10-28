@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 
 @WebServlet(name = "EventServlet", urlPatterns = {"/event/*"})
@@ -27,7 +28,6 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.getIndexEvent(this::index));
         routes.add(Paths.getOneEvent(this::showOne));
         routes.add(Paths.getCreateEvent(this::newEventForm));
-
         return routes;
     }
 
@@ -42,23 +42,23 @@ public class EventServlet extends BaseServlet {
     }
 
     protected void index(WrappedServletAction action) throws IOException, ServletException {
-        User currentUser                =  UserProvider.getCurrentUser(action.getRequest());
+        User currentUser = UserProvider.getCurrentUser(action.getRequest());
 
-        List<Event> eventsSubscribable  = manager.getRepository().getEventsSubscribableSortedByDate(currentUser);
-        List<Event> eventsSubscribed    = manager.getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
-        List<Event> authoredEvent       = manager.getRepository().getEventsCreatedByUserSortedByDate(currentUser);
+        List<Event> eventsSubscribed = manager.getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
+        List<Event> eventsNotPassed = manager.getRepository().getEventsNotPassed();
+        List<Event> eventsPassed = manager.getRepository().getEventsPassed();
 
-        action.getRequest().setAttribute("eventsSubscribable", eventsSubscribable);
         action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
-        action.getRequest().setAttribute("authoredEvents", authoredEvent);
+        action.getRequest().setAttribute("eventsNotPassed",eventsNotPassed);
+        action.getRequest().setAttribute("eventsPassed",eventsPassed);
 
-        this.render("/event/index.jsp", action);
+        this.render("/event/home.jsp", action);
     }
 
     protected void subscribeToEvent(WrappedServletAction action) throws IOException {
         Integer id = Integer.parseInt(action.getParameters().get("id"));
         manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
-        this.redirect(action.getResponse(), "/event/"+id);
+        this.redirect(action.getResponse(), "/event/" + id);
     }
 
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
@@ -77,21 +77,10 @@ public class EventServlet extends BaseServlet {
     }
 
     protected void newEventForm(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
         this.render("/event/create.jsp", action);
     }
 
     protected void eventPost(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
-
         Event event = manager.create(action.getRequest());
 
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);

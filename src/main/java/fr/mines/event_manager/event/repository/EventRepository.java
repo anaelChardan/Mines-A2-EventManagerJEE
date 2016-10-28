@@ -6,10 +6,13 @@ import fr.mines.event_manager.framework.repository.CRUDManager;
 import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.user.entity.User;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CommonAbstractCriteria;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class EventRepository extends CRUDManager<Event> {
@@ -77,6 +80,40 @@ public class EventRepository extends CRUDManager<Event> {
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
 
         return getEntityManager().createQuery(criteriaQuery).getResultList();
+    }
+
+    public List<Event> getEventsNotPassed()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date dayDate = new Date();
+        String now = sdf.format(dayDate);
+        try {
+            dayDate = sdf.parse(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String queryStr = "SELECT e FROM Event e WHERE e.startDate > :dayDate order by e.startDate";
+        Query query = getEntityManager().createQuery(queryStr);
+        query.setParameter("dayDate",dayDate);
+        List<Event> eventsPassed = query.getResultList();
+        return eventsPassed;
+    }
+
+    public List<Event> getEventsPassed()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date dayDate = new Date();
+        String now = sdf.format(dayDate);
+        try {
+            dayDate = sdf.parse(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String queryStr = "SELECT e FROM Event e WHERE e.endDate <= :dayDate order by e.startDate";
+        Query query = getEntityManager().createQuery(queryStr);
+        query.setParameter("dayDate",dayDate);
+        List<Event> eventsNotPassed = query.getResultList();
+        return eventsNotPassed;
     }
 
     protected Predicate getPredicateIsMember(Root<Event> root, String fieldName, Object concerned)

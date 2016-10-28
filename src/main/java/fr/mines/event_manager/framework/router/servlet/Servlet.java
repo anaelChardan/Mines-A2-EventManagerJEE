@@ -2,15 +2,12 @@ package fr.mines.event_manager.framework.router.servlet;
 
 import fr.mines.event_manager.framework.router.http.ComputedRoute;
 import fr.mines.event_manager.framework.router.http.HttpWords;
-import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.Map;
 import java.util.Optional;
 
 public abstract class Servlet extends RoutedServlet {
@@ -42,25 +39,22 @@ public abstract class Servlet extends RoutedServlet {
 
         ComputedRoute computedRoute = entry.get();
 
-        computedRoute.consume(new WrappedServletAction(request, response, computedRoute.getParameters()));
-
-//        this.introspectMethod(computedRoute, request, response);
-
-//        switch (computedRoute.getProtectionLevel())
-//        {
-//            case NONE:
-//                this.introspectMethod(computedRoute, request, response);
-//                break;
-//            case CONNECTED:
-//                this.redirectConnectedProtectionRoute(method, request, response, computedRoute);
-//                break;
-//            case PROPRIETARY:
-//                this.redirectProprietaryProtectionRoute(method, request, response, computedRoute);
-//                break;
-//        }
+        WrappedServletAction action = new WrappedServletAction(request,response,computedRoute.getParameters());
+        switch (computedRoute.getProtectionLevel())
+        {
+            case NONE:
+                computedRoute.consume(action);
+                break;
+            case CONNECTED:
+                this.redirectConnectedProtectionRoute(action,computedRoute);
+                break;
+            case PROPRIETARY:
+                this.redirectProprietaryProtectionRoute(action,computedRoute);
+                break;
+        }
     }
 
-    protected abstract void redirectConnectedProtectionRoute(HttpWords method,HttpServletRequest request, HttpServletResponse response, ComputedRoute route) throws IOException;
+    protected abstract void redirectConnectedProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException;
 
-    protected abstract void redirectProprietaryProtectionRoute(HttpWords method,HttpServletRequest request, HttpServletResponse response, ComputedRoute route);
+    protected abstract void redirectProprietaryProtectionRoute(WrappedServletAction action, ComputedRoute route);
 }

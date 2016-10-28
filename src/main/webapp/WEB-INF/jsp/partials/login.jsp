@@ -34,6 +34,7 @@
                             Se souvenir de moi
                         </label>
                     </div>
+                    <input type="hidden" name="from" value="${PathFrom}"/>
                     <input class="btn btn-info btn-lg btn-block" type="submit" value="Connexion"/>
                 </form>
 
