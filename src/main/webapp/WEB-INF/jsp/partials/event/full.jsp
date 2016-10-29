@@ -1,5 +1,6 @@
 <%@ taglib prefix="add" uri="application" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="app" uri="application" %>
 <%@ page contentType="text/html; UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <div class="container-fluid" style="background-color:#e9e9e9">
@@ -61,8 +62,11 @@
                         <button type="submit" value="publish" name="action" class="pull-right btn btn-info" style="margin-right:20px">Publier</button>
                         <button type="submit" value="modify" name="action" class="pull-right btn btn-info" style="margin-right:20px">Modifier</button>
                     </c:if>
-                    <c:if test="${event.published}">
+                    <c:if test="${(event.published)}">
                         <button type="submit" value="subscribe" class="pull-right btn btn-info" style="margin-right:20px">S'inscrire</button>
+                    </c:if>
+                    <c:if test="${event.subscribers.contains(userConnected)}">
+                        <button type="submit" value="subscribe" class="pull-right btn disabled" style="margin-right:20px; background-color: #27ad60">Déjà inscrit</button>
                     </c:if>
                 </div>
             </form>

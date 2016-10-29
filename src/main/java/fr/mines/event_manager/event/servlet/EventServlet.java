@@ -141,7 +141,7 @@ public class EventServlet extends BaseServlet {
             this.render("/event/full.jsp", action);
         }
         if(act.equals("modify")){
-
+            this.render("/event/edit.jsp", action);
         }
 
     }
