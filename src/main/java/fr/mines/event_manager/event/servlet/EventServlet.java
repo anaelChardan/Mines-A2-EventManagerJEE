@@ -28,6 +28,7 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.getIndexEvent(this::index));
         routes.add(Paths.getOneEvent(this::showOne));
         routes.add(Paths.getCreateEvent(this::newEventForm));
+        routes.add(Paths.getEditEvent(this::edit));
         return routes;
     }
 
@@ -37,6 +38,7 @@ public class EventServlet extends BaseServlet {
 
         routes.add(Paths.postCreateEvent(this::eventPost));
         routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
+        routes.add(Paths.postEditEvent(this::editPost));
 
         return routes;
     }
@@ -49,8 +51,8 @@ public class EventServlet extends BaseServlet {
         List<Event> eventsPassed = manager.getRepository().getEventsPassed();
 
         action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
-        action.getRequest().setAttribute("eventsNotPassed",eventsNotPassed);
-        action.getRequest().setAttribute("eventsPassed",eventsPassed);
+        action.getRequest().setAttribute("eventsNotPassed", eventsNotPassed);
+        action.getRequest().setAttribute("eventsPassed", eventsPassed);
 
         this.render("/event/home.jsp", action);
     }
@@ -90,8 +92,23 @@ public class EventServlet extends BaseServlet {
             this.render("/event/create.jsp", action);
             return;
         }
-
         this.redirect(action.getResponse(), "/event/" + manager.persist(event).getId());
+    }
+
+    protected void edit(WrappedServletAction action) throws ServletException, IOException {
+        this.render("/event/edit.jsp", action);
+    }
+
+    protected void editPost(WrappedServletAction action) throws ServletException, IOException {
+        Event event = manager.create(action.getRequest());
+        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
+        action.getRequest().setAttribute("errorMessages", errors);
+        if (!errors.isEmpty()) {
+            action.getRequest().setAttribute("event", event);
+            this.render("/event/edit.jsp", action);
+            return;
+        }
+        this.redirect(action.getResponse(), "/event/" + manager.update(event).getId());
     }
 
 }
