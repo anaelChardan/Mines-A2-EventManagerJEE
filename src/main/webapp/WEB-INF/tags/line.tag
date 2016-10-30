@@ -1,5 +1,7 @@
 <%@ taglib prefix="add" uri="application" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ tag pageEncoding="UTF-8"%>
+
 <%--<%@ taglib prefix="part" uri="partials" %>--%>
 <%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>--%>
 <%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>

@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 @WebServlet(name = "EventServlet", urlPatterns = {"/event/*"})
@@ -40,6 +39,7 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.postCreateEvent(this::eventPost));
         routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
         routes.add(Paths.postEditEvent(this::editPost));
+        routes.add(Paths.postActionEvent(this::actionEvent));
 
         return routes;
     }
@@ -72,9 +72,12 @@ public class EventServlet extends BaseServlet {
             return;
         }
 
+        User usr = UserProvider.getCurrentUser(action.getRequest());
+
         Event event = eventOptional.get();
         action.getRequest().setAttribute("event", event);
         action.getRequest().setAttribute("isSubscribable", event.isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
+        action.getRequest().setAttribute("userConnected", usr);
 
         this.render("/event/full.jsp", action);
     }
@@ -93,7 +96,7 @@ public class EventServlet extends BaseServlet {
             this.render("/event/create.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
             return;
         }
-        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été crée"));
+        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été créé"));
     }
 
     protected void edit(WrappedServletAction action) throws ServletException, IOException {
@@ -113,4 +116,28 @@ public class EventServlet extends BaseServlet {
         this.redirect(action, "/event/" + manager.update(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été édité"));
     }
 
+   protected void actionEvent(WrappedServletAction action) throws ServletException, IOException {
+
+        String act = action.getRequest().getParameter("action");
+        Integer eventId = Integer.parseInt(action.getParameters().get("id"));
+        Event event = manager.find(eventId).get();
+
+       if(act.equals("cancel")){
+            manager.getRepository().delete(eventId);
+            this.render("/event/index.jsp", action);
+        }
+        if(act.equals("subscribe")){
+            manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()),eventId);
+            this.render("/event/full.jsp", action);
+        }
+        if(act.equals("publish")){
+            event.setPublished(true);
+            manager.update(event);
+            this.render("/event/full.jsp", action);
+        }
+        if(act.equals("modify")){
+            this.render("/event/edit.jsp", action);
+        }
+
+    }
 }

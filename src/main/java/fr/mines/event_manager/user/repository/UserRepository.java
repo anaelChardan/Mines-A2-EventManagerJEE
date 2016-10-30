@@ -5,3 +5,4 @@ import fr.mines.event_manager.user.entity.User;
 
 public class UserRepository extends CRUDManager<User> {
 }
+
