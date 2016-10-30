@@ -1,7 +1,7 @@
 package fr.mines.event_manager.event.repository;
 
 import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.home_made_framework.repository.CRUDManager;
+import fr.mines.event_manager.framework.repository.CRUDManager;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.persistence.criteria.*;
@@ -20,7 +20,7 @@ public class EventRepository extends CRUDManager<Event> {
         Predicate notAuthor = cb.notEqual(root.join("author").get("id"),user.getId());
         criteriaQuery.where(cb.and(inProgress, published, member, notAuthor));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
 
     }
 
@@ -34,7 +34,7 @@ public class EventRepository extends CRUDManager<Event> {
         Predicate notAuthor = cb.notEqual(root.join("author").get("id"),user.getId());
         criteriaQuery.where(cb.and(passed,published,notAuthor));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
     // PARTIE PROFILE UTILISATEUR
@@ -48,7 +48,7 @@ public class EventRepository extends CRUDManager<Event> {
         Predicate author = cb.equal(root.get("author"),user);
         criteriaQuery.where(cb.and(inProgress, author));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
 
     }
 
@@ -61,7 +61,7 @@ public class EventRepository extends CRUDManager<Event> {
         Predicate author = cb.equal(root.get("author"),user);
         criteriaQuery.where(cb.and(inProgress, author));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
 
     }
 
@@ -76,12 +76,6 @@ public class EventRepository extends CRUDManager<Event> {
 //        Predicate notAuthor = cb.notEqual(root.get("author"),user);
         criteriaQuery.where(cb.and(past, published,member));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return entityManager.createQuery(criteriaQuery).getResultList();
-
+        return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
-
-
-
-
-
 }

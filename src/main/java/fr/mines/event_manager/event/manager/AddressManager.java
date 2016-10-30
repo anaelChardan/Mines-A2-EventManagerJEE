@@ -1,7 +1,7 @@
 package fr.mines.event_manager.event.manager;
 
 import fr.mines.event_manager.event.entity.Address;
-import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
+import fr.mines.event_manager.framework.manager.BaseEntityManager;
 
 import javax.servlet.http.HttpServletRequest;
 

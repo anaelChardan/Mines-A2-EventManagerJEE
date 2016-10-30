@@ -2,12 +2,13 @@ package fr.mines.event_manager.core.servlet;
 
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.manager.EventManager;
-import fr.mines.event_manager.home_made_framework.router.http.ComputedRoute;
-import fr.mines.event_manager.home_made_framework.router.servlet.Servlet;
-import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
-import fr.mines.event_manager.home_made_framework.security.UserProvider;
-import fr.mines.event_manager.home_made_framework.session.SessionManager;
-import fr.mines.event_manager.home_made_framework.utils.Alert;
+import fr.mines.event_manager.framework.repository.JPAEntityManagerWrapper;
+import fr.mines.event_manager.framework.router.http.ComputedRoute;
+import fr.mines.event_manager.framework.router.servlet.Servlet;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.framework.session.SessionManager;
+import fr.mines.event_manager.framework.utils.Alert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -102,5 +103,11 @@ public class BaseServlet extends Servlet {
 
     protected void redirect(WrappedServletAction action, String endPoint) throws IOException {
         redirect(action, endPoint, null);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        JPAEntityManagerWrapper.getInstance().close();
     }
 }

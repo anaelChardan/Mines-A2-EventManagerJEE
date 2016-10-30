@@ -1,8 +1,8 @@
 package fr.mines.event_manager.event.validator;
 
 import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.home_made_framework.validator.AbstractValidator;
-import fr.mines.event_manager.home_made_framework.validator.ValidatorProcessor;
+import fr.mines.event_manager.framework.validator.AbstractValidator;
+import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 
 import java.util.Date;
 import java.util.HashMap;

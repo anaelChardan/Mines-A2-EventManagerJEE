@@ -1,6 +1,6 @@
 package fr.mines.event_manager.event.entity;
 
-import fr.mines.event_manager.home_made_framework.entity.AbstractSelfManagedEntity;
+import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.persistence.*;
@@ -102,6 +102,10 @@ public class Event extends AbstractSelfManagedEntity implements Serializable{
         return maxTickets;
     }
 
+    public Integer getRemainingPlaces() {
+        return maxTickets - this.subscribers.size();
+    }
+
     public Event setMaxTickets(Integer maxTickets) {
         this.maxTickets = maxTickets;
         return this;
@@ -171,8 +175,13 @@ public class Event extends AbstractSelfManagedEntity implements Serializable{
         return this.subscribers.stream().anyMatch(e -> e.getId().equals(user.getId()));
     }
 
+    public boolean isRemovable(User user)
+    {
+        return isAuthor(user) && !(endDate.before(new Date()));
+    }
+
     public boolean isSubscribable(User user)
     {
-        return !isAuthor(user) && !isASubscriber(user);
+        return !isAuthor(user) && !isASubscriber(user) && getRemainingPlaces() != 0 && !(endDate.before(new Date()));
     }
 }

@@ -1,8 +1,8 @@
 package fr.mines.event_manager.core.http;
 
-import fr.mines.event_manager.home_made_framework.router.http.Route;
-import fr.mines.event_manager.home_made_framework.router.utils.ServletConsumer;
-import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.framework.router.http.Route;
+import fr.mines.event_manager.framework.router.utils.ServletConsumer;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 
 import java.util.regex.Pattern;
 

@@ -1,16 +1,13 @@
 package fr.mines.event_manager.user.manager;
 
 
-import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
-import fr.mines.event_manager.home_made_framework.repository.utils.Field;
+import fr.mines.event_manager.framework.manager.BaseEntityManager;
+import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-/**
- * Created by Damien on 24/10/2016.
- */
 public class UserManager implements BaseEntityManager<User> {
 
     private static UserManager instance = null;
@@ -61,10 +58,4 @@ public class UserManager implements BaseEntityManager<User> {
     public UserRepository getRepository() {
         return this.repository;
     }
-
-    public void close()
-    {
-        repository.close();
-    }
-
 }

@@ -2,8 +2,8 @@ package fr.mines.event_manager.event.manager;
 
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.repository.EventRepository;
-import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
-import fr.mines.event_manager.home_made_framework.security.UserProvider;
+import fr.mines.event_manager.framework.manager.BaseEntityManager;
+import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,10 +111,6 @@ public class EventManager implements BaseEntityManager<Event> {
         }
 
         repository.update(event.removeSubscriber(currentUser));
-    }
-
-    public void close() {
-        this.repository.close();
     }
 
     public boolean delete(Event event) {

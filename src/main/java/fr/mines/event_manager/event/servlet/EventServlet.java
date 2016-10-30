@@ -2,13 +2,13 @@ package fr.mines.event_manager.event.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.home_made_framework.router.http.Route;
+import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
-import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.event.manager.EventManager;
-import fr.mines.event_manager.home_made_framework.security.UserProvider;
-import fr.mines.event_manager.home_made_framework.utils.Alert;
-import fr.mines.event_manager.home_made_framework.validator.ValidatorProcessor;
+import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.framework.utils.Alert;
+import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;
@@ -27,6 +27,7 @@ public class EventServlet extends BaseServlet {
         routes.add(Paths.getOneEvent(this::showOne));
         routes.add(Paths.getCreateEvent(this::newEventForm));
         routes.add(Paths.getEditEvent(this::edit));
+
         return routes;
     }
 
@@ -67,11 +68,6 @@ public class EventServlet extends BaseServlet {
         }
 
         action.getRequest().setAttribute("event", eventOptional.get());
-        action.getRequest().setAttribute("isSubscribable", eventOptional.get().isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
-        action.getRequest().setAttribute("isSubscriber", eventOptional.get().isASubscriber(UserProvider.getCurrentUser(action.getRequest())));
-        action.getRequest().setAttribute("isPublished", eventOptional.get().getPublished());
-        action.getRequest().setAttribute("isAuthor", eventOptional.get().isAuthor(UserProvider.getCurrentUser(action.getRequest())));
-
         this.render("/event/full.jsp", action);
     }
 
@@ -157,11 +153,5 @@ public class EventServlet extends BaseServlet {
         Integer id = Integer.parseInt(action.getParameters().get("id"));
         EventManager.getInstance().removeUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
         this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien désinscrit de l'évènement"));
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        EventManager.getInstance().close();
     }
 }
