@@ -56,8 +56,9 @@ public abstract class Servlet extends RoutedServlet {
 
     protected String extractPath(HttpServletRequest request)
     {
-        if (request.getPathInfo() == null) {
-            return request.getRequestURI();
+        if (request.getPathInfo() == null)
+        {
+            return request.getRequestURI().replace(getServletContext().getContextPath(), "");
         }
 
         return request.getPathInfo();
