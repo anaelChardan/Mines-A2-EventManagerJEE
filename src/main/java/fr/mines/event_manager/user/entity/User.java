@@ -3,10 +3,12 @@ package fr.mines.event_manager.user.entity;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = User.tableName)
-public class User extends AbstractUser {
+public class User extends AbstractUser implements Serializable{
+
     final static String tableName = "user";
 
     @Id

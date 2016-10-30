@@ -114,24 +114,6 @@ public class EventManager implements BaseEntityManager<Event> {
         repository.update(event.removeSubscriber(currentUser));
     }
 
-    public Map<String, List<Event>> getEventsCreatedByUserSortedByDate(User user)
-    {
-        Map<String, List<Event>> events = new HashMap<>();
-        List<Event> eventsNotParted = this.repository.getEventsCreatedByUserSortedByDate(user);
-        Map<Boolean, List<Event>> partitionnedList = eventsNotParted
-                .stream()
-                .collect(
-                    Collectors.partitioningBy(e -> e.getStartDate().before(new Date()) )
-                );
-
-        events.put("past", partitionnedList.get(true));
-        events.put("future_or_in_progress", partitionnedList.get(false));
-
-        return events;
-    }
-
-
-
     public void close()
     {
         this.repository.close();

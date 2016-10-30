@@ -46,12 +46,12 @@ public class EventServlet extends BaseServlet {
     protected void index(WrappedServletAction action) throws IOException, ServletException {
         User currentUser = UserProvider.getCurrentUser(action.getRequest());
 
-        List<Event> eventsSubscribed = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
-        List<Event> eventsNotPassed = EventManager.getInstance().getRepository().getEventsNotPassed();
-        List<Event> eventsPassed = EventManager.getInstance().getRepository().getEventsPassed();
+        List<Event> eventsInProgressSubscribed = EventManager.getInstance().getRepository().getNextOrInProgressParticipations(currentUser,true);
+        List<Event> eventsInProgressNotSubscribed = EventManager.getInstance().getRepository().getNextOrInProgressParticipations(currentUser,false);
+        List<Event> eventsPassed = EventManager.getInstance().getRepository().getEventsPassed(currentUser);
 
-        action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
-        action.getRequest().setAttribute("eventsNotPassed", eventsNotPassed);
+        action.getRequest().setAttribute("eventsInProgressSubscribed", eventsInProgressSubscribed);
+        action.getRequest().setAttribute("eventsInProgressNotSubscribed", eventsInProgressNotSubscribed);
         action.getRequest().setAttribute("eventsPassed", eventsPassed);
 
         this.render("/event/home.jsp", action);
@@ -67,7 +67,7 @@ public class EventServlet extends BaseServlet {
 
         action.getRequest().setAttribute("event", eventOptional.get());
         action.getRequest().setAttribute("isSubscribable", eventOptional.get().isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
-
+        action.getRequest().setAttribute("isSubscriber",eventOptional.get().isASubscriber(UserProvider.getCurrentUser(action.getRequest())));
         this.render("/event/full.jsp", action);
     }
 

@@ -4,11 +4,12 @@ import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = Event.tableName)
-public class Event extends AbstractSelfManagedEntity {
+public class Event extends AbstractSelfManagedEntity implements Serializable{
     final static String tableName = "event";
 
     @Id

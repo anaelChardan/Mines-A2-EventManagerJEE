@@ -26,17 +26,17 @@ public class UserServlet extends BaseServlet {
     }
 
     protected void profile(WrappedServletAction action) throws IOException, ServletException {
-        User usr = UserProvider.getCurrentUser(action.getRequest());
-        List<Event> listPastEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateBeforeNow(usr);
-        List<Event> listFutureEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateAfterNow(usr);
-        Map<String, List<Event>> listAuthoredEvent = EventManager.getInstance().getEventsCreatedByUserSortedByDate(usr);
+        User currentUser = UserProvider.getCurrentUser(action.getRequest());
 
-        action.getRequest().setAttribute("user", usr);
-        action.getRequest().setAttribute("pastEventAuthored", listAuthoredEvent.get("past"));
-        action.getRequest().setAttribute("futureEventAuthored", listAuthoredEvent.get("future"));
-        action.getRequest().setAttribute("pastEventSubscribed", listPastEvent);
-        action.getRequest().setAttribute("futureEventSubscribed", listFutureEvent);
-        this.render("user/consult.jsp", action);
+        List<Event> listFutureEvent = EventManager.getInstance().getRepository().getNextOrInProgressEvents(currentUser);
+        List<Event> listPastEvent = EventManager.getInstance().getRepository().getPastEvents(currentUser);
+        List<Event> listPastParticipations = EventManager.getInstance().getRepository().getPastParticipations(currentUser);
+
+
+        action.getRequest().setAttribute("listFutureEvent", listFutureEvent);
+        action.getRequest().setAttribute("listPastEvent", listPastEvent);
+        action.getRequest().setAttribute("listPastParticipations", listPastParticipations);
+        this.render("user/profile.jsp", action);
 
     }
 }

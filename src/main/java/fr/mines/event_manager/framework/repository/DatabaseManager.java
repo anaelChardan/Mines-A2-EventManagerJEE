@@ -135,6 +135,16 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
         return this.entityManager.createQuery((((CriteriaQuery<T>) entry.getValue())));
     }
 
+    protected Predicate getPredicateIsMember(Root<Event> root, String fieldName, Object concerned, boolean isMember)
+    {
+        return isMember ? cb.isMember(concerned, root.get(fieldName)) : cb.isNotMember(concerned,root.get(fieldName));
+    }
+
+    protected Predicate getPredicateEqual(Root<Event> root, String fieldName, Object concerned, boolean isEqual)
+    {
+        return isEqual ? cb.equal(root.get(fieldName), concerned) : cb.notEqual(root.get(fieldName),concerned);
+    }
+
     protected void populate() {
         SimpleDateFormat sdf = new SimpleDateFormat();
         User anael = (new User())
@@ -209,7 +219,7 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
 
         Event event4 = (new Event())
                 .setAddress(address)
-                .setAuthor(anael)
+                .setAuthor(damien)
                 .setName("Event futur créé par damien et publié")
                 .setDescription("Anael doit s'inscrire")
                 .setStartDate(Date.from(LocalDate.now().plusDays(10).atTime(18,0).toInstant(ZoneOffset.UTC)))
@@ -232,7 +242,11 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
                 .addSubscribers(flora)
                 .addSubscribers(damien);
 
-
+        events.add(event1);
+        events.add(event2);
+        events.add(event3);
+        events.add(event4);
+        events.add(event5);
         this.entityManager.getTransaction().begin();
         events.forEach(e -> this.entityManager.persist(e));
         this.entityManager.getTransaction().commit();

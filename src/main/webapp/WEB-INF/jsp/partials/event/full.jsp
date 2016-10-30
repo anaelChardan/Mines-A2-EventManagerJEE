@@ -9,28 +9,32 @@
 
     <div class="row col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3" style="margin-bottom:50px">
         <h3 class="text-center">${event.name}</h3>
-            <c:choose>
-                <c:when test="${event.isASubscriber(CURRENT_USER)}">
-                    <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/unsubscribe">
-                        <button type="submit" value="unsubscribe" class="pull-right btn-warning">Me désinscrire</button>
-                    </form>
-                </c:when>
-                <c:otherwise>
-                    <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/subscribe">
-                        <button type="submit" value="subscribe" class="pull-right btn-primary">M'inscrire</button>
-                    </form>
-                </c:otherwise>
-            </c:choose>
-            <c:if test="${event.author == CURRENT_USER}">
-                <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">
-                    <button type="submit" value="delete" class="pull-right btn-danger">Supprimer l'événement</button>
-                </form>
-            </c:if>
-            <c:if test="${event.author == CURRENT_USER}">
-                <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">
-                    <button type="submit" value="delete" class="pull-right btn-danger">Supprimer l'événement</button>
-                </form>
-            </c:if>
+        <c:choose>
+            <c:when test="${isSubscribable}">
+                <c:choose>
+                    <c:when test="${isSubscriber}">
+                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/unsubscribe">
+                            <button type="submit" value="unsubscribe" class="pull-right btn-warning">Me désinscrire</button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/subscribe">
+                            <button type="submit" value="subscribe" class="pull-right btn-primary">M'inscrire</button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+        </c:choose>
+            <%--<c:if test="${event.author == CURRENT_USER}">--%>
+                <%--<form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">--%>
+                    <%--<button type="submit" value="delete" class="pull-right btn-danger">Supprimer l'événement</button>--%>
+                <%--</form>--%>
+            <%--</c:if>--%>
+            <%--<c:if test="${event.author == CURRENT_USER}">--%>
+                <%--<form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">--%>
+                    <%--<button type="submit" value="delete" class="pull-right btn-danger">Supprimer l'événement</button>--%>
+                <%--</form>--%>
+            <%--</c:if>--%>
     </div>
 
     <div class="row col-md-12">
@@ -57,7 +61,7 @@
     </div>
 
     <div class="row col-md-12">
-        <c:if test="${event.author == CURRENT_USER}">
+        <c:if test="${event.isAuthor(CURRENT_USER)}">
             <table class="table">
                 <caption>
                     <h4 class="text-left">Liste des participants <span class="badge">${fn:length(event.subscribers)}</span></h4>

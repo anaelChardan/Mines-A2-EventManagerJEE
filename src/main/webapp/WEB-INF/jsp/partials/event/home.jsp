@@ -16,7 +16,7 @@
                 <th>Date de fin</th>
                 <th>Détail</th>
                 </thead>
-                <c:forEach items="${eventsSubscribed}" var="event">
+                <c:forEach items="${eventsInProgressSubscribed}" var="event">
                     <add:event-line event="${event}"/>
                 </c:forEach>
             </table>
@@ -35,7 +35,7 @@
                 <th>Date de fin</th>
                 <th>Détail</th>
                 </thead>
-                <c:forEach items="${eventsNotPassed}" var="event">
+                <c:forEach items="${eventsInProgressNotSubscribed}" var="event">
                     <add:event-line event="${event}"/>
                 </c:forEach>
             </table>

@@ -12,13 +12,13 @@
     <div class="row col-md-10">
         <dl class="dl-horizontal col-md-9">
             <dt>Société :</dt>
-            <dd>${user.company}</dd>
+            <dd>${CURRENT_USER.company}</dd>
             <dt>Nom :</dt>
-            <dd>${user.lastName}</dd>
+            <dd>${CURRENT_USER.lastName}</dd>
             <dt>Prénom :</dt>
-            <dd>${user.firstName}</dd>
+            <dd>${CURRENT_USER.firstName}</dd>
             <dt>Email :</dt>
-            <dd>${user.email}</dd>
+            <dd>${CURRENT_USER.email}</dd>
         </dl>
     </div>
     <div class="row col-md-12">
@@ -33,11 +33,12 @@
                 <th class="col-md-2 text-left">Lieu</th>
                 <th class="col-md-2 text-left">Date début</th>
                 <th class="col-md-2 text-left">Date fin</th>
+                <th class="col-md-2 text-left">Publié</th>
                 <th class="col-md-2 text-left">Détail</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${futureEventAuthored}" var="event">
+            <c:forEach items="${listFutureEvent}" var="event">
                 <add:event-line event="${event}"/>
             </c:forEach>
             </tbody>
@@ -55,11 +56,12 @@
                 <th class="col-md-2 text-left">Lieu</th>
                 <th class="col-md-2 text-left">Date début</th>
                 <th class="col-md-2 text-left">Date fin</th>
+                <th class="col-md-2 text-left">Publié</th>
                 <th class="col-md-2 text-left">Détail</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${pastEventAuthored}" var="event">
+            <c:forEach items="${listPastEvent}" var="event">
                 <add:event-line event="${event}"/>
             </c:forEach>
             </tbody>
@@ -77,11 +79,12 @@
                 <th class="col-md-2 text-left">Lieu</th>
                 <th class="col-md-2 text-left">Date début</th>
                 <th class="col-md-2 text-left">Date fin</th>
+                <th class="col-md-2 text-left">Publié</th>
                 <th class="col-md-2 text-left">Détail</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${pastEventSubscribed}" var="event">
+            <c:forEach items="${listPastParticipations}" var="event">
                 <part:event-line event="${event}"/>
             </c:forEach>
             </tbody>
