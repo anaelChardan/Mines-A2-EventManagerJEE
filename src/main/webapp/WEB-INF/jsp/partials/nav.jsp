@@ -11,7 +11,6 @@
                 <c:if test="${IS_LOGGED}">
                     <li><a href="<add:PathTag endpoint="/event/"/>">Les événements</a></li>
                     <li><a href="<add:PathTag endpoint="/event/new"/>">Nouvel événement</a></li>
-                    <li><a href="<add:PathTag endpoint="/user/profile"/>">Mon profil</a></li>
                 </c:if>
             </ul>
 
@@ -28,6 +27,9 @@
                             </a>
                             <!--<span class="dropdown-arrow"></span>-->
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<add:PathTag endpoint="/user/profile"/>">Mon profil</a>
+                                </li>
                                 <li>
                                     <a href="<add:PathTag endpoint="/app/logout"/>">Déconnexion</a>
                                 </li>
