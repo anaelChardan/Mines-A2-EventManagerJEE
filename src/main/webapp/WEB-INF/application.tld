@@ -22,12 +22,12 @@
 
     <tag-file>
         <name>event-full</name>
-        <path>/WEB-INF/tags/full.tag</path>
+        <path>/WEB-INF/tags/events/full.tag</path>
     </tag-file>
 
     <tag-file>
         <name>event-line</name>
-        <path>/WEB-INF/tags/line.tag</path>
+        <path>/WEB-INF/tags/events/line.tag</path>
     </tag-file>
 
 </taglib>

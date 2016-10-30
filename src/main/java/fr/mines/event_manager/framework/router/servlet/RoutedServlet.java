@@ -27,8 +27,6 @@ public abstract class RoutedServlet extends HttpServlet {
         this.patterns = new HashMap<HttpWords, Set<Route>>() {{
             put(HttpWords.GET, initGetRoutes());
             put(HttpWords.POST, initPostRoutes());
-            put(HttpWords.PUT, initPutRoutes());
-            put(HttpWords.DELETE, initDeleteRoutes());
         }};
     }
 
@@ -40,13 +38,6 @@ public abstract class RoutedServlet extends HttpServlet {
         return Collections.emptySet();
     }
 
-    protected Set<Route>initPutRoutes() {
-        return Collections.emptySet();
-    }
-
-    protected Set<Route> initDeleteRoutes() {
-        return Collections.emptySet();
-    }
 
     /**
      * Method to call from pattern
@@ -57,12 +48,6 @@ public abstract class RoutedServlet extends HttpServlet {
      * @return The method
      */
     protected Optional<ComputedRoute> getMethodToCallWithParameters(HttpWords method, String path) {
-
-        Object coucou = patterns
-                .get(method)
-                .stream()
-                .filter(e -> (e.getPattern().matcher(path).matches())).collect(Collectors.toList());
-
         return patterns
                 .get(method)
                 .stream()

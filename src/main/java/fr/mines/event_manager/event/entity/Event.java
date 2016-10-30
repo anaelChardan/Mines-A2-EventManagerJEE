@@ -153,6 +153,13 @@ public class Event extends AbstractSelfManagedEntity {
         return this;
     }
 
+    public Event removeSubscriber(User user)
+    {
+        this.subscribers.removeIf(e -> Objects.equals(user.getId(), e.getId()));
+
+        return this;
+    }
+
     public boolean isAuthor(User user)
     {
         return Objects.equals(getAuthor().getId(), user.getId());
@@ -160,7 +167,7 @@ public class Event extends AbstractSelfManagedEntity {
 
     public boolean isASubscriber(User user)
     {
-        return this.subscribers.stream().filter(e -> e.getId().equals(user.getId())).count() > 0;
+        return this.subscribers.stream().anyMatch(e -> e.getId().equals(user.getId()));
     }
 
     public boolean isSubscribable(User user)

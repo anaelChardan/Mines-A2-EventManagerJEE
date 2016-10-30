@@ -35,9 +35,10 @@ public class EventServlet extends BaseServlet {
         Set<Route> routes = new HashSet<>();
 
         routes.add(Paths.postCreateEvent(this::eventPost));
-        routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
-        routes.add(Paths.postEditEvent(this::editPost));
         routes.add(Paths.postActionEvent(this::actionEvent));
+        routes.add(Paths.postEditEvent(this::editPost));
+        routes.add(Paths.postSubscribeToEvent(this::subscribeToEvent));
+        routes.add(Paths.postUnsubscribeToEvent(this::unsubscribeToEvent));
 
         return routes;
     }
@@ -56,26 +57,16 @@ public class EventServlet extends BaseServlet {
         this.render("/event/home.jsp", action);
     }
 
-    protected void subscribeToEvent(WrappedServletAction action) throws IOException {
-        Integer id = Integer.parseInt(action.getParameters().get("id"));
-        EventManager.getInstance().addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
-        this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien inscrit à l'évènement"));
-    }
-
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
         Optional<Event> eventOptional = EventManager.getInstance().find(Integer.parseInt(action.getParameters().get("id")));
 
         if (!eventOptional.isPresent()) {
-            this.redirect(action, "/event");
+            this.redirect(action, "/event", new Alert(Alert.TYPE.DANGER, "L'événement que vous voulez consulter n'existe pas"));
             return;
         }
 
-        User usr = UserProvider.getCurrentUser(action.getRequest());
-
-        Event event = eventOptional.get();
-        action.getRequest().setAttribute("event", event);
-        action.getRequest().setAttribute("isSubscribable", event.isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
-        action.getRequest().setAttribute("userConnected", usr);
+        action.getRequest().setAttribute("event", eventOptional.get());
+        action.getRequest().setAttribute("isSubscribable", eventOptional.get().isSubscribable(UserProvider.getCurrentUser(action.getRequest())));
 
         this.render("/event/full.jsp", action);
     }
@@ -113,6 +104,19 @@ public class EventServlet extends BaseServlet {
 
         this.redirect(action, "/event/" + EventManager.getInstance().update(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été édité"));
     }
+
+    protected void subscribeToEvent(WrappedServletAction action) throws IOException {
+        Integer id = Integer.parseInt(action.getParameters().get("id"));
+        EventManager.getInstance().addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
+        this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien inscrit à l'évènement"));
+    }
+
+    protected void unsubscribeToEvent(WrappedServletAction action) throws IOException {
+        Integer id = Integer.parseInt(action.getParameters().get("id"));
+        EventManager.getInstance().removeUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
+        this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien désinscrit de l'évènement"));
+    }
+
 
    protected void actionEvent(WrappedServletAction action) throws ServletException, IOException {
 

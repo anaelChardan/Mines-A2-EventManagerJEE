@@ -9,8 +9,8 @@ import fr.mines.event_manager.user.entity.User;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Damien on 24/10/2016.
@@ -95,6 +95,42 @@ public class EventManager implements BaseEntityManager<Event> {
 
         repository.update(event.addSubscribers(currentUser));
     }
+
+    public void removeUserToEvent(User currentUser, int id) {
+        Optional<Event> eventOptionnal = repository.find(id);
+
+        if (!eventOptionnal.isPresent())
+        {
+            return;
+        }
+
+        Event event = eventOptionnal.get();
+
+        if (!event.isASubscriber(currentUser))
+        {
+            return;
+        }
+
+        repository.update(event.removeSubscriber(currentUser));
+    }
+
+    public Map<String, List<Event>> getEventsCreatedByUserSortedByDate(User user)
+    {
+        Map<String, List<Event>> events = new HashMap<>();
+        List<Event> eventsNotParted = this.repository.getEventsCreatedByUserSortedByDate(user);
+        Map<Boolean, List<Event>> partitionnedList = eventsNotParted
+                .stream()
+                .collect(
+                    Collectors.partitioningBy(e -> e.getStartDate().before(new Date()) )
+                );
+
+        events.put("past", partitionnedList.get(true));
+        events.put("future_or_in_progress", partitionnedList.get(false));
+
+        return events;
+    }
+
+
 
     public void close()
     {

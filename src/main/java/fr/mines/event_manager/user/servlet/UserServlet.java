@@ -29,10 +29,14 @@ public class UserServlet extends BaseServlet {
         User usr = UserProvider.getCurrentUser(action.getRequest());
         List<Event> listPastEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateBeforeNow(usr);
         List<Event> listFutureEvent = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDateAfterNow(usr);
+        Map<String, List<Event>> listAuthoredEvent = EventManager.getInstance().getEventsCreatedByUserSortedByDate(usr);
+
         action.getRequest().setAttribute("user", usr);
+        action.getRequest().setAttribute("pastEventAuthored", listAuthoredEvent.get("past"));
+        action.getRequest().setAttribute("futureEventAuthored", listAuthoredEvent.get("future"));
         action.getRequest().setAttribute("pastEventSubscribed", listPastEvent);
         action.getRequest().setAttribute("futureEventSubscribed", listFutureEvent);
-        this.render("user/consultUser.jsp", action);
+        this.render("user/consult.jsp", action);
 
     }
 }
