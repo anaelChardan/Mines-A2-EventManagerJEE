@@ -34,6 +34,10 @@ public class Paths {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
+    public static final Route getEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/edit"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+    }
+
     public static Route postSubscribeToEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/?<id>\\d+"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
@@ -54,7 +58,11 @@ public class Paths {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
-    public static Route postSubscribe(ServletConsumer<WrappedServletAction> ServletConsumer) {
+    public static final Route postSubscribe(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/subscribe"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
+    }
+
+    public static final Route postEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/edit"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 }

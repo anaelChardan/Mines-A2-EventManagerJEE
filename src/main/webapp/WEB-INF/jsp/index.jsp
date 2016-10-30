@@ -31,8 +31,11 @@
 <%@include file="partials/footer.jsp" %>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/flat-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/vendor/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/vendor/respond.min.js"></script>
+
 </body>
 </html>
