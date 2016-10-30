@@ -11,6 +11,8 @@
 
     <div class="row col-md-10">
         <dl class="dl-horizontal col-md-9">
+            <dt>Société :</dt>
+            <dd>${user.company}</dd>
             <dt>Nom :</dt>
             <dd>${user.lastName}</dd>
             <dt>Prénom :</dt>
