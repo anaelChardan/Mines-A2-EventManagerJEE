@@ -4,6 +4,7 @@ import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.security.UserProvider;
 import fr.mines.event_manager.framework.utils.Alert;
 import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
@@ -39,6 +40,11 @@ public class AppServlet extends BaseServlet {
      *********/
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
+        if (UserProvider.isConnected(action.getRequest()))
+        {
+            this.redirect(action, "/");
+            return;
+        }
         String path = action.getRequest().getParameter("path");
         action.getRequest().setAttribute("PathFrom", path);
         this.render("login.jsp", action);
