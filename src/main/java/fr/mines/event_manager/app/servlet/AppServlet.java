@@ -23,6 +23,7 @@ public class AppServlet extends BaseServlet {
     protected Set<Route> initGetRoutes() {
         Set<Route> routes = new HashSet<>();
         routes.add(Paths.getLogin(this::login));
+        routes.add(Paths.getLogout(this::logout));
         routes.add(Paths.getSubscribe(this::subscribe));
         return routes;
     }
@@ -48,6 +49,11 @@ public class AppServlet extends BaseServlet {
         String path = action.getRequest().getParameter("path");
         action.getRequest().setAttribute("PathFrom", path);
         this.render("login.jsp", action);
+    }
+
+    public void logout(WrappedServletAction action) throws ServletException, IOException {
+        UserProvider.trashSession(action.getRequest());
+        this.redirect(action,"/app/login",new Alert(Alert.TYPE.SUCCESS,"Déconnecté"));
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {

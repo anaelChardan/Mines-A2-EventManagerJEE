@@ -29,7 +29,7 @@
                             <!--<span class="dropdown-arrow"></span>-->
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<add:PathTag endpoint="/logout"/>">COUCOU</a>
+                                    <a href="<add:PathTag endpoint="/app/logout"/>">Déconnexion</a>
                                 </li>
                             </ul>
                         </li>
