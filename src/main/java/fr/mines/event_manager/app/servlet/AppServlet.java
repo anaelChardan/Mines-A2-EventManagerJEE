@@ -1,6 +1,7 @@
 package fr.mines.event_manager.app.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
+import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.core.servlet.BaseServlet;
@@ -12,13 +13,12 @@ import fr.mines.event_manager.user.manager.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
 @WebServlet(name = "AppServlet", urlPatterns = {"/app/*"})
 public class AppServlet extends BaseServlet {
-    UserManager manager = UserManager.getInstance();
-
     @Override
     protected Set<Route> initGetRoutes() {
         Set<Route> routes = new HashSet<>();
@@ -39,6 +39,14 @@ public class AppServlet extends BaseServlet {
     /**********
      * LOGIN
      *********/
+
+    protected boolean connect(HttpServletRequest request)
+    {
+        return UserProvider.connect(request, () -> UserManager.getInstance().findByEmailAndPassword(
+                request.getParameter("email"),
+                request.getParameter("password")
+        ).map(AbstractUser.class::cast));
+    }
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
         if (UserProvider.isConnected(action.getRequest()))
@@ -74,7 +82,7 @@ public class AppServlet extends BaseServlet {
     }
 
     public void subscribePost(WrappedServletAction action) throws ServletException, IOException {
-        User user = manager.create(action.getRequest());
+        User user = UserManager.getInstance().create(action.getRequest());
         action.getRequest().setAttribute("user", user);
 
         String password2 = action.getRequest().getParameter("password2");
@@ -92,5 +100,11 @@ public class AppServlet extends BaseServlet {
         }
 
         this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, "Votre utilisateur a bien été enregistré"));
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        UserManager.getInstance().close();
     }
 }

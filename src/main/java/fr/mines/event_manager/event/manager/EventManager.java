@@ -1,6 +1,5 @@
 package fr.mines.event_manager.event.manager;
 
-import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.repository.EventRepository;
 import fr.mines.event_manager.framework.manager.BaseEntityManager;
@@ -19,12 +18,12 @@ import java.util.Optional;
 public class EventManager implements BaseEntityManager<Event> {
 
     private static EventManager instance = null;
-    private EventRepository repository = TankRepository.getInstance().getEventRepository();
+    private EventRepository repository = new EventRepository();
 
     private EventManager() {
     }
 
-    public static EventManager getInstance() {
+    public static synchronized EventManager getInstance() {
         if (null == instance) {
             instance = new EventManager();
         }
@@ -69,7 +68,6 @@ public class EventManager implements BaseEntityManager<Event> {
         return repository.update(object);
     }
 
-
     public Optional<Event> find(int id)
     {
         return repository.find(id);
@@ -96,5 +94,10 @@ public class EventManager implements BaseEntityManager<Event> {
         }
 
         repository.update(event.addSubscribers(currentUser));
+    }
+
+    public void close()
+    {
+        this.repository.close();
     }
 }

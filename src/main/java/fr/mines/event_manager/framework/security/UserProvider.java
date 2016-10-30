@@ -1,13 +1,11 @@
 package fr.mines.event_manager.framework.security;
 
-import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.framework.entity.AbstractUser;
-import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.session.SessionManager;
 import fr.mines.event_manager.user.entity.User;
+import fr.mines.event_manager.user.manager.UserManager;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -26,9 +24,7 @@ public class UserProvider {
             return null;
         }
 
-        return TankRepository.getInstance().getUserRepository().findSingleBy(
-                new Field<Integer>("id", idUser, Field.Filter.EQUAL)
-        ).get();
+        return UserManager.getInstance().find(idUser).get();
     }
 
     public static boolean connect(HttpServletRequest request, Supplier<Optional<AbstractUser>> getUser) {

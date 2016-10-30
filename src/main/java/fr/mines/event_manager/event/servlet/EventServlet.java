@@ -13,13 +13,11 @@ import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
 @WebServlet(name = "EventServlet", urlPatterns = {"/event/*"})
 public class EventServlet extends BaseServlet {
-    EventManager manager = EventManager.getInstance();
 
     @Override
     protected Set<Route> initGetRoutes() {
@@ -47,9 +45,9 @@ public class EventServlet extends BaseServlet {
     protected void index(WrappedServletAction action) throws IOException, ServletException {
         User currentUser = UserProvider.getCurrentUser(action.getRequest());
 
-        List<Event> eventsSubscribed = manager.getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
-        List<Event> eventsNotPassed = manager.getRepository().getEventsNotPassed();
-        List<Event> eventsPassed = manager.getRepository().getEventsPassed();
+        List<Event> eventsSubscribed = EventManager.getInstance().getRepository().getSubscribedEventsByUserSortedByDate(currentUser);
+        List<Event> eventsNotPassed = EventManager.getInstance().getRepository().getEventsNotPassed();
+        List<Event> eventsPassed = EventManager.getInstance().getRepository().getEventsPassed();
 
         action.getRequest().setAttribute("eventsSubscribed", eventsSubscribed);
         action.getRequest().setAttribute("eventsNotPassed", eventsNotPassed);
@@ -60,12 +58,12 @@ public class EventServlet extends BaseServlet {
 
     protected void subscribeToEvent(WrappedServletAction action) throws IOException {
         Integer id = Integer.parseInt(action.getParameters().get("id"));
-        manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
+        EventManager.getInstance().addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
         this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien inscrit à l'évènement"));
     }
 
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
-        Optional<Event> eventOptional = manager.find(Integer.parseInt(action.getParameters().get("id")));
+        Optional<Event> eventOptional = EventManager.getInstance().find(Integer.parseInt(action.getParameters().get("id")));
 
         if (!eventOptional.isPresent()) {
             this.redirect(action, "/event");
@@ -87,7 +85,7 @@ public class EventServlet extends BaseServlet {
     }
 
     protected void eventPost(WrappedServletAction action) throws ServletException, IOException {
-        Event event = manager.create(action.getRequest());
+        Event event = EventManager.getInstance().create(action.getRequest());
 
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
 
@@ -96,7 +94,7 @@ public class EventServlet extends BaseServlet {
             this.render("/event/create.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
             return;
         }
-        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été créé"));
+        this.redirect(action, "/event/" + EventManager.getInstance().persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été créé"));
     }
 
     protected void edit(WrappedServletAction action) throws ServletException, IOException {
@@ -104,7 +102,7 @@ public class EventServlet extends BaseServlet {
     }
 
     protected void editPost(WrappedServletAction action) throws ServletException, IOException {
-        Event event = manager.create(action.getRequest());
+        Event event = EventManager.getInstance().create(action.getRequest());
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
 
         if (!errors.isEmpty()) {
@@ -113,31 +111,36 @@ public class EventServlet extends BaseServlet {
             return;
         }
 
-        this.redirect(action, "/event/" + manager.update(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été édité"));
+        this.redirect(action, "/event/" + EventManager.getInstance().update(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été édité"));
     }
 
    protected void actionEvent(WrappedServletAction action) throws ServletException, IOException {
 
         String act = action.getRequest().getParameter("action");
         Integer eventId = Integer.parseInt(action.getParameters().get("id"));
-        Event event = manager.find(eventId).get();
+        Event event = EventManager.getInstance().find(eventId).get();
 
        if(act.equals("cancel")){
-            manager.getRepository().delete(eventId);
+           EventManager.getInstance().getRepository().delete(eventId);
             this.render("/event/index.jsp", action);
         }
         if(act.equals("subscribe")){
-            manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()),eventId);
+            EventManager.getInstance().addUserToEvent(UserProvider.getCurrentUser(action.getRequest()),eventId);
             this.render("/event/full.jsp", action);
         }
         if(act.equals("publish")){
             event.setPublished(true);
-            manager.update(event);
+            EventManager.getInstance().update(event);
             this.render("/event/full.jsp", action);
         }
         if(act.equals("modify")){
             this.render("/event/edit.jsp", action);
         }
+    }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        EventManager.getInstance().close();
     }
 }

@@ -18,6 +18,7 @@ public class BaseEntityManagerWrapper {
 
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("EventManagerDB");
     private EntityManager entityManager;
+    private boolean closed = false;
 
     private BaseEntityManagerWrapper()
     {
@@ -31,7 +32,6 @@ public class BaseEntityManagerWrapper {
             instance = new BaseEntityManagerWrapper();
             instance.populate();
         }
-
         return instance;
     }
 
@@ -42,8 +42,10 @@ public class BaseEntityManagerWrapper {
 
     public void close()
     {
-        entityManager.close();
-        factory.close();
+        if (!closed) {
+            entityManager.close();
+            factory.close();
+        }
     }
 
     protected void populate() {

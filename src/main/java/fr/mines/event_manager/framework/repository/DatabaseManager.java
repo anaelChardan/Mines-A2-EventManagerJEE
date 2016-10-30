@@ -1,6 +1,7 @@
 package fr.mines.event_manager.framework.repository;
 
 import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.framework.manager.BaseEntityManager;
 import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.framework.entity.AbstractSelfManagedEntity;
 
@@ -54,7 +55,7 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
         return object;
     }
 
-    public boolean update(Optional<T> object) {
+    protected boolean update(Optional<T> object) {
         if (object.isPresent()) {
             this.performRequest(em -> em.merge(object.get()));
             return true;
@@ -63,7 +64,7 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
         return false;
     }
 
-    public boolean remove(Optional<T> object) {
+    protected boolean remove(Optional<T> object) {
         if (object.isPresent()) {
             this.performRequest(em -> em.remove(object.get()));
             return true;
@@ -72,15 +73,19 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
         return false;
     }
 
-    public void begin() {
+    public void close() {
+        BaseEntityManagerWrapper.getInstance().close();
+    }
+
+    protected void begin() {
         getEntityManager().getTransaction().begin();
     }
 
-    public void commit() {
+    protected void commit() {
         getEntityManager().getTransaction().commit();
     }
 
-    public AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> getBaseQuery(Action action) {
+    protected AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> getBaseQuery(Action action) {
         if (action.equals(Action.READ)) {
             CriteriaQuery<T> c = cb.createQuery(this.classType);
             Root<T> root = c.from(this.classType);
@@ -105,7 +110,7 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
         return new AbstractMap.SimpleEntry<>(null, null);
     }
 
-    public Query getQueryBy(Field... fields) {
+    protected Query getQueryBy(Field... fields) {
         AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
 
         List<Predicate> predicates = new ArrayList<>();

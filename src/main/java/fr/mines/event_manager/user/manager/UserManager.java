@@ -1,8 +1,8 @@
 package fr.mines.event_manager.user.manager;
 
 
-import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.framework.manager.BaseEntityManager;
+import fr.mines.event_manager.framework.repository.utils.Field;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +14,12 @@ import java.util.Optional;
 public class UserManager implements BaseEntityManager<User> {
 
     private static UserManager instance = null;
-    private UserRepository repository = TankRepository.getInstance().getUserRepository();
+    private UserRepository repository = new UserRepository();
 
     private UserManager() {
     }
 
-    public static UserManager getInstance() {
+    public static synchronized UserManager getInstance() {
         if (null == instance) {
             instance = new UserManager();
         }
@@ -50,8 +50,21 @@ public class UserManager implements BaseEntityManager<User> {
         return repository.find(id);
     }
 
+    public Optional<User> findByEmailAndPassword(String email, String password)
+    {
+        return repository.findSingleBy(
+                new Field<String>("email", email, Field.Filter.EQUAL),
+                new Field<String>("password", password, Field.Filter.EQUAL)
+        );
+    }
+
     public UserRepository getRepository() {
         return this.repository;
+    }
+
+    public void close()
+    {
+        repository.close();
     }
 
 }
