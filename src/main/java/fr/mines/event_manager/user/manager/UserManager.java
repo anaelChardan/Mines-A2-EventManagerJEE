@@ -21,7 +21,7 @@ import java.util.Optional;
 public class UserManager implements BaseEntityManager<User> {
 
     private static UserManager instance = null;
-    private UserRepository repository = TankRepository.getInstance().getUserRepository();
+    private UserRepository repository = new UserRepository();
 
     private UserManager() {
     }
@@ -38,7 +38,9 @@ public class UserManager implements BaseEntityManager<User> {
                 .setLastName(request.getParameter("last-name"))
                 .setFirstName(request.getParameter("first-name"))
                 .setEmail(request.getParameter("email"))
-                .setPassword(request.getParameter("password"));
+                .setPassword(request.getParameter("password"))
+                .setCompany(request.getParameter("company"))
+                ;
     }
 
     @Override

@@ -42,6 +42,7 @@ public class Paths {
     {
         return new Route(Pattern.compile("/profile"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
+
     /**************
      * POST ROUTES
      **************/
@@ -51,5 +52,9 @@ public class Paths {
 
     public static final Route postCreateEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+    }
+
+    public static Route postSubscribe(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/subscribe"), Route.PROTECTION_LEVEL.NONE, ServletConsumer);
     }
 }

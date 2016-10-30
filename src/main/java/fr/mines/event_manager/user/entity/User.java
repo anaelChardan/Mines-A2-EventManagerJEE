@@ -11,21 +11,23 @@ public class User extends AbstractUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     protected Integer id;
 
-
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     protected String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     protected String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     protected String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     protected String password;
+
+    @Column(name = "company", nullable = false)
+    protected String company;
 
     @Override
     public Integer getId() {
@@ -69,6 +71,15 @@ public class User extends AbstractUser {
 
     public User setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public User setCompany(String company) {
+        this.company = company;
         return this;
     }
 }

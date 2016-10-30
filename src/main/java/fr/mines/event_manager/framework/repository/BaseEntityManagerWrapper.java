@@ -55,6 +55,7 @@ public class BaseEntityManagerWrapper {
                 .setFirstName("anael")
                 .setLastName("chardan")
                 .setPassword("anaelChardan")
+                .setCompany("Akeneo")
                 ;
 
         User damien = (new User())
@@ -62,6 +63,7 @@ public class BaseEntityManagerWrapper {
                 .setFirstName("damien")
                 .setLastName("renaud")
                 .setPassword("damienRenaud")
+                .setCompany("Sopra Steria")
                 ;
 
         User flora = (new User())
@@ -69,6 +71,7 @@ public class BaseEntityManagerWrapper {
                 .setFirstName("flora")
                 .setLastName("pelletier")
                 .setPassword("flora")
+                .setCompany("Sopra Steria")
                 ;
 
         List<Event> events = new ArrayList<>();

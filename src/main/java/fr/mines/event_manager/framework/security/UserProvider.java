@@ -3,6 +3,7 @@ package fr.mines.event_manager.framework.security;
 import fr.mines.event_manager.app.repository.TankRepository;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.repository.utils.Field;
+import fr.mines.event_manager.framework.session.SessionManager;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,31 +18,16 @@ public class UserProvider {
         return getCurrentUser(request) != null;
     }
 
-    protected static HttpSession getSession(HttpServletRequest request, boolean tryWithArg) {
-        if (tryWithArg) {
-            return request.getSession(false) == null ? request.getSession() : request.getSession(false);
-        }
-
-        return request.getSession(false);
-    }
-
-    protected static void bindUser(HttpServletRequest request, AbstractUser user) {
-        getSession(request, true).setAttribute(CURRENT_USER_ID, user.getId());
-    }
-
     public static User getCurrentUser(HttpServletRequest request) {
-        if (getSession(request, false) == null) {
+        Integer idUser = SessionManager.get(request, CURRENT_USER_ID);
+
+        if (idUser == null)
+        {
             return null;
         }
-        if (getSession(request, false).getAttribute(CURRENT_USER_ID) == null) {
-            return null;
-        }
+
         return TankRepository.getInstance().getUserRepository().findSingleBy(
-                new Field<Integer>(
-                        "id",
-                        (Integer) getSession(request, false).getAttribute(CURRENT_USER_ID),
-                        Field.Filter.EQUAL
-                )
+                new Field<Integer>("id", idUser, Field.Filter.EQUAL)
         ).get();
     }
 
@@ -52,14 +38,12 @@ public class UserProvider {
             return false;
         }
 
-        bindUser(request, user.get());
+        SessionManager.set(request, CURRENT_USER_ID, user.get().getId());
 
         return true;
     }
 
     public static void trashSession(HttpServletRequest request) {
-        if (getSession(request, false) != null) {
-            getSession(request, false).invalidate();
-        }
+        SessionManager.clear(request);
     }
 }

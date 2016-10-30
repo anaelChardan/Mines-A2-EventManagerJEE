@@ -7,6 +7,7 @@ import fr.mines.event_manager.core.servlet.BaseServlet;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.event.manager.EventManager;
 import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.framework.utils.Alert;
 import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
 
@@ -58,14 +59,14 @@ public class EventServlet extends BaseServlet {
     protected void subscribeToEvent(WrappedServletAction action) throws IOException {
         Integer id = Integer.parseInt(action.getParameters().get("id"));
         manager.addUserToEvent(UserProvider.getCurrentUser(action.getRequest()), id);
-        this.redirect(action.getResponse(), "/event/" + id);
+        this.redirect(action, "/event/" + id, new Alert(Alert.TYPE.SUCCESS, "Vous êtes bien inscrit à l'évènement"));
     }
 
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
         Optional<Event> eventOptional = manager.find(Integer.parseInt(action.getParameters().get("id")));
 
         if (!eventOptional.isPresent()) {
-            this.redirect(action.getResponse(), "/event");
+            this.redirect(action, "/event");
             return;
         }
 
@@ -84,14 +85,14 @@ public class EventServlet extends BaseServlet {
         Event event = manager.create(action.getRequest());
 
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(event);
-        action.getRequest().setAttribute("errorMessages", errors);
+
         if (!errors.isEmpty()) {
             action.getRequest().setAttribute("event", event);
-            this.render("/event/create.jsp", action);
+            this.render("/event/create.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
             return;
         }
 
-        this.redirect(action.getResponse(), "/event/" + manager.persist(event).getId());
+        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été crée"));
     }
 
 }

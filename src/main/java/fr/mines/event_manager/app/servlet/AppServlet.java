@@ -4,6 +4,7 @@ import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.core.servlet.BaseServlet;
+import fr.mines.event_manager.framework.utils.Alert;
 import fr.mines.event_manager.framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.manager.UserManager;
@@ -29,16 +30,32 @@ public class AppServlet extends BaseServlet {
     protected Set<Route> initPostRoutes() {
         Set<Route> routes = new HashSet<>();
         routes.add(Paths.postLogin(this::loginPost));
+        routes.add(Paths.postSubscribe(this::subscribePost));
         return routes;
     }
 
+    /**********
+     * LOGIN
+     *********/
+
     public void login(WrappedServletAction action) throws ServletException, IOException {
         String path = action.getRequest().getParameter("path");
-        action.getRequest().setAttribute("PathFrom",path);
-        if (null != path && !("/".equals(path)))
-            action.getRequest().setAttribute("errorMessages", Collections.singletonMap("","Vous devez être connecté pour accèder à la page demandée"));
+        action.getRequest().setAttribute("PathFrom", path);
         this.render("login.jsp", action);
     }
+
+    protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
+        if (this.connect(action.getRequest())) {
+            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/" : action.getRequest().getParameter("from");
+            this.redirect(action, path);
+            return;
+        }
+        this.render("login.jsp", action, new Alert(Alert.TYPE.DANGER, "L'adresse mail et/ou le mot de passe ne sont pas valides"));
+    }
+
+    /**********
+     * SUBSCRIBE
+     *********/
 
     public void subscribe(WrappedServletAction action) throws ServletException, IOException {
         this.render("subscribe.jsp", action);
@@ -46,24 +63,22 @@ public class AppServlet extends BaseServlet {
 
     public void subscribePost(WrappedServletAction action) throws ServletException, IOException {
         User user = manager.create(action.getRequest());
-        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(user);
-        action.getRequest().setAttribute("errorMessages", errors);
-        if (!errors.isEmpty()) {
-            action.getRequest().setAttribute("user", user);
-            this.render("/app/subscribe.jsp", action);
-            return;
-        }
-        this.redirect(action.getResponse(), "/app/login");
-    }
+        action.getRequest().setAttribute("user", user);
 
-    protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
-        if (this.connect(action.getRequest())) {
-            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/" : action.getRequest().getParameter("from");
-            this.redirect(action.getResponse(),path);
+        String password2 = action.getRequest().getParameter("password2");
+
+        if (!user.getPassword().equals(password2)) {
+            render("subscribe.jsp", action, new Alert(Alert.TYPE.DANGER, "Les mots de passes sont différents."));
             return;
         }
-        String errorMessage = "L'adresse mail et/ou le mot de passe ne sont pas valides";
-        action.getRequest().setAttribute("errorMessages", Collections.singletonMap("",errorMessage));
-        this.render("login.jsp", action);
+
+        Map<String, String> errors = ValidatorProcessor.getInstance().isValid(user);
+
+        if (!errors.isEmpty()) {
+            this.render("subscribe.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
+            return;
+        }
+
+        this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, "Votre utilisateur a bien été enregistré"));
     }
 }
