@@ -1,13 +1,13 @@
 package fr.mines.event_manager.app.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
-import fr.mines.event_manager.framework.entity.AbstractUser;
-import fr.mines.event_manager.framework.router.http.Route;
-import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.home_made_framework.entity.AbstractUser;
+import fr.mines.event_manager.home_made_framework.router.http.Route;
+import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
 import fr.mines.event_manager.core.servlet.BaseServlet;
-import fr.mines.event_manager.framework.security.UserProvider;
-import fr.mines.event_manager.framework.utils.Alert;
-import fr.mines.event_manager.framework.validator.ValidatorProcessor;
+import fr.mines.event_manager.home_made_framework.security.UserProvider;
+import fr.mines.event_manager.home_made_framework.utils.Alert;
+import fr.mines.event_manager.home_made_framework.validator.ValidatorProcessor;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.manager.UserManager;
 

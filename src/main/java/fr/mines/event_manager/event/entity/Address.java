@@ -1,6 +1,6 @@
 package fr.mines.event_manager.event.entity;
 
-import fr.mines.event_manager.framework.entity.AbstractEntity;
+import fr.mines.event_manager.home_made_framework.entity.AbstractEntity;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;

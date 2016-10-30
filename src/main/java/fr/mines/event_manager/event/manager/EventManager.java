@@ -2,15 +2,14 @@ package fr.mines.event_manager.event.manager;
 
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.repository.EventRepository;
-import fr.mines.event_manager.framework.manager.BaseEntityManager;
-import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
+import fr.mines.event_manager.home_made_framework.security.UserProvider;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Damien on 24/10/2016.
@@ -31,8 +30,7 @@ public class EventManager implements BaseEntityManager<Event> {
         return instance;
     }
 
-    @Override
-    public Event create(HttpServletRequest request) {
+    public Event getBaseObject(HttpServletRequest request, Event event) {
         // Gestion des dates
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date startDate = null;
@@ -46,7 +44,7 @@ public class EventManager implements BaseEntityManager<Event> {
         Integer maxTickets = request.getParameter("max_tickets").isEmpty() ? null : Integer.parseInt(request.getParameter("max_tickets"));
         Double price = request.getParameter("price").isEmpty() ? null : Double.parseDouble(request.getParameter("price"));
 
-        return (new Event())
+        return event
                 .setAddress(AddressManager.getInstance().create(request))
                 .setAuthor(UserProvider.getCurrentUser(request))
                 .setDescription(request.getParameter("description"))
@@ -54,8 +52,16 @@ public class EventManager implements BaseEntityManager<Event> {
                 .setName(request.getParameter("titre"))
                 .setPrice(price)
                 .setStartDate(startDate)
-                .setEndDate(endDate)
-                .setPublished("create-and-publish".equals(request.getParameter("action")));
+                .setEndDate(endDate);
+    }
+
+    @Override
+    public Event create(HttpServletRequest request) {
+        return this.getBaseObject(request, new Event()).setPublished("create-and-publish".equals(request.getParameter("action")));
+    }
+
+    public Event edit(HttpServletRequest request, Event event) {
+        return this.getBaseObject(request, event).setPublished("edit-and-publish".equals(request.getParameter("action")));
     }
 
     @Override
@@ -63,33 +69,28 @@ public class EventManager implements BaseEntityManager<Event> {
         return repository.create(object);
     }
 
-    public Event update(Event object)
-    {
+    public Event update(Event object) {
         return repository.update(object);
     }
 
-    public Optional<Event> find(int id)
-    {
+    public Optional<Event> find(int id) {
         return repository.find(id);
     }
 
-    public EventRepository getRepository()
-    {
+    public EventRepository getRepository() {
         return this.repository;
     }
 
     public void addUserToEvent(User currentUser, int id) {
         Optional<Event> eventOptionnal = repository.find(id);
 
-        if (!eventOptionnal.isPresent())
-        {
+        if (!eventOptionnal.isPresent()) {
             return;
         }
 
         Event event = eventOptionnal.get();
 
-        if (!event.isSubscribable(currentUser))
-        {
+        if (!event.isSubscribable(currentUser)) {
             return;
         }
 
@@ -99,23 +100,24 @@ public class EventManager implements BaseEntityManager<Event> {
     public void removeUserToEvent(User currentUser, int id) {
         Optional<Event> eventOptionnal = repository.find(id);
 
-        if (!eventOptionnal.isPresent())
-        {
+        if (!eventOptionnal.isPresent()) {
             return;
         }
 
         Event event = eventOptionnal.get();
 
-        if (!event.isASubscriber(currentUser))
-        {
+        if (!event.isASubscriber(currentUser)) {
             return;
         }
 
         repository.update(event.removeSubscriber(currentUser));
     }
 
-    public void close()
-    {
+    public void close() {
         this.repository.close();
+    }
+
+    public boolean delete(Event event) {
+        return this.repository.delete(event);
     }
 }

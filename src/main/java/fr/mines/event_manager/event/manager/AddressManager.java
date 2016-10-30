@@ -1,14 +1,9 @@
 package fr.mines.event_manager.event.manager;
 
 import fr.mines.event_manager.event.entity.Address;
-import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.framework.manager.BaseEntityManager;
-import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Damien on 24/10/2016.

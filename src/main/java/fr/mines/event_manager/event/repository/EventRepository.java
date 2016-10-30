@@ -1,13 +1,10 @@
 package fr.mines.event_manager.event.repository;
 
 import fr.mines.event_manager.event.entity.Event;
-import fr.mines.event_manager.framework.repository.CRUDManager;
+import fr.mines.event_manager.home_made_framework.repository.CRUDManager;
 import fr.mines.event_manager.user.entity.User;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class EventRepository extends CRUDManager<Event> {

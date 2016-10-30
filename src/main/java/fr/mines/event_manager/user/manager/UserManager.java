@@ -1,8 +1,8 @@
 package fr.mines.event_manager.user.manager;
 
 
-import fr.mines.event_manager.framework.manager.BaseEntityManager;
-import fr.mines.event_manager.framework.repository.utils.Field;
+import fr.mines.event_manager.home_made_framework.manager.BaseEntityManager;
+import fr.mines.event_manager.home_made_framework.repository.utils.Field;
 import fr.mines.event_manager.user.entity.User;
 import fr.mines.event_manager.user.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;

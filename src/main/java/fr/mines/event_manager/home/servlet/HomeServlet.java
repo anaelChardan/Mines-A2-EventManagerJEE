@@ -1,9 +1,9 @@
 package fr.mines.event_manager.home.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
-import fr.mines.event_manager.framework.router.http.Route;
+import fr.mines.event_manager.home_made_framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
-import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

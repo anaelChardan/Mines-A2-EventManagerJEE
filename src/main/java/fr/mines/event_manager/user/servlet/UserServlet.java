@@ -3,10 +3,10 @@ package fr.mines.event_manager.user.servlet;
 import fr.mines.event_manager.core.http.Paths;
 import fr.mines.event_manager.event.entity.Event;
 import fr.mines.event_manager.event.manager.EventManager;
-import fr.mines.event_manager.framework.router.http.Route;
+import fr.mines.event_manager.home_made_framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
-import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
-import fr.mines.event_manager.framework.security.UserProvider;
+import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.home_made_framework.security.UserProvider;
 import fr.mines.event_manager.user.entity.User;
 
 import javax.servlet.ServletException;

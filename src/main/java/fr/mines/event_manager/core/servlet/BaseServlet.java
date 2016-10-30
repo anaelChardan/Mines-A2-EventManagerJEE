@@ -1,17 +1,21 @@
 package fr.mines.event_manager.core.servlet;
 
-import fr.mines.event_manager.framework.router.http.ComputedRoute;
-import fr.mines.event_manager.framework.router.servlet.Servlet;
-import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
-import fr.mines.event_manager.framework.security.UserProvider;
-import fr.mines.event_manager.framework.session.SessionManager;
-import fr.mines.event_manager.framework.utils.Alert;
+import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.event.manager.EventManager;
+import fr.mines.event_manager.home_made_framework.router.http.ComputedRoute;
+import fr.mines.event_manager.home_made_framework.router.servlet.Servlet;
+import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.home_made_framework.security.UserProvider;
+import fr.mines.event_manager.home_made_framework.session.SessionManager;
+import fr.mines.event_manager.home_made_framework.utils.Alert;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -69,8 +73,26 @@ public class BaseServlet extends Servlet {
     }
 
     @Override
-    protected void redirectProprietaryProtectionRoute(WrappedServletAction action, ComputedRoute route) {
+    protected void redirectProprietaryProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException {
+        String servletPath = action.getRequest().getServletPath();
+        if ("/event".equals(servletPath))
+        {
+            Optional<Event> eventOptional = EventManager.getInstance().find((Integer.parseInt(action.getParameters().get("id"))));
+            if (!eventOptional.isPresent())
+            {
+                this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "L'événement n'existe pas"));
+                return;
+            }
 
+            Event event = eventOptional.get();
+            if (Objects.equals(event.getAuthor().getId(), UserProvider.getCurrentUser(action.getRequest()).getId()))
+            {
+                route.consume(action);
+                return;
+            }
+
+            this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "Vous ne pouvez pas modifier cet évènement"));
+        }
     }
 
     protected void redirect(WrappedServletAction action, String endPoint, Alert alert) throws IOException {

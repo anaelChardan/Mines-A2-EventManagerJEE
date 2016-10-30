@@ -10,7 +10,7 @@
 
     <tag>
         <name>PathTag</name>
-        <tag-class>fr.mines.event_manager.framework.tags.PathTag</tag-class>
+        <tag-class>fr.mines.event_manager.home_made_framework.tags.PathTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>endpoint</name>

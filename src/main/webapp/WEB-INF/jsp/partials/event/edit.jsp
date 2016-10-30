@@ -109,9 +109,12 @@
             </div>
         </div>
         <div class="form-group form-inline">
-            <button class="pull-right btn btn-info" href="<app:PathTag endpoint="/event/${event.id}"/>" style="margin-right:5px">Annuler</button>
+            <a class="pull-right btn btn-info" href="<app:PathTag endpoint="/event/${event.id}"/>" style="margin-right:5px">Annuler</a>
             <button type="submit" value="validate" name="action" class="pull-right btn btn-info"
                     style="margin-right:5px">Valider
+            </button>
+            <button type="submit" value="edit-and-publish" name="action" class="pull-right btn btn-info"
+                    style="margin-right:5px">Valider et Publier
             </button>
         </div>
     </form>

@@ -1,8 +1,8 @@
 package fr.mines.event_manager.core.http;
 
-import fr.mines.event_manager.framework.router.http.Route;
-import fr.mines.event_manager.framework.router.utils.ServletConsumer;
-import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
+import fr.mines.event_manager.home_made_framework.router.http.Route;
+import fr.mines.event_manager.home_made_framework.router.utils.ServletConsumer;
+import fr.mines.event_manager.home_made_framework.router.utils.WrappedServletAction;
 
 import java.util.regex.Pattern;
 
@@ -64,7 +64,7 @@ public class Paths {
     }
 
     public static final Route getEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
-        return new Route(Pattern.compile("/edit"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+        return new Route(Pattern.compile("/(?<id>\\d+)/edit"), Route.PROTECTION_LEVEL.PROPRIETARY, ServletConsumer);
     }
 
     /**************
@@ -91,19 +91,23 @@ public class Paths {
         return new Route(Pattern.compile("/new"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
-    public static final Route postActionEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
-        return new Route(Pattern.compile("/action"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
-    }
-
-    public static final Route postEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
-        return new Route(Pattern.compile("/edit"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
-    }
-
     public static final Route postSubscribeToEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/(?<id>\\d+)/subscribe"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
     }
 
     public static final Route postUnsubscribeToEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
         return new Route(Pattern.compile("/(?<id>\\d+)/unsubscribe"), Route.PROTECTION_LEVEL.CONNECTED, ServletConsumer);
+    }
+
+    public static final Route postEditEvent(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/(?<id>\\d+)/edit"), Route.PROTECTION_LEVEL.PROPRIETARY, ServletConsumer);
+    }
+
+    public static final Route postPublish(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/(?<id>\\d+)/publish"), Route.PROTECTION_LEVEL.PROPRIETARY, ServletConsumer);
+    }
+
+    public static final Route postDelete(ServletConsumer<WrappedServletAction> ServletConsumer) {
+        return new Route(Pattern.compile("/(?<id>\\d+)/delete"), Route.PROTECTION_LEVEL.PROPRIETARY, ServletConsumer);
     }
 }
