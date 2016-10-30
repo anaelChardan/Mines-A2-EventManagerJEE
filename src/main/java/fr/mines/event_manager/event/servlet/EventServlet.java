@@ -96,7 +96,7 @@ public class EventServlet extends BaseServlet {
             this.render("/event/create.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
             return;
         }
-        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été crée"));
+        this.redirect(action, "/event/" + manager.persist(event).getId(), new Alert(Alert.TYPE.SUCCESS, "Votre évènement a bien été créé"));
     }
 
     protected void edit(WrappedServletAction action) throws ServletException, IOException {
@@ -117,11 +117,6 @@ public class EventServlet extends BaseServlet {
     }
 
    protected void actionEvent(WrappedServletAction action) throws ServletException, IOException {
-        HttpSession session = action.getRequest().getSession(false);
-        if (null == session) {
-            this.render("login.jsp", action);
-            return;
-        }
 
         String act = action.getRequest().getParameter("action");
         Integer eventId = Integer.parseInt(action.getParameters().get("id"));
