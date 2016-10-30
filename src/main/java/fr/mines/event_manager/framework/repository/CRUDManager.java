@@ -33,7 +33,7 @@ public abstract class CRUDManager<T extends AbstractSelfManagedEntity> extends D
 
     public List<T> findAll() {
         AbstractMap.SimpleEntry<Root<T>, CommonAbstractCriteria> entry = this.getBaseQuery(Action.READ);
-        return getEntityManager().createQuery(((CriteriaQuery<T>) entry.getValue()).select(entry.getKey())).getResultList();
+        return this.entityManager.createQuery(((CriteriaQuery<T>) entry.getValue()).select(entry.getKey())).getResultList();
     }
 
     public Optional<T> findSingleBy(Field... fields) {

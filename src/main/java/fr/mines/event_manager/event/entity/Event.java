@@ -148,7 +148,6 @@ public class Event extends AbstractSelfManagedEntity {
 
     public Event addSubscribers(User user)
     {
-        System.out.println("coucou");
         this.subscribers.add(user);
 
         return this;

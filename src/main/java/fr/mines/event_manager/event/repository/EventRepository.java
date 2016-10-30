@@ -22,7 +22,7 @@ public class EventRepository extends CRUDManager<Event> {
         CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
         criteriaQuery.where(this.getPredicateIsMember(root, "subscribers", user));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return getEntityManager().createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     public List<Event> getSubscribedEventsByUserSortedByDateBeforeNow(User user)
@@ -36,7 +36,7 @@ public class EventRepository extends CRUDManager<Event> {
         CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
         criteriaQuery.where(subscribers,date);
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return getEntityManager().createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     public List<Event> getSubscribedEventsByUserSortedByDateAfterNow(User user)
@@ -50,7 +50,7 @@ public class EventRepository extends CRUDManager<Event> {
         CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
         criteriaQuery.where(subscribers,date);
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
-        return getEntityManager().createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     public List<Event> getEventsCreatedByUserSortedByDate(User user)
@@ -62,7 +62,7 @@ public class EventRepository extends CRUDManager<Event> {
         criteriaQuery.where(getPredicateEqual(root, "author", user));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
 
-        return getEntityManager().createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     public List<Event> getEventsSubscribableSortedByDate(User user)
@@ -77,7 +77,7 @@ public class EventRepository extends CRUDManager<Event> {
         criteriaQuery.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
 
-        return getEntityManager().createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     public List<Event> getEventsNotPassed()
@@ -91,7 +91,7 @@ public class EventRepository extends CRUDManager<Event> {
             e.printStackTrace();
         }
         String queryStr = "SELECT e FROM Event e WHERE e.startDate > :dayDate order by e.startDate";
-        Query query = getEntityManager().createQuery(queryStr);
+        Query query = entityManager.createQuery(queryStr);
         query.setParameter("dayDate",dayDate);
         List<Event> eventsPassed = query.getResultList();
         return eventsPassed;
@@ -108,7 +108,7 @@ public class EventRepository extends CRUDManager<Event> {
             e.printStackTrace();
         }
         String queryStr = "SELECT e FROM Event e WHERE e.endDate <= :dayDate order by e.startDate";
-        Query query = getEntityManager().createQuery(queryStr);
+        Query query = entityManager.createQuery(queryStr);
         query.setParameter("dayDate",dayDate);
         List<Event> eventsNotPassed = query.getResultList();
         return eventsNotPassed;
