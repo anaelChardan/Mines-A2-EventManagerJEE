@@ -99,6 +99,8 @@ public class AppServlet extends BaseServlet {
             return;
         }
 
+        UserManager.getInstance().persist(user);
+        System.out.println("JINSERE MAGGLE");
         this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, "Votre utilisateur a bien été enregistré"));
     }
 
