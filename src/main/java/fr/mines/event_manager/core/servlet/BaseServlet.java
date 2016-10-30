@@ -55,39 +55,45 @@ public class BaseServlet extends Servlet {
 
     @Override
     protected void redirectConnectedProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException {
-        if (UserProvider.isConnected(action.getRequest())){
+        if (checkConnexionAndRedirectIfNeeded(action, route)) {
             route.consume(action);
-            return;
+        }
+    }
+
+    protected boolean checkConnexionAndRedirectIfNeeded(WrappedServletAction action, ComputedRoute route) throws IOException {
+        if (UserProvider.isConnected(action.getRequest())) {
+            return true;
         }
         String servletPath = action.getRequest().getServletPath();
         String pathInfo = action.getRequest().getPathInfo();
-        String path = (null == pathInfo ? servletPath : servletPath+pathInfo);
+        String path = (null == pathInfo ? servletPath : servletPath + pathInfo);
 
         String fullPath = "/app/login?path=" + path;
 
         if (!("/".equals(path))) {
             this.redirect(action, fullPath, new Alert(Alert.TYPE.DANGER, "Vous devez être connecté pour accèder à la page demandée"));
-            return;
+            return false;
         }
-
-        this.redirect(action,fullPath);
+        this.redirect(action, fullPath);
+        return false;
     }
 
     @Override
     protected void redirectProprietaryProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException {
+        if (!checkConnexionAndRedirectIfNeeded(action, route)) {
+            return;
+        }
+
         String servletPath = action.getRequest().getServletPath();
-        if ("/event".equals(servletPath))
-        {
+        if ("/event".equals(servletPath)) {
             Optional<Event> eventOptional = EventManager.getInstance().find((Integer.parseInt(action.getParameters().get("id"))));
-            if (!eventOptional.isPresent())
-            {
+            if (!eventOptional.isPresent()) {
                 this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "L'événement n'existe pas"));
                 return;
             }
 
             Event event = eventOptional.get();
-            if (Objects.equals(event.getAuthor().getId(), UserProvider.getCurrentUser(action.getRequest()).getId()))
-            {
+            if (Objects.equals(event.getAuthor().getId(), UserProvider.getCurrentUser(action.getRequest()).getId())) {
                 route.consume(action);
                 return;
             }
