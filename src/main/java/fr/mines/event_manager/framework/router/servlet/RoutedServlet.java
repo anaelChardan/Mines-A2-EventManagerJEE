@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public abstract class RoutedServlet extends HttpServlet {
     protected Map<HttpWords, Set<Route>> patterns = null;
@@ -55,9 +56,12 @@ public abstract class RoutedServlet extends HttpServlet {
      * @param request
      * @return The method
      */
-    protected Optional<ComputedRoute> getMethodToCallWithParameters(HttpWords method, String request) {
+    protected Optional<ComputedRoute> getMethodToCallWithParameters(HttpWords method, String path) {
 
-        String path = (request != null) ? request : "/";
+        Object coucou = patterns
+                .get(method)
+                .stream()
+                .filter(e -> (e.getPattern().matcher(path).matches())).collect(Collectors.toList());
 
         return patterns
                 .get(method)
