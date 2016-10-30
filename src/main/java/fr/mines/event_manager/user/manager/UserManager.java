@@ -20,7 +20,6 @@ public class UserManager implements BaseEntityManager<User> {
     }
 
     public static UserManager getInstance() {
-
         if (null == instance) {
             instance = new UserManager();
         }

@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class Servlet extends RoutedServlet {
@@ -28,8 +29,7 @@ public abstract class Servlet extends RoutedServlet {
     }
 
     protected void process(HttpWords method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getPathInfo();
-        Optional<ComputedRoute> entry = this.getMethodToCallWithParameters(method, path);
+        Optional<ComputedRoute> entry = this.getMethodToCallWithParameters(method, extractPath(request));
 
         if (!entry.isPresent()) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -52,6 +52,15 @@ public abstract class Servlet extends RoutedServlet {
                 this.redirectProprietaryProtectionRoute(action,computedRoute);
                 break;
         }
+    }
+
+    protected String extractPath(HttpServletRequest request)
+    {
+        if (request.getPathInfo() == null) {
+            return request.getRequestURI();
+        }
+
+        return request.getPathInfo();
     }
 
     protected abstract void redirectConnectedProtectionRoute(WrappedServletAction action, ComputedRoute route) throws IOException, ServletException;
