@@ -24,7 +24,7 @@
     <div class="row col-md-12">
         <table class="table" style="background-color:lightgray;border-radius: 6px">
             <caption>
-                <h4 class="text-left">Mes participations à venir</h4>
+                <h4 class="text-left">Mes prochains événements</h4>
             </caption>
             <thead>
             <tr>
@@ -46,29 +46,7 @@
     <div class="row col-md-12">
         <table class="table" style="background-color:lightgray;border-radius: 6px">
             <caption>
-                <h4 class="text-left">Mes participations à venir</h4>
-            </caption>
-            <thead>
-            <tr>
-                <th class="col-md-2 text-left">Titre</th>
-                <th class="col-md-5 text-left">Description</th>
-                <th class="col-md-2 text-left">Lieu</th>
-                <th class="col-md-2 text-left">Date début</th>
-                <th class="col-md-2 text-left">Date fin</th>
-                <th class="col-md-2 text-left">Détail</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${futureEventSubscribed}" var="event">
-                <add:event-line event="${event}"/>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <div class="row col-md-12">
-        <table class="table" style="background-color:lightgray;border-radius: 6px">
-            <caption>
-                <h4 class="text-left">Mes évènements passés</h4>
+                <h4 class="text-left">Mes événements passés</h4>
             </caption>
             <thead>
             <tr>

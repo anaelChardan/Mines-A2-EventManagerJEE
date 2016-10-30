@@ -12,8 +12,10 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.lang.reflect.ParameterizedType;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -134,6 +136,7 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
     }
 
     protected void populate() {
+        SimpleDateFormat sdf = new SimpleDateFormat();
         User anael = (new User())
                 .setEmail("anael.chardan@gmail.com")
                 .setFirstName("anael")
@@ -167,42 +170,68 @@ public abstract class DatabaseManager<T extends AbstractSelfManagedEntity> {
                 .setCountry("France")
                 ;
 
-        events.add(
-                (new Event())
-                        .setAddress(address)
-                        .setName("DEV FEST")
-                        .setAuthor(anael)
-                        .setDescription("A super fun dev party")
-                        .setPublished(false)
-                        .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                        .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                        .setMaxTickets(100)
-        );
-
-        events.add((new Event())
+        Event event1 = (new Event())
                 .setAddress(address)
-                .setName("Music Session")
-                .setAuthor(flora)
-                .setDescription("A super music party")
+                .setAuthor(anael)
+                .setName("Event futur non publié")
+                .setDescription("Les Utopiales de Nantes")
+                .setStartDate(Date.from(LocalDate.now().plusDays(2).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setEndDate(Date.from(LocalDate.now().plusDays(2).atTime(20,0).toInstant(ZoneOffset.UTC)))
                 .setPublished(false)
-                .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .setMaxTickets(100)
-                .addSubscribers(anael)
-        );
+                .setMaxTickets(3000)
+                .setPrice(0.0);
 
-        events.add((new Event())
+        Event event2 = (new Event())
                 .setAddress(address)
-                .setName("Badminton Session")
-                .setAuthor(damien)
-                .setDescription("A super Badminton session")
-                .setPublished(false)
-                .setStartDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                .setMaxTickets(100)
+                .setAuthor(anael)
+                .setName("Event futur publié")
+                .setDescription("Docker me if you can")
+                .setStartDate(Date.from(LocalDate.now().plusDays(2).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setEndDate(Date.from(LocalDate.now().plusDays(2).atTime(20,0).toInstant(ZoneOffset.UTC)))
+                .setPublished(true)
+                .setMaxTickets(3000)
+                .setPrice(0.0)
                 .addSubscribers(flora)
-                .addSubscribers(anael)
-        );
+                .addSubscribers(damien);
+
+        Event event3 = (new Event())
+                .setAddress(address)
+                .setAuthor(anael)
+                .setName("Event en cours publié")
+                .setDescription("Docker me if you can")
+                .setStartDate(Date.from(LocalDate.now().minusDays(1).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setEndDate(Date.from(LocalDate.now().plusDays(1).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setPublished(true)
+                .setMaxTickets(100)
+                .setPrice(0.0)
+                .addSubscribers(flora)
+                .addSubscribers(damien);
+
+        Event event4 = (new Event())
+                .setAddress(address)
+                .setAuthor(anael)
+                .setName("Event futur créé par damien et publié")
+                .setDescription("Anael doit s'inscrire")
+                .setStartDate(Date.from(LocalDate.now().plusDays(10).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setEndDate(Date.from(LocalDate.now().plusDays(10).atTime(20,0).toInstant(ZoneOffset.UTC)))
+                .setPublished(true)
+                .setMaxTickets(100)
+                .setPrice(0.0)
+                .addSubscribers(flora);
+
+        Event event5 = (new Event())
+                .setAddress(address)
+                .setAuthor(anael)
+                .setName("Event passé et publié")
+                .setDescription("Docker me if you can")
+                .setStartDate(Date.from(LocalDate.now().minusDays(2).atTime(18,0).toInstant(ZoneOffset.UTC)))
+                .setEndDate(Date.from(LocalDate.now().minusDays(2).atTime(20,0).toInstant(ZoneOffset.UTC)))
+                .setPublished(true)
+                .setMaxTickets(100)
+                .setPrice(0.0)
+                .addSubscribers(flora)
+                .addSubscribers(damien);
+
 
         this.entityManager.getTransaction().begin();
         events.forEach(e -> this.entityManager.persist(e));

@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Mes prochains événements</h4>
+            <h4>Mes prochaines participations (et en cours)</h4>
             <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
                 <thead>
                 <th>Titre</th>
@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Les événements à venir</h4>
+            <h4>Les événements à venir (et en cours)</h4>
             <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
                 <thead>
                 <th>Titre</th>
