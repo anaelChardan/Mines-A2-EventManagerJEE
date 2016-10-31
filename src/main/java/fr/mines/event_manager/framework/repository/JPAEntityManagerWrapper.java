@@ -17,7 +17,7 @@ import java.util.List;
 public class JPAEntityManagerWrapper {
     private static JPAEntityManagerWrapper instance = null;
 
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("EventManagerDB");
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("EventManagerDBAnaelDamienFlora");
     private EntityManager entityManager;
     private boolean closed = false;
 
