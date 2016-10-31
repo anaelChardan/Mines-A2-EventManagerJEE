@@ -98,7 +98,7 @@ public class BaseServlet extends Servlet {
                 return;
             }
 
-            this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "Vous ne pouvez pas modifier cet évènement"));
+            this.redirect(action, "/event/"+event.getId(), new Alert(Alert.TYPE.DANGER, "Vous ne pouvez pas modifier cet évènement"));
         }
     }
 
