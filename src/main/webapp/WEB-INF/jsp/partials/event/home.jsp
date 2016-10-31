@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Les événements à venir (et en cours)</h4>
+            <h4>Les prochains évènements auxquels s'inscrire</h4>
             <table class="table" style="border-radius:6px">
                 <thead>
                 <th class="col-md-2 text-left" style="width: 15%">Titre</th>
@@ -45,7 +45,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Les événements passés</h4>
+            <h4>Les évènements que vous avez ratés</h4>
             <table class="table" style="border-radius:6px">
                 <thead>
                 <th class="col-md-2 text-left" style="width: 15%">Titre</th>

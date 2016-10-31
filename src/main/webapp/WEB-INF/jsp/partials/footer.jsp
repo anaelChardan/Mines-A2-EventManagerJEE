@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-xs-7">
                 <h3 class="footer-title">A propos</h3>
-                <p>Cette application permet de gérer des événements.<br>
+                <p>Cette application permet de gérer des évènements.<br>
                     Ce projet a été réalisé dans le cadre du cours de J2EE<br>
                     dispensé à l'Ecole des Mines de Nantes.<br>
                 </p>

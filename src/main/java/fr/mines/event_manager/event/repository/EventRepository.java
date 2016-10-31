@@ -31,8 +31,9 @@ public class EventRepository extends CRUDManager<Event> {
         CriteriaQuery<Event> criteriaQuery = (CriteriaQuery<Event>) entry.getValue();
         Predicate passed = cb.lessThan(root.get("endDate"),new Date());
         Predicate published = this.getPredicateEqual(root, "published", true, true);
+        Predicate notMember = this.getPredicateIsMember(root, "subscribers", user, false);
         Predicate notAuthor = cb.notEqual(root.join("author").get("id"),user.getId());
-        criteriaQuery.where(cb.and(passed,published,notAuthor));
+        criteriaQuery.where(cb.and(passed,published,notAuthor,notMember));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }
@@ -73,8 +74,8 @@ public class EventRepository extends CRUDManager<Event> {
         Predicate past = cb.lessThan(root.get("endDate"), new Date());
         Predicate published = this.getPredicateEqual(root, "published", true, true);
         Predicate member = this.getPredicateIsMember(root, "subscribers", user, true);
-//        Predicate notAuthor = cb.notEqual(root.get("author"),user);
-        criteriaQuery.where(cb.and(past, published,member));
+        Predicate notAuthor = cb.notEqual(root.get("author"),user);
+        criteriaQuery.where(cb.and(past, published,member,notAuthor));
         criteriaQuery.orderBy(cb.asc(root.get("startDate")));
         return getEntityManager().createQuery(criteriaQuery).getResultList();
     }

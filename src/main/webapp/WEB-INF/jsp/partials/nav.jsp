@@ -9,8 +9,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <c:if test="${IS_LOGGED}">
-                    <li><a href="<add:PathTag endpoint="/event/"/>">Les événements</a></li>
-                    <li><a href="<add:PathTag endpoint="/event/new"/>">Nouvel événement</a></li>
+                    <li><a href="<add:PathTag endpoint="/event/"/>">Les évènements</a></li>
+                    <li><a href="<add:PathTag endpoint="/event/new"/>">Nouvel évènement</a></li>
                 </c:if>
             </ul>
 
