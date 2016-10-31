@@ -22,6 +22,26 @@ public class Alert {
         this.messages = Collections.singletonMap("", message);
     }
 
+    public static Alert success(String message)
+    {
+        return new Alert(TYPE.SUCCESS, message);
+    }
+
+    public static Alert success(Map<String, String> messages)
+    {
+        return new Alert(TYPE.SUCCESS, messages);
+    }
+
+    public static Alert danger(String message)
+    {
+        return new Alert(TYPE.DANGER, message);
+    }
+
+    public static Alert danger(Map<String, String> messages)
+    {
+        return new Alert(TYPE.DANGER, messages);
+    }
+
     public TYPE getType() {
         return type;
     }

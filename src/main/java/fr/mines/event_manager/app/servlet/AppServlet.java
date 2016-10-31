@@ -1,6 +1,9 @@
 package fr.mines.event_manager.app.servlet;
 
+import fr.mines.event_manager.core.form_fields.FormUser;
 import fr.mines.event_manager.core.http.Paths;
+import fr.mines.event_manager.core.utils.JSPStack;
+import fr.mines.event_manager.core.utils.MessagesAndAlerts;
 import fr.mines.event_manager.framework.entity.AbstractUser;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.framework.router.utils.WrappedServletAction;
@@ -40,8 +43,7 @@ public class AppServlet extends BaseServlet {
      * LOGIN
      *********/
 
-    protected boolean connect(HttpServletRequest request)
-    {
+    protected boolean connect(HttpServletRequest request) {
         return UserProvider.connect(request, () -> UserManager.getInstance().findByEmailAndPassword(
                 request.getParameter("email"),
                 request.getParameter("password")
@@ -49,28 +51,27 @@ public class AppServlet extends BaseServlet {
     }
 
     public void login(WrappedServletAction action) throws ServletException, IOException {
-        if (UserProvider.isConnected(action.getRequest()))
-        {
+        if (UserProvider.isConnected(action.getRequest())) {
             this.redirect(action, "/");
             return;
         }
         String path = action.getRequest().getParameter("path");
         action.getRequest().setAttribute("PathFrom", path);
-        this.render("login.jsp", action);
-    }
-
-    public void logout(WrappedServletAction action) throws ServletException, IOException {
-        UserProvider.trashSession(action.getRequest());
-        this.redirect(action,"/app/login",new Alert(Alert.TYPE.SUCCESS,"Déconnecté"));
+        this.render(JSPStack.login, action);
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-            String path = "".equals(action.getRequest().getParameter("from")) ? "/event/" : action.getRequest().getParameter("from");
+            String path = "".equals(action.get("from")) ? "/event/" : action.get("from");
             this.redirect(action, path);
             return;
         }
-        this.render("login.jsp", action, new Alert(Alert.TYPE.DANGER, "L'adresse mail et/ou le mot de passe ne sont pas valides"));
+        this.render(JSPStack.login, action, new Alert(Alert.TYPE.DANGER, MessagesAndAlerts.loginImpossible));
+    }
+
+    public void logout(WrappedServletAction action) throws ServletException, IOException {
+        UserProvider.trashSession(action.getRequest());
+        this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, MessagesAndAlerts.deconnected));
     }
 
     /**********
@@ -78,29 +79,29 @@ public class AppServlet extends BaseServlet {
      *********/
 
     public void subscribe(WrappedServletAction action) throws ServletException, IOException {
-        this.render("subscribe.jsp", action);
+        this.render(JSPStack.subscribe, action);
     }
 
     public void subscribePost(WrappedServletAction action) throws ServletException, IOException {
         User user = UserManager.getInstance().create(action.getRequest());
-        action.getRequest().setAttribute("user", user);
 
-        String password2 = action.getRequest().getParameter("password2");
+        action.set("user", user);
+
+        String password2 = action.get(FormUser.subscribePassword2);
 
         if (!user.getPassword().equals(password2)) {
-            render("subscribe.jsp", action, new Alert(Alert.TYPE.DANGER, "Les mots de passes sont différents."));
+            render(JSPStack.subscribe, action, MessagesAndAlerts.differentPasswords);
             return;
         }
 
         Map<String, String> errors = ValidatorProcessor.getInstance().isValid(user);
 
         if (!errors.isEmpty()) {
-            this.render("subscribe.jsp", action, new Alert(Alert.TYPE.DANGER, errors));
+            render(JSPStack.subscribe, action, Alert.danger(errors));
             return;
         }
 
         UserManager.getInstance().persist(user);
-        System.out.println("JINSERE MAGGLE");
-        this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, "Votre utilisateur a bien été enregistré"));
+        redirect(action, "/app/login", MessagesAndAlerts.wellSubscribed);
     }
 }

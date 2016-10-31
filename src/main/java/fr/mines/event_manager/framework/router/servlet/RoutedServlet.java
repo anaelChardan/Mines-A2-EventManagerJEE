@@ -33,14 +33,6 @@ public abstract class RoutedServlet extends HttpServlet {
     }
 
 
-    /**
-     * Method to call from pattern
-     *
-     * Route, (parametersName, parameterValue)
-     * @param method
-     * @param request
-     * @return The method
-     */
     protected Optional<ComputedRoute> getMethodToCallWithParameters(HttpWords method, String path) {
         return patterns
                 .get(method)

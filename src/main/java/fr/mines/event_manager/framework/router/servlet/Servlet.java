@@ -19,14 +19,6 @@ public abstract class Servlet extends RoutedServlet {
         process(HttpWords.POST, request, response);
     }
 
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(HttpWords.POST, request, response);
-    }
-
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(HttpWords.POST, request, response);
-    }
-
     protected void process(HttpWords method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Optional<ComputedRoute> entry = this.getMethodToCallWithParameters(method, extractPath(request));
 

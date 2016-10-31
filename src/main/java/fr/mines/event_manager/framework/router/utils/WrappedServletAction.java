@@ -31,6 +31,25 @@ public class WrappedServletAction {
         return parameters;
     }
 
+    public WrappedServletAction set(String key, Object value)
+    {
+        request.setAttribute(key, value);
+
+        return this;
+    }
+
+    public String get(String key)
+    {
+        String parameter = this.request.getParameter(key);
+
+        if (null != parameter)
+        {
+            return parameter;
+        }
+
+        return this.parameters.get(key);
+    }
+
     public void add(String key, String value)
     {
         this.parameters.put(key, value);
