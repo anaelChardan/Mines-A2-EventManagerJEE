@@ -61,9 +61,12 @@ public class EventServlet extends BaseServlet {
 
     protected void showOne(WrappedServletAction action) throws IOException, ServletException {
         Optional<Event> eventOptional = EventManager.getInstance().find(Integer.parseInt(action.getParameters().get("id")));
-
         if (!eventOptional.isPresent()) {
-            this.redirect(action, "/event", new Alert(Alert.TYPE.DANGER, "L'événement que vous voulez consulter n'existe pas"));
+            this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "L'événement que vous voulez consulter n'existe pas"));
+            return;
+        }
+        if (!eventOptional.get().isAuthor(UserProvider.getCurrentUser(action.getRequest()))  && !eventOptional.get().getPublished()){
+            this.redirect(action, "/event/", new Alert(Alert.TYPE.DANGER, "L'événement que vous voulez consulter n'existe pas"));
             return;
         }
 

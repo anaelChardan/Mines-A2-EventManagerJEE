@@ -182,7 +182,7 @@ public class Event extends AbstractSelfManagedEntity implements Serializable{
 
     public boolean isSubscribable(User user)
     {
-        return !isAuthor(user) && !isASubscriber(user) && getRemainingPlaces() != 0 && !(endDate.before(new Date()));
+        return !isAuthor(user) && !isASubscriber(user) && getRemainingPlaces() != 0 && !(endDate.before(new Date())) && getPublished();
     }
 
     public boolean isPassed(){
