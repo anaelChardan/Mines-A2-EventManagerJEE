@@ -45,8 +45,8 @@ public class AppServlet extends BaseServlet {
 
     protected boolean connect(HttpServletRequest request) {
         return UserProvider.connect(request, () -> UserManager.getInstance().findByEmailAndPassword(
-                request.getParameter("email"),
-                request.getParameter("password")
+                request.getParameter(FormUser.connectEmail),
+                request.getParameter(FormUser.connectPassword)
         ).map(AbstractUser.class::cast));
     }
 
@@ -55,23 +55,24 @@ public class AppServlet extends BaseServlet {
             this.redirect(action, "/");
             return;
         }
-        String path = action.getRequest().getParameter("path");
-        action.getRequest().setAttribute("PathFrom", path);
-        this.render(JSPStack.login, action);
+
+        String path = action.get(FormUser.loginPath);
+
+        this.render(JSPStack.login, action.set(FormUser.loginPathFrom, path));
     }
 
     protected void loginPost(WrappedServletAction action) throws IOException, ServletException {
         if (this.connect(action.getRequest())) {
-            String path = "".equals(action.get("from")) ? "/event/" : action.get("from");
+            String path = "".equals(action.get(FormUser.loginFrom)) ? "/event/" : action.get(FormUser.loginFrom);
             this.redirect(action, path);
             return;
         }
-        this.render(JSPStack.login, action, new Alert(Alert.TYPE.DANGER, MessagesAndAlerts.loginImpossible));
+        this.render(JSPStack.login, action, MessagesAndAlerts.loginImpossible);
     }
 
     public void logout(WrappedServletAction action) throws ServletException, IOException {
         UserProvider.trashSession(action.getRequest());
-        this.redirect(action, "/app/login", new Alert(Alert.TYPE.SUCCESS, MessagesAndAlerts.deconnected));
+        this.redirect(action, "/app/login", MessagesAndAlerts.deconnected);
     }
 
     /**********

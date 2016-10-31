@@ -1,7 +1,7 @@
 package fr.mines.event_manager.user.servlet;
 
 import fr.mines.event_manager.core.http.Paths;
-import fr.mines.event_manager.event.entity.Event;
+import fr.mines.event_manager.core.utils.JSPStack;
 import fr.mines.event_manager.event.manager.EventManager;
 import fr.mines.event_manager.framework.router.http.Route;
 import fr.mines.event_manager.core.servlet.BaseServlet;
@@ -27,16 +27,14 @@ public class UserServlet extends BaseServlet {
 
     protected void profile(WrappedServletAction action) throws IOException, ServletException {
         User currentUser = UserProvider.getCurrentUser(action.getRequest());
+        EventManager eventManager = EventManager.getInstance();
 
-        List<Event> listFutureEvent = EventManager.getInstance().getRepository().getNextOrInProgressEvents(currentUser);
-        List<Event> listPastEvent = EventManager.getInstance().getRepository().getPastEvents(currentUser);
-        List<Event> listPastParticipations = EventManager.getInstance().getRepository().getPastParticipations(currentUser);
-
-
-        action.getRequest().setAttribute("listFutureEvent", listFutureEvent);
-        action.getRequest().setAttribute("listPastEvent", listPastEvent);
-        action.getRequest().setAttribute("listPastParticipations", listPastParticipations);
-        this.render("user/profile.jsp", action);
-
+        this.render(
+                JSPStack.profile,
+                action
+                        .set("listFutureEvent", eventManager.getRepository().getNextOrInProgressEvents(currentUser))
+                        .set("listPastEvent", eventManager.getRepository().getPastEvents(currentUser))
+                        .set("listPastParticipations", eventManager.getRepository().getPastParticipations(currentUser))
+        );
     }
 }
