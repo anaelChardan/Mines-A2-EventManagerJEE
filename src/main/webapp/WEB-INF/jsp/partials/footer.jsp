@@ -5,20 +5,19 @@
         <div class="row">
             <div class="col-xs-7">
                 <h3 class="footer-title">A propos</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>
-                    Phasellus iaculis erat quam, vitae tincidunt felis congue pulvinar.<br>
-                    Duis pulvinar augue non quam rhoncus dictum. Integer nunc nisi, aliquet vitae commodo eu, bibendum ac nunc.<br>
-                    Mauris sagittis maximus est, id blandit sem ultricies efficitur.
+                <p>Cette application permet de gérer des évènements.<br>
+                    Ce projet a été réalisé dans le cadre du cours de J2EE<br>
+                    dispensé à l'Ecole des Mines de Nantes.<br>
                 </p>
             </div> <!-- /col-xs-7 -->
 
             <div class="col-xs-5">
                 <div class="footer-banner">
                     <h3 class="footer-title">Contactez-nous</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>
-                        Phasellus iaculis erat quam, vitae tincidunt felis congue pulvinar.<br>
-                        Duis pulvinar augue non quam rhoncus dictum. Integer nunc nisi, aliquet vitae commodo eu, bibendum ac nunc.<br>
-                        Mauris sagittis maximus est, id blandit sem ultricies efficitur.
+                    <p>Projet réalisé par : <br><br>
+                        Chardan Anaël<br>
+                        Pelletier Flora<br>
+                        Renaud Damien
                     </p>
                 </div>
             </div>

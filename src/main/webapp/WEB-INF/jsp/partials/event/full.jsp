@@ -63,40 +63,55 @@
         </c:if>
     </div>
 
-    <div>
+    <div class="row col-md-offset-1" style="margin-top: 2%">
         <c:choose>
             <c:when test="${event.isAuthor(CURRENT_USER)}">
                 <c:if test="${not event.published}">
-                    <a href="<app:PathTag endpoint="/event/"/>${event.id}/edit" class="pull-right btn btn-block btn-success">Modifier</a>
-                    <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/publish">
-                        <button type="submit" value="publish" class="pull-right btn btn-block btn-success">Publier
-                        </button>
-                    </form>
+                    <div class="col-xs-3">
+                        <a href="<app:PathTag endpoint="/event/"/>${event.id}/edit"
+                           class="pull-right btn btn-block btn-success">Modifier</a>
+                    </div>
+                    <div class="col-xs-3">
+                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/publish">
+                            <button type="submit" value="publish" class="pull-right btn btn-block btn-success">Publier
+                            </button>
+                        </form>
+                    </div>
                 </c:if>
                 <c:if test="${event.isRemovable(CURRENT_USER)}">
-                    <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">
-                        <button type="submit" value="delete" class="pull-right btn btn-block btn-danger">Supprimer
-                        </button>
-                    </form>
+                    <div class="col-xs-3">
+                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/delete">
+                            <button type="submit" value="delete" class="pull-right btn btn-block btn-danger">Supprimer
+                            </button>
+                        </form>
+                    </div>
                 </c:if>
             </c:when>
             <c:otherwise>
-                <c:choose>
-                    <c:when test="${event.isSubscribable(CURRENT_USER)}">
-                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/subscribe">
-                            <button type="submit" value="subscribe" class="pull-right btn-block btn btn-primary">
-                                M'inscrire
-                            </button>
-                        </form>
-                    </c:when>
-                    <c:otherwise>
-                        <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/unsubscribe">
-                            <button type="submit" value="unsubscribe" class="pull-right btn btn-block btn-warning">
-                                Me désinscrire
-                            </button>
-                        </form>
-                    </c:otherwise>
-                </c:choose>
+                <c:if test="${not event.isPassed()}">
+                    <c:choose>
+                        <c:when test="${event.isSubscribable(CURRENT_USER)}">
+                            <div class="col-xs-3">
+                                <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/subscribe">
+                                    <button type="submit" value="subscribe"
+                                            class="pull-right btn-block btn btn-primary">
+                                        M'inscrire
+                                    </button>
+                                </form>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="col-xs-3">
+                                <form method="post" action="<app:PathTag endpoint="/event/"/>${event.id}/unsubscribe">
+                                    <button type="submit" value="unsubscribe"
+                                            class="pull-right btn btn-block btn-warning">
+                                        Me désinscrire
+                                    </button>
+                                </form>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
             </c:otherwise>
         </c:choose>
     </div>

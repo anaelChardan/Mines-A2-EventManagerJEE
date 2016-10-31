@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-8">
             <h4>Mes prochaines participations (et en cours)</h4>
-            <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
+            <table class="table" style="border-radius:6px">
                 <thead>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Ville</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 10%">Détail</th>
                 </thead>
                 <c:forEach items="${eventsInProgressSubscribed}" var="event">
                     <add:event-line event="${event}"/>
@@ -25,15 +25,15 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Les événements à venir (et en cours)</h4>
-            <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
+            <h4>Les prochains évènements auxquels s'inscrire</h4>
+            <table class="table" style="border-radius:6px">
                 <thead>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Ville</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 10%">Détail</th>
                 </thead>
                 <c:forEach items="${eventsInProgressNotSubscribed}" var="event">
                     <add:event-line event="${event}"/>
@@ -45,15 +45,15 @@
 
     <div class="row">
         <div class="col-md-8">
-            <h4>Les événements passés</h4>
-            <table class="table col-md-8 palette-silver" style="background-color:lightgray;border-radius:6px">
+            <h4>Les évènements que vous avez ratés</h4>
+            <table class="table" style="border-radius:6px">
                 <thead>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Ville</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 20%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 10%">Détail</th>
                 </thead>
                 <c:forEach items="${eventsPassed}" var="event">
                     <add:event-line event="${event}"/>

@@ -10,10 +10,23 @@
     <div class="row">
         <form class="form-horizontal col-md-8 col-md-offset-3" method="post" action="<app:PathTag endpoint="/event/new"/>">
             <app:event-form event="${event}"/>
-            <div class="form-group form-inline">
-                <button class="pull-right btn btn-info" href="<app:PathTag endpoint="/event/home"/>" style="margin-right:5px">Annuler</button>
-                <button type="submit" value="create-and-publish" name="action" class="pull-right btn btn-info" style="margin-right:5px">Créer et publier</button>
-                <button type="submit" value="create" name="action" class="pull-right btn btn-info" style="margin-right:5px">Créer</button>
+            <div class="row col-md-offset-1">
+                <div class="col-xs-3">
+                    <a class="btn btn-danger btn-block btn-sm" href="<app:PathTag endpoint="/event/"/>"
+                       style="margin-right:5px">Annuler
+                    </a>
+                </div>
+                <div class="col-xs-3">
+                    <button type="submit" value="create" name="action" class="btn btn-info btn-block btn-sm"
+                            style="margin-right:5px">Créer
+                    </button>
+                </div>
+                <div class="col-xs-3">
+                    <button type="submit" value="create-and-publish" name="action"
+                            class="btn btn-info btn-block btn-sm"
+                            style="margin-right:5px">Créer et publier
+                    </button>
+                </div>
             </div>
         </form>
     </div>
