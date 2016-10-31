@@ -25,5 +25,5 @@
         </c:choose>
         </td>
     </c:if>
-    <td><a href="<add:PathTag endpoint="/event/"/>${event.id}">Détail</a></td>
+    <td><a class="pull-right btn btn-info" href="<add:PathTag endpoint="/event/"/>${event.id}">Détail</a></td>
 </tr>

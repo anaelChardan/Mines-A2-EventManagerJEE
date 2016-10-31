@@ -22,19 +22,19 @@
         </dl>
     </div>
     <div class="row col-md-12">
-        <table class="table" style="background-color:lightgray;border-radius: 6px">
+        <table class="table col-md-8" style="border-radius: 6px">
             <caption>
                 <h4 class="text-left">Mes prochains événements</h4>
             </caption>
             <thead>
             <tr>
-                <th class="col-md-2 text-left">Titre</th>
-                <th class="col-md-5 text-left">Description</th>
-                <th class="col-md-2 text-left">Lieu</th>
-                <th class="col-md-2 text-left">Date début</th>
-                <th class="col-md-2 text-left">Date fin</th>
-                <th class="col-md-2 text-left">Publié</th>
-                <th class="col-md-2 text-left">Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 5%">Publié</th>
+                <th class="col-md-2 text-left" style="width: 5%">Détail</th>
             </tr>
             </thead>
             <tbody>
@@ -45,19 +45,19 @@
         </table>
     </div>
     <div class="row col-md-12">
-        <table class="table" style="background-color:lightgray;border-radius: 6px">
+        <table class="table col-md-8" style="border-radius: 6px">
             <caption>
                 <h4 class="text-left">Mes événements passés</h4>
             </caption>
             <thead>
             <tr>
-                <th class="col-md-2 text-left">Titre</th>
-                <th class="col-md-5 text-left">Description</th>
-                <th class="col-md-2 text-left">Lieu</th>
-                <th class="col-md-2 text-left">Date début</th>
-                <th class="col-md-2 text-left">Date fin</th>
-                <th class="col-md-2 text-left">Publié</th>
-                <th class="col-md-2 text-left">Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 5%">Publié</th>
+                <th class="col-md-2 text-left" style="width: 5%">Détail</th>
             </tr>
             </thead>
             <tbody>
@@ -68,19 +68,19 @@
         </table>
     </div>
     <div class="row col-md-12">
-        <table class="table" style="background-color:lightgray;border-radius: 6px">
+        <table class="table col-md-8" style="border-radius: 6px">
             <caption>
                 <h4 class="text-left">Mes participations passées</h4>
             </caption>
             <thead>
             <tr>
-                <th class="col-md-2 text-left">Titre</th>
-                <th class="col-md-5 text-left">Description</th>
-                <th class="col-md-2 text-left">Lieu</th>
-                <th class="col-md-2 text-left">Date début</th>
-                <th class="col-md-2 text-left">Date fin</th>
-                <th class="col-md-2 text-left">Publié</th>
-                <th class="col-md-2 text-left">Détail</th>
+                <th class="col-md-2 text-left" style="width: 15%">Titre</th>
+                <th class="col-md-5 text-left" style="width: 25%">Description</th>
+                <th class="col-md-2 text-left" style="width: 10%">Lieu</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date début</th>
+                <th class="col-md-2 text-left" style="width: 15%">Date fin</th>
+                <th class="col-md-2 text-left" style="width: 5%">Publié</th>
+                <th class="col-md-2 text-left" style="width: 5%">Détail</th>
             </tr>
             </thead>
             <tbody>
