@@ -1,0 +1,67 @@
+@startuml
+
+database H2Database
+
+package "App Component" {
+[AppServlet]
+}
+
+package "Event" {
+[EventsEntity]
+[EventsManager]
+[EventsRepository]
+[EventsServlet]
+[EventsValidator]
+}
+
+package "Home" {
+[HomeServlet]
+}
+
+package "User" {
+[UsersEntity]
+[UsersManager]
+[UsersRepository]
+[UsersServlet]
+[UsersValidator]
+}
+
+package "Core (Project Oriented)" {
+[CoreFormFields]
+[CoreHttp]
+BaseServlet -down- [CoreServlet]
+[EventsServlet] --> BaseServlet
+[HomeServlet] --> BaseServlet
+[UsersServlet] --> BaseServlet
+[AppServlet] --> BaseServlet
+[CoreUtils]
+}
+
+package "Framework (Abstract from project)" {
+AbstractEntity -down- [Entity]
+
+AbstractManager -down- [Manager]
+[EventsManager] --> AbstractManager
+[UsersManager] --> AbstractManager
+
+CrudRepository -down- [Repository]
+[Repository] --> H2Database
+[UsersRepository] --> CrudRepository
+[EventsRepository] --> CrudRepository
+
+RoutedServlet -down- [Router]
+[CoreServlet] --> RoutedServlet
+
+UserProvider -down- [Security]
+
+SessionManager -down- [Session]
+
+[Tags]
+
+[Utils]
+
+AbstractValidator -down- [Validator]
+ValidatorProcessor -down- [Validator]
+}
+
+@enduml
